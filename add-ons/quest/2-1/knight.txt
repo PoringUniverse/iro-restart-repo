@@ -1,5 +1,5 @@
 automacro AddSkillPoints {
-	QuestInactive 9000, 9003, 9004, 9006, 9010, 9011, 9012 #added
+	QuestInactive 9000, 9003, 9004, 9006, 9010, 9011, 9012
 	FreeSkillPoints > 0
 	JobID 1
 	JobLevel = 50
@@ -170,7 +170,7 @@ automacro InsideJobKntWindsorRoom1 {
 	call {
 		[
 			do conf route_randomWalk 1
-			#do conf attackAuto 2
+			do conf attackAuto 2
 			do conf lockMap job_knt
 			do conf lockMap_x 43
 			do conf lockMap_y 148
@@ -189,8 +189,6 @@ automacro InsideJobKntWindsorRoom2 {
 	exclusive 1
 	call {
 		[
-			do conf route_randomWalk 1
-			#do conf attackAuto 2
 			do conf lockMap job_knt
 			do conf lockMap_x 43
 			do conf lockMap_y 52
@@ -209,8 +207,6 @@ automacro InsideJobKntWindsorRoom3 {
 	exclusive 1
 	call {
 		[
-			do conf route_randomWalk 1
-			do conf attackAuto 2
 			do conf lockMap job_knt
 			do conf lockMap_x 143
 			do conf lockMap_y 152
@@ -229,6 +225,7 @@ automacro DiedAtWindsorQuest {
 		[
 			do conf jobQuest TalkToSirWindsor
 			do conf route_randomWalk 0
+			do conf attackAuto 0
 			do conf sitAuto_hp_upper 90
 			do conf lockMap none
 			do conf lockMap_x none
@@ -339,7 +336,7 @@ automacro TalkToChivCaptain2 {
 	timeout 30
 }
 
-automacro ResumeQuest {
+automacro ResumeKnightQuest {
 	QuestActive 9003, 9004, 9006, 9010
 	InMap prt_fild05, prontera
 	CurrentHP > 90%
