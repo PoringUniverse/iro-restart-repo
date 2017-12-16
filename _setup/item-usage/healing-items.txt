@@ -1,0 +1,28 @@
+useSelf_item Novice Potion, Red Potion, Orange Potion, Yellow Potion, White Potion, Fresh Fish {
+	hp < 70%
+}
+
+useSelf_item Potato, Apple, Banna, Carrot {
+	hp < 90%
+}
+
+useSelf_item Potato, Red Herb, Yellow Herb {
+	hp < 80%
+}
+
+useSelf_item Advanced WoE Supply Box {
+	inInventory WoE White Potion < 1
+}
+
+useSelf_item WoE White Potion {
+	hp < 65%
+}
+
+useSelf_item WoE Blue Potion {
+	sp < 60%
+}
+
+useSelf_item Green Herb { 
+   whenStatusActive EFST_HEALTHSTATE_POISON 
+   timeout 5
+}

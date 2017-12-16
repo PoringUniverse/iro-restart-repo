@@ -1,0 +1,318 @@
+#_______________________________________________________________#
+# 										  						
+# KAFRA SAVEPOINTS      	  							
+#   															
+# NOTICE : Set 0 or 1 to disable/enable autostorage or autosell			
+#		   in $storageOption/$sellOption									
+#_______________________________________________________________#
+
+automacro CheckIfSaved {
+	InMap prt_fild05, prontera, izlude, geffen, aldebaran, payon, morocc, alberta, comodo, cmd_fild07, yuno
+	InSaveMap 0
+	exclusive 1
+	run-once 1
+	macro_delay 2
+	call ChangeSavePoints
+}
+
+automacro KafraSavePoints {
+	InMap prt_fild05, prontera, izlude, geffen, aldebaran, payon, morocc, alberta, comodo, cmd_fild07, yuno
+	exclusive 1
+	run-once 1
+	macro_delay 2
+	call ChangeSavePoints 
+}
+
+macro ChangeSavePoints {
+	if ($.InMapLast == &config(saveMap)) goto alreadySaved
+	if ($.InMapLast != &config(saveMap)) goto setSavePoint
+	
+	:alreadySaved
+		log You are already saved on this location
+		stop
+	:setSavePoint
+		# Set autostorage and autosell
+		# Disable = 0; Enable = 1
+
+		$storageOption = 1
+		$sellOption = 1
+
+		switch ($.InMapLast) {
+			case (== yuno) {
+				do ai manual
+				do move yuno &rand(146,151) &rand(181,186)
+				do talknpc 152 187 c r0 n
+				[	
+					do conf saveMap yuno
+					do conf storageAuto $storageOption
+					do conf storageAuto_npc yuno 152 187
+					do conf storageAuto_npc_steps c r1 n
+					do conf autoMoveOnDeath 1
+					do conf autoMoveOnDeath_x &rand(145,150)
+					do conf autoMoveOnDeath_y &rand(180,185)
+					do conf autoMoveOnDeath_map yuno
+				]
+				[
+					do conf sellAuto $sellOption
+					do conf sellAuto_npc yuno 163 187 
+				]
+				do ai on
+				release KafraSavePoints
+				release CheckIfSaved
+			}
+			case (== prt_fild05) {
+				do ai manual
+				do move prt_fild05 &rand(284,288) &rand(219,222)
+				do talknpc 290 224 c r0 n
+				
+				log === Set saveMap to prt_fild05 === =
+				
+				[	
+					do conf saveMap prt_fild05
+					do conf storageAuto $storageOption
+					do conf storageAuto_npc prt_fild05 290 224
+					do conf storageAuto_npc_steps c r1 n
+					do conf autoMoveOnDeath 1
+					do conf autoMoveOnDeath_x &rand(260,280)
+					do conf autoMoveOnDeath_y &rand(200,220)
+					do conf autoMoveOnDeath_map prt_fild05
+				]
+				
+				log === Set sellAuto === =
+				
+				[
+					do conf sellAuto $sellOption
+					do conf sellAuto_npc prt_fild05 290 221 
+				]
+				
+				log === Set buyAuto === =
+				
+				if ($.job == Archer || $.job == Hunter) {
+					log === Class Type Archer/Hunter === = 
+					log === Set autoBuy Arrows === =
+					do conf buyArrow.npc prt_fild05 290 221
+				}
+				
+				do conf buyRedPots.npc prt_fild05 290 221
+				
+				do ai on
+				release KafraSavePoints
+				release CheckIfSaved
+			}
+			case (== prontera) {
+				do ai manual
+				do move prontera &rand(145,149) &rand(23,27)
+				do talknpc 151 29 c r0 n
+				[
+					do conf saveMap prontera
+					do conf storageAuto $storageOption
+					do conf storageAuto_npc prontera 151 29
+					do conf storageAuto_npc_steps c r1 n
+					do conf autoMoveOnDeath 1
+					do conf autoMoveOnDeath_x &rand(120,140)
+					do conf autoMoveOnDeath_y &rand(10,25)
+					do conf autoMoveOnDeath_map prontera
+				]
+				[
+					do conf sellAuto $sellOption
+					do conf sellAuto_npc prt_in 126 76  
+				]
+				do ai on
+				release KafraSavePoints
+				release CheckIfSaved
+			}
+			case (== izlude) {
+				do ai manual
+				do move izlude &rand(128,133) &rand(81,86)
+				do talknpc 134 88 c r0 n
+				[
+					do conf saveMap izlude
+					do conf storageAuto $storageOption
+					do conf storageAuto_npc izlude 134 88
+					do conf storageAuto_npc_steps c r1 n
+					do conf autoMoveOnDeath 1
+					do conf autoMoveOnDeath_x &rand(110,120)
+					do conf autoMoveOnDeath_y &rand(60,70)
+					do conf autoMoveOnDeath_map izlude
+				]
+				[
+					do conf sellAuto $sellOption
+					do conf sellAuto_npc izlude_in 60 127 
+				]
+				do ai on
+				release KafraSavePoints
+				release CheckIfSaved
+			}
+			case (== geffen) {
+				do ai manual
+				do move geffen &rand(114,118) &rand(56,60)
+				do talknpc 120 62 c r0 n
+				[
+					do conf saveMap geffen
+					do conf storageAuto $storageOption
+					do conf storageAuto_npc geffen 120 62
+					do conf storageAuto_npc_steps c r1 n
+					do conf autoMoveOnDeath 1
+					do conf autoMoveOnDeath_x &rand(90,110)
+					do conf autoMoveOnDeath_y &rand(30,50)
+					do conf autoMoveOnDeath_map geffen
+				]
+				[
+					do conf sellAuto $sellOption
+					do conf sellAuto_npc geffen_in 77 173   
+				]
+				do ai on
+				release KafraSavePoints
+				release CheckIfSaved
+			}
+			case (== aldebaran) {
+				do ai manual
+				do move aldebaran &rand(137,141) &rand(113,117)
+				do talknpc 143 119 c r0 n
+				[
+					do conf saveMap aldebaran
+					do conf storageAuto $storageOption
+					do conf storageAuto_npc aldebaran 143 119
+					do conf storageAuto_npc_steps c r1 n
+					do conf autoMoveOnDeath 1
+					do conf autoMoveOnDeath_x &rand(110,130)
+					do conf autoMoveOnDeath_y &rand(90,110)
+					do conf autoMoveOnDeath_map aldebaran
+				]
+				[
+					do conf sellAuto $sellOption
+					do conf sellAuto_npc aldeba_in 94 56   
+				]
+				do ai on
+				release KafraSavePoints
+				release CheckIfSaved
+			}
+			case (== payon) {
+				do ai manual
+				do move payon 172 &rand(220,225)
+				do talknpc 175 226 c r0 n
+				[	
+					do conf saveMap payon
+					do conf storageAuto $storageOption
+					do conf storageAuto_npc payon 175 226 
+					do conf storageAuto_npc_steps c r1 n
+					do conf autoMoveOnDeath 1
+					do conf autoMoveOnDeath_x &rand(160,170)
+					do conf autoMoveOnDeath_y &rand(200,220)
+					do conf autoMoveOnDeath_map payon
+				]
+				[
+					do conf sellAuto $sellOption
+					do conf sellAuto_npc payon 159 96 
+				]
+				do ai on
+				release KafraSavePoints
+				release CheckIfSaved
+			}
+			case (== morocc) {
+				do ai manual
+				do move morocc &rand(150,154) &rand(91,95)
+				do talknpc 156 97 c r0 n
+				[	
+					do conf saveMap morocc
+					do conf storageAuto $storageOption
+					do conf storageAuto_npc morocc 156 97
+					do conf storageAuto_npc_steps c r1 n
+					do conf autoMoveOnDeath 1
+					do conf autoMoveOnDeath_x &rand(120,140)
+					do conf autoMoveOnDeath_y &rand(60,80)
+					do conf autoMoveOnDeath_map morocc
+				]
+				[
+					do conf sellAuto $sellOption
+					do conf sellAuto_npc morocc_in 141 67   
+				]
+				do ai on
+				release KafraSavePoints
+				release CheckIfSaved
+			}
+			case (== alberta) {
+				do ai manual
+				do move alberta &rand(107,111) &rand(54,58)
+				do talknpc 113 60 c r0 n
+				
+				log === Set saveMap to alberta === =
+				
+				[	
+					do conf saveMap alberta
+					do conf storageAuto $storageOption
+					do conf storageAuto_npc alberta 113 60
+					do conf storageAuto_npc_steps c r1 n
+					do conf autoMoveOnDeath 1
+					do conf autoMoveOnDeath_x &rand(80,100)
+					do conf autoMoveOnDeath_y &rand(30,50)
+					do conf autoMoveOnDeath_map alberta
+				]
+				
+				log === Set sellAuto === =
+				
+				[
+					do conf sellAuto $sellOption
+					do conf sellAuto_npc alberta_in 188 21   
+				]
+				
+				log === Set buyAuto === =
+				
+				if ($.job == Archer || $.job == Hunter) {
+					log === Class Type Archer/Hunter === = 
+					log === Set autoBuy Arrows === =
+					do conf buyArrow.npc alberta_in 182 97
+				}
+				
+				do conf buyRedPots.npc alberta_in 182 97
+				
+				do ai on
+				release KafraSavePoints
+				release CheckIfSaved
+			}
+			case (== comodo) {
+				do ai manual
+				do move comodo &rand(188,193) &rand(143,148)
+				do talknpc 195 150 c r0 n
+				[	
+					do conf saveMap comodo
+					do conf storageAuto $storageOption
+					do conf storageAuto_npc comodo 195 150
+					do conf storageAuto_npc_steps c r1 n
+					do conf autoMoveOnDeath 1
+					do conf autoMoveOnDeath_x &rand(170,180)
+					do conf autoMoveOnDeath_y &rand(130,140)
+					do conf autoMoveOnDeath_map comodo
+				]
+				[
+					do conf sellAuto $sellOption
+					do conf sellAuto_npc comodo 195 150
+				]
+				do ai on
+				release KafraSavePoints
+				release CheckIfSaved
+			}
+			case (== cmd_fild07) {
+				do ai manual
+				do move cmd_fild07 &rand(130,135) &rand(129,133)
+				do talknpc 136 134 c r0 n
+				[	
+					do conf saveMap cmd_fild07
+					do conf storageAuto $storageOption
+					do conf storageAuto_npc cmd_fild07 136 134
+					do conf storageAuto_npc_steps c r1 n
+					do conf autoMoveOnDeath 1
+					do conf autoMoveOnDeath_x &rand(100,120)
+					do conf autoMoveOnDeath_y &rand(100,120)
+					do conf autoMoveOnDeath_map cmd_fild07
+				]
+				[
+					do conf sellAuto $sellOption
+					do conf sellAuto_npc cmd_fild07 257 126
+				]
+				do ai on
+				release KafraSavePoints
+				release CheckIfSaved
+			}
+		}
+}

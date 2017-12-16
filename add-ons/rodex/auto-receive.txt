@@ -1,0 +1,95 @@
+automacro ReceiveRodex {
+	JobID 5, 10
+	exclusive 1
+	macro_delay 3
+	timeout 3600
+    call GetRodexItems
+}
+
+macro GetRodexItems {
+	if (&config(rodexReceiver) != $.name) goto stopReceiving
+	if (&config(rodexReceiver) == $.name) goto getItems
+	
+	:stopReceiving
+		[
+			log ================================= =
+			log = You are not the receiver
+			log ================================= =
+		]
+		lock ReceiveRodex
+		stop
+	:getItems
+		do rodex open
+		do rodex refresh
+
+		if (count_rodex() < 1) goto stopRodex
+		if (count_rodex() > 0) goto receiveRodex
+
+		:stopRodex
+			log No rodex mail available
+			do rodex close
+			stop
+		:receiveRodex
+			log It's mail time!!!
+			$i = 0
+			while ($i < count_rodex()) {
+				log You are opening Mail ID: check_rodex_id($i)
+				$currentID = check_rodex_id($i)
+				do rodex read $currentID
+				do rodex getitems
+				do rodex getzeny
+				do rodex delete $currentID
+				$i++
+			}
+			do rodex close
+			stop
+}
+
+sub check_rodex_id {
+	my @pages;
+	my @mailID;
+	my ($rodexID) = @_;
+	foreach my $mail_id (keys %{$rodexList->{mails}}) {
+		my $mail = $rodexList->{mails}{$mail_id};
+		
+		my $index;
+		if ($mail->{page} == 0) {
+			$index = $mail->{page_index};
+		} else {
+			$index = (($mail->{page} * $rodexList->{mails_per_page}) + $mail->{page_index});
+		}
+		$pages[$mail->{page}][$mail->{page_index}] = $mail->{mailID1};
+	}
+	
+	foreach my $page_index (0..$#pages) {
+		foreach my $mail_msg (@{$pages[$page_index]}) {
+			my $print_msg = "$mail_msg";
+			push @mailID, $print_msg; 
+		}
+	}
+	return $mailID[$rodexID];
+}
+
+sub count_rodex {
+	my @pages;
+	my @mailID;
+	foreach my $mail_id (keys %{$rodexList->{mails}}) {
+		my $mail = $rodexList->{mails}{$mail_id};
+		
+		my $index;
+		if ($mail->{page} == 0) {
+			$index = $mail->{page_index};
+		} else {
+			$index = (($mail->{page} * $rodexList->{mails_per_page}) + $mail->{page_index});
+		}
+		$pages[$mail->{page}][$mail->{page_index}] = $mail->{mailID1};
+	}
+	
+	foreach my $page_index (0..$#pages) {
+		foreach my $mail_msg (@{$pages[$page_index]}) {
+			my $print_msg = "$mail_msg";
+			push @mailID, $print_msg; 
+		}
+	}
+	return @mailID;
+}

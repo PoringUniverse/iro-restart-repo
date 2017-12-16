@@ -1,0 +1,59 @@
+automacro RodexEquips {
+	Zeny >= 12500
+	exclusive 1
+	macro_delay 2
+	timeout 3600
+	call MailEquips
+}
+
+macro MailEquips {
+	$equips = &InventoryType(equip)
+	@equipList = &split(',', $equips)
+	
+	if ($equipList[0] == -1) goto noEquips
+	if ($.job == Archer || $.job == Hunter) goto dontSend
+	if (&config (rodexReceiver) == $.name) goto dontSend
+	if (&config (rodexReceiver) != $.name) goto sendIt
+	
+	:noEquips
+		log No equip available
+		stop
+	:dontSend
+		lock RodexEquips
+		stop
+	:sendIt
+		# set details
+		$receiver = &config (rodexReceiver)
+		$mailTitle = TITLE
+		$mailBody = TITLE
+		
+		if (@equipList > 5) goto max
+		if (@equipList < 5) goto farmMore
+		
+		:max
+			# open rodex
+			do rodex open
+			do rodex write $receiver
+			do rodex settarget $receiver 
+			do rodex settitle $mailTitle
+			do rodex setbody $mailBody
+			do rodex setzeny 0
+			
+			$i = 0
+			$maxItem = 5				
+			
+			$i = 0;
+			while ($i < $maxItem) {
+				log Putting Equip with Index: $equipList[$i]
+				pause 1
+				do rodex add $equipList[$i] 1
+				$i++
+			}
+			
+			do rodex send
+			do rodex close
+			stop
+		:farmMore
+			log === I'll farm more === =
+			stop
+}

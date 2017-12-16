@@ -1,0 +1,353 @@
+automacro AddSkillPoints {
+	QuestInactive 9000, 9003, 9004, 9006, 9010, 9011, 9012 #added
+	FreeSkillPoints > 0
+	JobID 1
+	JobLevel = 50
+	exclusive 1
+	run-once 1
+	call {
+		[
+			log =========================================================
+			log = Changing job to Knight
+			log =========================================================
+		]
+		[
+			do conf -f jobQuest none
+			do conf skillsAddAuto_list NV_BASIC 9, SM_SWORD 1, SM_TWOHAND 10, SM_RECOVERY 10, SM_BASH 10, SM_PROVOKE 5, SM_MAGNUM 8, SM_ENDURE 5
+			do conf skillsAddAuto 1
+		]
+	}
+}
+
+automacro Swordie50 {
+	ConfigKey jobQuest none
+	QuestInactive 9000, 9003, 9004, 9006, 9010, 9011, 9012
+	NotInMap prt_fild05, prontera
+	JobID 1
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	run-once 1
+	call {
+		do conf -f jobQuest MoveTojobQuest
+		do conf autoTalkCont 1
+		do conf route_randomWalk 0
+		do conf lockMap none
+		do move prt_fild05 &rand(296,299) &rand(225,219)
+		do talknpc 290 224 c r0 n
+		do conf saveMap prt_fild05
+		lock Swordie50
+	}
+	timeout 60
+}
+
+automacro MoveTojobQuest {
+	ConfigKey jobQuest MoveTojobQuest
+	QuestInactive 9000, 9003, 9004, 9006
+	JobID 1
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	call {
+		do move prt_in 80 110
+		do conf jobQuest TalkToChivCaptain
+	}
+	timeout 30
+}
+
+
+automacro TalkToChivCaptain {
+	ConfigKey jobQuest TalkToChivCaptain
+	QuestInactive 9000, 9003, 9004, 9006
+	NpcNear /Chivalry Captain/
+	InMap prt_in
+	JobID 1
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	call {
+		do talk $.NpcNearLastBinId
+		do talk resp 0 #0 I want to be a knight
+		do talk resp 0 #0 Yes I would like to apply
+		#log Quest: Job change to Knight (9000) added.
+	}
+	timeout 30
+}
+
+
+automacro TalkToSirAndrew {
+	QuestActive 9000
+	NpcNear /Sir Andrew/
+	InMap prt_in
+	JobID 1
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	run-once 1
+	call {
+		do talk &npc(75 107) #SirAndrew
+		do talk resp 0
+		do conf jobQuest TalkToSirSiracuse
+		#log Quest: The Honor of a Knight (9003) added.
+	}
+	timeout 30
+}
+
+
+automacro TalkToSirSiracuse {
+	ConfigKey jobQuest TalkToSirSiracuse
+	QuestActive 9003
+	NpcNotNear /Sir Siracuse/
+	InMap prt_in
+	JobID 1
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	call {
+		do move prt_in &rand(73,77) &rand(100,94)
+		do talk &npc(71 91) #SirSiracuse
+		do talk resp 0 #Sir andrew sent me to take your test.
+		do talk resp 3 #Flamberge
+		do talk resp 2 #Provoke Lv10
+		do talk resp 2 #Spear Boomerang Lv3
+		do talk resp 0 #Zephyrus
+		do talk resp 1 #80%
+		do talk resp 0 #hunting area
+		do talk resp 0 #protect everyone
+		do talk resp 0 #Honor
+		do conf jobQuest TalkToSirWindsor
+		#log Quest: The Honor of a Knight (9004) added.
+	}
+	timeout 30
+}
+
+automacro TalkToSirWindsor {
+	ConfigKey jobQuest TalkToSirWindsor
+	QuestActive 9004, 9006
+	NpcNear /Sir Windsor/
+	InMap prt_in
+	JobID 1
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	call {
+		do talk &npc(79 94) #SirWindsor
+		do talk resp 0 #Sir Siracuse sent me to you
+		#log Quest: Tenacity of a Knight (9006) added.
+	}
+	timeout 10
+}
+
+
+automacro EnterChatroomSirWindsor {
+	ConfigKey jobQuest TalkToSirWindsor
+	QuestActive 9006
+	NpcNear /Knight Windsor/
+	InMap job_knt
+	JobID 1
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	call {
+		do chat list
+		do chat join 0
+		[
+			do conf jobQuest DoneWindsor
+			do conf itemsTakeAuto 0
+			do conf itemsGatherAuto 0
+		]
+	}
+	timeout 10
+}
+
+
+automacro InsideJobKntWindsorRoom1 {
+	ConfigKey jobQuest DoneWindsor
+	QuestActive 9006
+	InMap job_knt
+	IsInCoordinate 42..44 146..148
+	exclusive 1
+	call {
+		[
+			do conf route_randomWalk 1
+			#do conf attackAuto 2
+			do conf lockMap job_knt
+			do conf lockMap_x 43
+			do conf lockMap_y 148
+			do conf lockMap_randX 15
+			do conf lockMap_randY 15
+		]
+	}
+	timeout 10
+}
+
+automacro InsideJobKntWindsorRoom2 {
+	ConfigKey jobQuest DoneWindsor
+	QuestActive 9006
+	InMap job_knt
+	IsInCoordinate 42..44 51..53
+	exclusive 1
+	call {
+		[
+			do conf route_randomWalk 1
+			#do conf attackAuto 2
+			do conf lockMap job_knt
+			do conf lockMap_x 43
+			do conf lockMap_y 52
+			do conf lockMap_randX 15
+			do conf lockMap_randY 15
+		]
+	}
+	timeout 10
+}
+
+automacro InsideJobKntWindsorRoom3 {
+	ConfigKey jobQuest DoneWindsor
+	QuestActive 9006
+	InMap job_knt
+	IsInCoordinate 142..144 151..153
+	exclusive 1
+	call {
+		[
+			do conf route_randomWalk 1
+			do conf attackAuto 2
+			do conf lockMap job_knt
+			do conf lockMap_x 143
+			do conf lockMap_y 152
+			do conf lockMap_randX 15
+			do conf lockMap_randY 15
+		]
+	}
+	timeout 10
+}
+
+automacro DiedAtWindsorQuest {
+	QuestActive 9006
+	InMap job_knt
+	SimpleHookEvent self_died
+	call {
+		[
+			do conf jobQuest TalkToSirWindsor
+			do conf route_randomWalk 0
+			do conf sitAuto_hp_upper 90
+			do conf lockMap none
+			do conf lockMap_x none
+			do conf lockMap_y none
+			do conf lockMap_randX none
+			do conf lockMap_randY none
+		]
+		do relog 5
+	}
+	timeout 30
+}
+
+automacro TalkToAmyBeatrice {
+	ConfigKey jobQuest DoneWindsor
+	QuestActive 9006
+	InMap prt_in
+	NpcNear /Lady Amy/
+	exclusive 1
+	JobID 1
+	JobLevel = 50
+	macro_delay 1
+	call {
+		do talk &npc(69 107) #AmyBeatrice
+		do talk resp 0 #Windsor told me to
+		do talk resp 1
+		do talk resp 2
+		do talk resp 1
+		do talk resp 0
+		do talk resp 0
+		do talk resp 1
+		do talk resp 2
+		do talk resp 0
+		do talk resp 0
+		do talk resp 1
+		do conf jobQuest TalkToSirEdmond
+		#log Quest: Life as a Knight (9009) added.
+	}
+	timeout 30
+}
+
+
+automacro TalkToSirEdmond {
+	ConfigKey jobQuest TalkToSirEdmond
+	QuestActive 9009, 9010
+	InMap prt_in
+	NpcNear /Sir Edmond/
+	exclusive 1
+	JobID 1
+	JobLevel = 50
+	macro_delay 1
+	call {
+		[
+			do conf attackAuto 0
+			do conf route_randomWalk 0
+			do conf lockMap none
+			do conf lockMap_x none
+			do conf lockMap_y none
+			do conf lockMap_randX none
+			do conf lockMap_randY none
+		]
+		
+		do talk &npc(70 99) #SirEdmond
+		do talk resp 0 #Lady Amy sent me.
+		do conf jobQuest TalkToSirGray
+	}
+	timeout 30
+}
+
+automacro TalkToSirGray {
+	ConfigKey jobQuest TalkToSirGray
+	QuestActive 9011
+	InMap prt_in
+	exclusive 1
+	JobID 1
+	JobLevel = 50
+	macro_delay 1
+	call {
+		do talk &npc(87 92) #SirGray
+		do talk resp 0
+		do talk resp 0
+		do talk resp 2
+		do talk resp 2
+		do talk resp 1
+		do conf jobQuest BecomingKnight
+		#log Quest: Glory of a Knight (9012) added.
+	}
+	timeout 30
+}
+
+automacro TalkToChivCaptain2 {
+	ConfigKey jobQuest BecomingKnight
+	QuestActive 9012
+	NpcNear /Chivalry Captain/
+	InMap prt_in
+	JobID 1
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	call {
+		do talk &npc(88 101) #ChivCaptain2
+		do eq Novice Falchion [3]
+		do conf jobQuest none
+		do conf attackAuto 2
+		do conf route_randomWalk 1
+		do conf saveMap none
+		do relog 3600
+	}
+	timeout 30
+}
+
+automacro ResumeQuest {
+	QuestActive 9003, 9004, 9006, 9010
+	InMap prt_fild05, prontera
+	CurrentHP > 90%
+	JobID 1
+	JobLevel = 50
+	exclusive 1
+	call {
+		do move prt_in &rand(73,77) &rand(100,94)
+	}
+	timeout 10
+}

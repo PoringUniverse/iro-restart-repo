@@ -1,0 +1,114 @@
+automacro ChangeToAssassin {
+	JobID 6
+	JobLevel = 50
+	QuestInactive 8001
+	exclusive 1
+	run-once 1
+	call {
+		do move in_moc_16 19 32
+	}
+	timeout 10
+}
+
+automacro TalkToGuildsman {
+	JobID 6
+	jobLevel = 50
+	QuestInactive 8001
+	NpcNear /Guildsman/
+	exclusive 1
+	call {
+		do talknpc 19 33 c c c c r0 n
+	}
+	timeout 10
+}
+
+automacro TalkTo2ndGuildsman {
+	JobID 6
+	JobLevel = 50
+	QuestInactive 8001
+	IsInCoordinate 19 76
+	exclusive 1
+	run-once 1
+	call {
+		do move 26 90
+		pause 5
+		do talk resp 0
+		pause 7
+		do talk resp 0
+		pause 15
+		do move 20 159
+	}
+}
+
+automacro TalkToTestGuide {
+	JobID 6
+	JobLevel = 50
+	QuestInactive 8001
+	IsInCoordinate 20 159
+	exclusive 1
+	run-once 1
+	call {
+		do talk &npc(21 170) 
+	}
+	
+}
+
+automacro AssassinMaze {
+	JobID 6
+	JobLevel = 50
+	QuestInactive 8001
+	IsInCoordinate 181 183
+	exclusive 1
+	run-once 1
+	call {
+		do move 182 170
+		pause 5
+		do move 148 80
+		do conf jobQuest TalkToLastGuildsman
+		pause 20
+	}
+}
+
+automacro TalkToLastGuildsman {
+	JobID 6
+	JobLevel = 50
+	QuestInactive 8001
+	ConfigKey jobQuest TalkToLastGuildsman
+	NpcNear /Guildmaster/i
+	exclusive 1
+	run-once 1
+	call {
+		do talk $.NpcNearLastBinId
+		pause 2
+		do talk resp 0
+		pause 2
+		do talk resp 0
+		pause 3
+		do talk resp 0
+		pause 2
+		do talk resp 0
+		pause 10
+		do talk resp 0
+		pause 2
+		do talk resp 1
+		pause 2
+		do conf jobQuest FinishAssasinQuest
+	}
+}	
+
+automacro FinishAssasinQuest {
+	JobID 6
+	JobLevel = 50
+	QuestInactive 8001
+	ConfigKey jobQuest FinishAssasinQuest
+	IsInCoordinate 17 19
+	exclusive 1
+	run-once 1
+	call {
+		do move 16 31
+		pause 3
+		do talknpc 19 33
+		pause 8
+		do relog 1800
+	}
+}

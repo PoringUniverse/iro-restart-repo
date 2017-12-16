@@ -1,0 +1,21 @@
+automacro FixTeleportSkill {
+	console /any work in progress/
+	exclusive 1
+	call {
+		do move stop
+		do warp cancel
+		log automacro: FixTeleportSkill: spam was fixed!
+	}
+	timeout 5
+}
+
+automacro SkillTeleportFailed {
+	console /Skill Teleport failed: Insufficient SP/
+	exclusive 1
+	call {
+		do move stop
+		do warp cancel
+		log automacro: SkillTeleportFailed: spam was fixed!
+	}
+	timeout 5
+}

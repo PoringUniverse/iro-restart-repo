@@ -1,0 +1,150 @@
+automacro LeaveTrainingGround_Archer {
+	JobID 0
+	JobLevel = 10
+	InMap new_1-3
+	exclusive 1
+	macro_delay 2
+	call {
+	
+		$trunks = &eval(&invamount(Trunk) + &invamount(Barren Trunk) * 2 + &invamount(Solid Trunk) * 3 + &invamount(Fine-grained Trunk) * 5)
+		if ($trunks <= 39) goto FarmTrunks
+		if ($trunks >= 40) goto TrunksComplete
+		
+		:FarmTrunks
+			log Checking trunks current value: $trunks, not enough.
+			
+			# ArcherDefaults - items_control.txt
+			[
+				do iconf Trunk 0 0 0
+				do iconf Barren Trunk 0 0 0
+				do iconf Solid Trunk 0 0 0
+				do iconf Fine-grained Trunk 0 0 0
+			]
+			
+			# pickupitems.txt
+			
+			[
+				do pconf Trunk 2
+				do pconf Barren Trunk 2
+				do pconf Solid Trunk 2
+				do pconf Fine-grained Trunk 2
+			]
+				
+			#mon_control.txt
+			
+			[
+				do mconf Willow 2
+			]
+		
+			stop
+		
+		:TrunksComplete
+			log Enough trunks value gathered. $trunks.
+			
+			# ArcherDefaults - items_control.txt
+			[
+				do iconf Barren Trunk 0 0 0
+				do iconf Fine-grained Trunk 0 0 0
+				do iconf Solid Trunk 0 0 0
+				do iconf Trunk 0 0 0
+			]
+			
+			# pickupitems.txt
+			
+			[
+				do pconf Barren Trunk 0
+				do pconf Fine-grained Trunk 0
+				do pconf Solid Trunk 0
+				do pconf Trunk 0
+			]
+				
+			#mon_control.txt
+			
+			[
+				do mconf Willow 2
+			]
+			
+			[
+				do conf route_randomWalk 0
+				do conf attackAuto -1
+			]
+			do move new_1-4 99 &rand(19,22)
+			do conf -f jobQuest TalkToFinalTester_Archer
+			log Quest was set to: TalkToFinalTester_Archer
+	}
+	timeout 120
+}
+
+automacro TalkToFinalTester_Archer {
+	JobID 0
+	JobLevel = 10
+	NpcNear /Final Tester/
+	ConfigKey jobQuest TalkToFinalTester_Archer
+	exclusive 1
+	macro_delay 2
+	call {
+		do talk $.NpcNearLastBinId
+		do talk resp 1 #Take the test
+		do talk resp 1 #Exercise
+		do talk resp 1 #Conserve
+		do talk resp 2 #Producer
+		do talk resp 1 #Prudence
+		do talk resp 1 #Experience
+		do talk resp 0 #The past
+		do talk resp 1 #No
+		do talk resp 0 #Yes
+		do talk resp 1 #No
+		do talk resp 1 #No
+		do talk resp 0 #Yes
+		do talk resp 1 #No
+		do talk resp 1 #No
+		do talk resp 1 #No
+		do talk resp 2 #Schedule... What schedule?
+		do talk resp 0 #Consider if you need it.
+		do talk resp 0 #competing
+		do talk resp 0 #Hand bymyself
+		do talk resp 1 #Asses the situation
+		do talk resp 3 #Leave where it was
+		do talk resp 1 #Change the subject
+		do talk resp 0 #Buy the item for him/her
+		do talk resp 0	#Yes for Archer
+		do conf lockMap none
+		do conf jobQuest SetJobQuest_Archer
+	}
+	timeout 120
+}
+
+automacro SetJobQuest_Archer {
+	JobID 0
+	JobLevel = 10
+	NpcNear /Archer Guildsman/
+	ConfigKey jobQuest SetJobQuest_Archer
+	exclusive 1
+	macro_delay 2
+	call {
+		do talk $.NpcNearLastBinId
+		do talk resp 0 #I want to be an archer
+		do talk resp 0 #Apply
+		do talk resp 0 #Yes, I am.
+		do eq Novice Adventurer's Suit [1]
+		do eq Novice Composite Bow [3]
+		do eq Arrow
+		
+		[
+			do conf route_randomWalk 1
+			do conf attackAuto 2
+			do conf sitAuto_hp_lower 40
+			do conf sitAuto_hp_upper 80
+			do conf jobQuest none
+		]
+		[
+			do iconf Sticky Mucus 2 0 1
+			do iconf Bear's Footskin 2 0 1
+			do iconf Tooth of Bat 5 0 1
+		]
+		pause 10
+		log === Archer Job Quest Done! === =
+		do relog 3600
+	}
+	timeout 60
+}

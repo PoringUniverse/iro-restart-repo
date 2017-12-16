@@ -1,0 +1,361 @@
+automacro UseAllSkillPoints{
+	###BaseLevel = set base level if need to
+	JobLevel = 50
+	JobID 5
+	exclusive 1
+	run-once 1
+	call {
+				[
+				log =====================================
+				log ======Use all skillpoints first======
+				log =====================================
+				]
+				[
+				do conf skillsAddAuto 1
+				do conf skillsAddAuto_list MC_INCCARRY 10, MC_PUSHCART 10, MC_VENDING 10, MC_OVERCHARGE 10, MC_DISCOUNT 8, MC_IDENTIFY 1
+				do conf -f BlackSmithQuest none
+				]
+		}
+}
+
+automacro Default{
+	###BaseLevel = set base level if need to
+	JobLevel = 50
+	JobID 5
+	ConfigKey BlackSmithQuest none
+	exclusive 1
+	run-once 1
+	call {
+				[
+				do conf sleepTime 75000
+				do conf autoMoveOnDeath 0
+				do conf itemsMaxWeight_sellOrStore 20
+				do conf lockMap none
+				do conf route_randomWalk 0
+				do conf attackAuto 0
+		]
+				do conf BlackSmithQuest GoToGeffen
+		}
+		
+}
+
+automacro BlackSmithQuestBeginM{
+	ConfigKey BlackSmithQuest GoToGeffen
+	NpcNotNear /Guildsman/ #Altazen
+	exclusive 1
+	run-once 1
+	call {
+				do move geffen_in &rand(106,110) &rand(172, 177)
+				do conf BlackSmithQuest TalkToAltazen0
+		}
+}
+
+automacro TalkToGuildsman{
+	ConfigKey BlackSmithQuest TalkToAltazen0
+	NpcNear /Guildsman/ #Altazen
+	location geffen_in
+	exclusive 1
+	run-once 1
+	call talktoAltazen{
+				do talknpc 110 169 c c c r0 c c c c #Do the job change.
+				[
+				log ==============================
+				log You have received a new quest.
+				log ==============================
+				]
+				do conf BlackSmithQuest GoToAlberta
+		}
+}
+
+automacro GoToAlberta{
+			ConfigKey BlackSmithQuest GoToAlberta
+			QuestActive 2000
+			macro_delay 2
+			run-once 1
+			call {
+				do move alberta_in &rand(176,180) &rand(21,26)
+				do conf BlackSmithQuest TalkToGetsufenst
+		}	
+}
+
+automacro TalkToGetsufenst{
+	ConfigKey BlackSmithQuest TalkToGetsufenst
+	NpcNear /Guildsman/ #Getsufenst
+	macro_delay 2
+	exclusive 1
+	run-once 1
+	call {
+				do talknpc 174 22 c c c c c r0 r~/mace|Aldebaran|Mace/ r~/Stun|3/ r~/Run|cart/ r~/Alberta|Geffen/ r~/8|5/ r~/Bible|Claymore/ r~/Mink/ r~/5|4/ r~/sakkat|ANOLIAN/ r~/Money/
+				pause &rand(5,10)
+				do talknpc 174 22 c c c c c c c c c
+				pause &rand(2,5)
+				do conf BlackSmithQuest GetsufenstTask0
+		}
+}
+
+automacro GetsufenstTask0 {
+    ConfigKey BlackSmithQuest GetsufenstTask0
+	QuestActive 2003
+    location alberta_in
+    exclusive 1
+    run-once 1
+    call {
+				do move alberta &rand(115, 118) &rand(51, 54)
+				pause 1
+				do conf autoTalkCont 1
+				pause 0.8
+				do talknpc 113 60
+				do talk resp 1
+				call checkKafra
+    }
+}
+
+macro checkKafra {
+    call var
+
+:GH
+if ($invGH >= 20) goto IR
+    do storage get &storage (Green Herb) &eval (20 - $invGH)
+    pause 1
+    
+:IR
+if ($invIR >= 8) goto AS
+    do storage get &storage (Iron) &eval (8 - $invIR)
+    pause 1
+    
+:AS
+if ($invAS >= 2) goto end
+    do storage get &storage (Animal Skin) &eval (2 - $invAS)
+    pause 1
+    
+:end
+do storage close
+pause 1
+log Cheking kafra storage done.
+do conf BlackSmithQuest QuestItems
+}
+
+macro var {
+    $invGH = &invamount(Green Herb)
+    $invIR = &invamount(Iron)
+    $invAS = &invamount(Animal Skin)
+    
+}
+
+automacro FarmQuestItems{
+			ConfigKey BlackSmithQuest QuestItems
+			exclusive 1
+			run-once 1
+			call {
+			if (&invamount(Iron) <= 7) goto farmIron
+			if (&invamount(Green Herb) <= 19) goto farmGreenHerb
+			if (&invamount(Animal Skin) <= 1) goto farmAnimalSkin
+			goto BlackSmith
+		
+				:farmIron
+				do conf BlackSmithQuest farmIron
+				do mconf Steel Chonchon 2
+				do pconf Iron 2
+				pause &rand (2,4)
+				do conf lockMap moc_fild18
+				do conf route_randomWalk 1
+				do conf attackAuto 1
+				goto end
+
+				:farmGreenHerb
+				do conf BlackSmithQuest farmGreenHerb
+				do mconf Green Plant 2
+				do mconf Fabre 2
+				do mconf Poporing 2
+				do pconf Green Herb 2
+				pause &rand(2,4)
+				do conf lockMap gef_fild00
+				do conf route_randomWalk 1
+				do conf attackAuto 1
+				goto end
+
+				:farmAnimalSkin
+				do conf BlackSmithQuest farmAnimalSkin
+				do mconf Savage Babe 2
+				do mconf Baby Dessert Wolf 2
+				do pconf Animal Skin 2
+				pause &rand(2,4)
+				do conf lockMap prt_fild09
+				do conf route_randomWalk 1
+				do conf attackAuto 1
+				goto end
+		
+				:BlackSmith
+				do conf BlackSmithQuest BuyRingPommelSaber
+				do conf route_randomWalk 0
+				do conf attackAuto 0
+				do conf lockMap none
+				pause &rand(2,4)
+				do respawn
+		
+				:end
+		}
+}
+
+automacro farmIron{
+	ConfigKey BlackSmithQuest farmIron
+	InInventory "Iron" > 7
+	run-once 1
+	call endfarmIron {
+				do conf BlackSmithQuest QuestItems
+				pause &rand(2,4)
+				release FarmQuestItems
+				release farmIron
+		}
+}
+
+automacro farmGreenHerb{
+			ConfigKey BlackSmithQuest farmGreenHerb
+			InInventory "Green Herb" > 19
+			run-once 1
+			call {
+				do conf BlackSmithQuest QuestItems
+				pause &rand(2,4)
+				release FarmQuestItems
+				release farmGreenHerb
+		}
+}
+
+automacro farmAnimalSkin{
+	ConfigKey BlackSmithQuest farmAnimalSkin
+	InInventory "Animal Skin" > 1
+	run-once 1
+	call {
+				do conf BlackSmithQuest QuestItems
+				pause &rand(2,4)
+				release FarmQuestItems
+				release farmAnimalSkin
+		}
+}
+
+automacro BuyRingPommelSaber{
+	ConfigKey BlackSmithQuest BuyRingPommelSaber
+	InInventory "Iron" >= 8
+	InInventory "Green Herb" >= 20
+	InInventory "Animal Skin" >= 2
+	Zeny >= 24000
+	exclusive 1
+	run-once 1
+	call {
+			if (&inventory "Ring Pommel Saber" >= 1) goto end
+				do conf attackAuto 0
+				do conf route_randomWalk 0	
+				do conf lockMap none
+				do conf sellAuto 0
+				do conf storageAuto 0
+				[
+				do conf buyAuto_0 Ring Pommel Saber [2]
+				do conf buyAuto_0_npc prt_in 172 130
+				do conf buyAuto_0_minAmount none
+				do conf buyAuto_0_maxAmount 1
+				pause &rand(2,4)
+				do autobuy
+				]
+				:end
+				do move alberta_in &rand(176,180) &rand(21,26)
+				do conf BlackSmithQuest TalkToGetsufenstAgain
+		}
+}
+
+automacro TalkToGetsufenstAgain{
+	ConfigKey BlackSmithQuest TalkToGetsufenstAgain
+	InInventory "Iron" >= 8
+	InInventory "Green Herb" >= 20
+	InInventory "Animal Skin" >= 2
+	NpcNear /Guildsman/ #Getsufenst
+	exclusive 1
+	run-once 1
+	call {
+				[
+				do talknpc 174 22 c c c c c c r1 c c c c c c #I'm only holding the items required for this Job.
+				pause &rand(2,4)
+				]
+				do move comodo &rand(159,161) &rand(338,342)
+		}
+}
+
+automacro DeliverToBismark{
+	QuestActive 2012
+	NpcNear /Bismark/ 
+	exclusive 1
+	run-once 1
+	call {
+				do talknpc 158 342 c c r1 c c c c c c #I assure you that it's new!
+				do conf BlackSmithQuest GoBackToGetsufenst
+				pause &rand(2,4)
+				do move alberta_in &rand(176,180) &rand(21,26)
+		}
+}
+
+automacro DeliverVoucher{
+	ConfigKey BlackSmithQuest GoBackToGetsufenst
+	QuestActiive 2012
+	NpcNear /Guildsman/ Getsufenst
+	exclusive 1
+	run-once 1
+	call {
+				do talknpc 174 22 c c c r0 #Ah, yes. Here it is!
+				do conf BlackSmithQuest TalkToAltazen
+				pause &rand(2,4)
+				do move geffen_in &rand(106,110) &rand(172, 177)
+		}
+}
+
+automacro TalkToAltazen{
+	ConfigKey BlackSmithQuest TalkToAltazen
+	QuestActive 2013
+	InMap geffen_in
+	NpcNear /Guildsman/ #Altazen
+	exclusive 1
+	run-once 1
+	call {
+				do talknpc 110 169 c c c c r0 c #It's tough, but I have to go do it.
+				do conf BlackSmithQuest TalkToMitmayer
+		}
+}
+
+automacro TalkToMitmayer{
+	ConfigKey BlackSmithQuest TalkToMitmayer
+	exclusive 1
+	run-once 1
+	call {
+				do move morocc &rand(101,103) &rand(107,109)
+				pause 30
+				do move morocc &rand(93,95) &rand(116,118)
+				pause &rand(5,10)
+				do move morocc &rand(92,94) &rand(125,127)
+				pause &rand(5,10)
+				do talknpc 95 133 c c r0 c c c r~/SKEL|Increased|needs/ r~/Alberta|Heart|Stun/ r~/5|Blood|1000/ r~/Alberta|Water|24/ r~/DEX|5|24/
+				pause &rand(2,4)
+				do conf BlackSmithQuest TalkToAltazenAgain
+		}
+}
+
+automacro TalkToAltazenAgain{
+	ConfigKey BlackSmithQuest TalkToAltazenAgain
+	exclusive 1
+	run-once 1
+	call {
+				do move morocc &rand(101,103) &rand(107,109)
+				pause &rand(5,10)
+				do move geffen_in &rand(106,110) &rand(172, 177)
+				pause 30
+				do talknpc 110 169 c c c c
+				log Finally~!
+						do conf BlackSmithQuest none
+						do eq Sword Mace
+						do eq Novice Adventurer's Suit [1]
+				[
+				do conf buyAuto_0 none
+				do conf buyAuto_0_npc none
+				do conf buyAuto_0_minAmount none
+				do conf buyAuto_0_maxAmount 3
+				]
+						do relog 99999999999999
+		}
+}

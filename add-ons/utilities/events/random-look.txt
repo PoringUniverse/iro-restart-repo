@@ -1,0 +1,8 @@
+automacro RandomPosition {
+	SimpleHookEvent packet_pre/sendSit
+	timeout 180
+	call {
+		do look &rand(0,7) &rand(0,2)
+		log You are now facing random direction
+	}
+}

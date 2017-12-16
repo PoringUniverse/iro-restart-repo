@@ -1,0 +1,42 @@
+automacro trainFalcon {
+    exclusive 1
+    SkillLevel HT_FALCON = 1
+    StatusInactiveHandle EFST_FALCON
+    NotInMap in_hunter
+    Zeny > 5000
+    NpcNotNear /Falcon Fancier/i
+    overrideAI 1
+    run-once 1
+    call {
+        do move pay_fild10 &rand(143,149) &rand(247,252)
+        do talknpc 148 252
+    }
+}
+
+automacro trainFalcon1 {
+    exclusive 1
+    SkillLevel HT_FALCON = 1
+    StatusInactiveHandle EFST_FALCON
+    InMap in_hunter
+    Zeny > 5000
+    NpcNotNear /Falcon Fancier/i
+    overrideAI 1
+    run-once 1
+    call {
+	do move &rand(139,142) &rand(97, 101)
+    }
+}
+	
+automacro trainFalcon2{
+    exclusive 1
+    SkillLevel HT_FALCON = 1
+    StatusInactiveHandle EFST_FALCON
+    NpcNear /Falcon Fancier/i
+    overrideAI 1
+    macro_delay 1
+    run-once 1
+    call {
+        do talknpc 145 100
+        do talk resp 0
+    }
+}

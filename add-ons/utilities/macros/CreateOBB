@@ -1,0 +1,37 @@
+#########################
+###Create Old Blue Box###
+#########################
+
+automacro OBBspammer {
+exclusive 1
+map comodo 
+inventory "Cyfar" >= 50
+inventory "Brigan" >= 10
+inventory "Clam Shell" >= 15
+inventory "Crab Shell" >= 10
+run-once 1
+call OBBtalk
+}
+
+macro OBBtalk {
+do move 75 200 comodo
+call talkloop
+}
+
+macro talkloop {
+$c = @invamount (Cyfar)
+$b = @invamount (Brigan)
+$clam = @invamount (Clam Shell)
+$crab = @invamount (Crab Shell)
+while ($c >= 50 && $b >= 10 && $clam >= 15 && $crab >= 10) as loop
+do talknpc 68 195
+pause 0.8
+do talk resp 0
+log You only have $c Cyfar, $b Brigan, $clam Clam Shell, and $crab Crab Shell left.
+call talkloop
+end loop
+stop
+release all
+}
+
+

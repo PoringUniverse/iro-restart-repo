@@ -1,0 +1,33 @@
+automacro RodexZeny {
+	Zeny >= 550000
+	exclusive 1
+	macro_delay 2
+	timeout 60
+	call {
+		if (&config (rodexReceiver) == $.name) goto dontSend
+		if (&config (rodexReceiver) != $.name) goto sendIt
+		
+		:dontSend
+			lock RodexZeny
+			stop
+		:sendIt		
+			$totalZeny = 500000
+			
+			# set receiving character
+			$receiver = &config (rodexReceiver)
+			$mailTitle = TITLE
+			$mailBody = TITLE
+			
+			# open rodex
+			do rodex open
+			do rodex write $receiver
+			do rodex settarget $receiver 
+			do rodex settitle $mailTitle
+			do rodex setbody $mailBody
+			do rodex setzeny $totalZeny
+			
+			# send and close
+			do rodex send
+			do rodex close
+	}
+}

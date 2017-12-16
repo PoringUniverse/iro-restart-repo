@@ -1,0 +1,48 @@
+automacro PM_SayHi {
+	PrivMsg /(hi|hello|greeting|greetings)/i
+	exclusive 1
+	macro_delay 2
+	call {
+		@reply = (hi,hello,?,hey,whats up?,hmm?)
+		do move stop 
+		do pm "$.PrivMsgLastName" &random("$reply[&rand(0,&eval(@reply-1))]")
+	}
+	timeout 900
+}
+
+automacro PM_SayAreYouBot {
+	PrivMsg /(bot|botter|botting)/i
+	exclusive 1
+	macro_delay 2
+	call {
+		@reply = (botting is illegal,do not accuse me,i am just grinding,huh?)
+		do move stop 
+		do pm "$.PrivMsgLastName" &random("$reply[&rand(0,&eval(@reply-1))]")
+	}
+	timeout 900
+}
+
+automacro PM_SayHowAreYou {
+	PrivMsg /(how are you)/i
+	exclusive 1
+	macro_delay 2
+	call {
+		@reply = (i am fine,i am good,doing fine)
+		do move stop 
+		do pm "$.PrivMsgLastName" &random("$reply[&rand(0,&eval(@reply-1))]")
+	}
+	timeout 900
+}
+
+automacro PM_SayPleaseRespond {
+	PrivMsg /(seems like|you're in afk mode|afk|please respond)/i
+	exclusive 1
+	macro_delay 2
+	run-once 1
+	call {
+		@reply = (what do you want?,hey!,what's up?,do not disturb me)
+		do move stop
+		do pm "$.PrivMsgLastName" &random("$reply[&rand(0,&eval(@reply-1))]")
+	}
+	timeout 900
+}

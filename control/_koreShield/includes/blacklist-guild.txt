@@ -1,0 +1,7 @@
+.* GM.*
+#^GM.*
+#.* Staff.*
+.*iRO GM Team.*
+.*iRO GM Guild.*
+^Game Master\.$
+^Support Game Master\.$

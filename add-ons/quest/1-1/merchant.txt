@@ -1,0 +1,237 @@
+automacro LeaveTrainingGround_Merch {
+	JobID 0
+	InMap new_1-3
+	JobLevel = 10
+	exclusive 1
+	run-once 1
+	macro_delay 2
+	call {
+		[
+			do conf route_randomWalk 0
+			do conf attackAuto -1
+		]
+		do move new_1-4 99 &rand(19,22)
+		do conf -f QuestPart TalktoFinalTester
+		log Quest was set to: TalktoFinalTester
+	}
+	timeout 10
+}
+
+automacro TalktoFinalTester {
+	JobID 0
+	NpcNear /Final Tester/
+	ConfigKey QuestPart TalktoFinalTester
+	exclusive 1
+	run-once 1
+	macro_delay 1
+	call {
+		do talk $.NpcNearLastBinId
+		do talk resp 1 #Take the test
+		do talk resp 1 #Exercise
+		do talk resp 0 #Change
+		do talk resp 1 #Seller
+		do talk resp 0 #Celebrity
+		do talk resp 0 #Theory
+		do talk resp 1 #Reality
+		do talk resp 0 #Yes
+		do talk resp 0 #Yes
+		do talk resp 1 #No
+		do talk resp 0 #Yes
+		do talk resp 0 #Yes
+		do talk resp 0 #Yes
+		do talk resp 0 #Yes
+		do talk resp 0 #Yes
+		do talk resp 0 #Schedule... What schedule?
+		do talk resp 0 #Consider if you need it.
+		do talk resp 2 #competing
+		do talk resp 1 #Hand bymyself
+		do talk resp 0 #Asses the situation
+		do talk resp 0 #Leave where it was
+		do talk resp 2 #Change the subject
+		do talk resp 0 #Buy the item for him/her
+		do talk resp 0 #Yes for Merchant
+		
+		do conf QuestPart MerchantQuest
+		}
+	timeout 30
+}
+
+automacro MerchantQuestStart {
+	InMap alberta_in
+	ConfigKey QuestPart MerchantQuest
+	exclusive 1
+	run-once 1
+	macro_delay 1
+	call {
+		do talknpc 53 43
+		do talk resp 0
+		do talk resp 0
+		do talk resp 0
+		do conf QuestPart MerchantQuestRetalk
+	}
+	timeout 30
+}
+
+automacro MerchantQuestRetalk {
+	InMap alberta_in
+	ConfigKey QuestPart MerchantQuestRetalk
+	run-once 1
+	macro_delay 1
+	call {
+		do talknpc 53 43
+		log $.NpcMsgLastMsg
+	}
+	timeout 30
+}
+
+automacro merchantSNis {
+    NpcMsg /Serial Number is/
+    run-once 1
+    call {
+        $serial = &eval("$.NpcMsgLastMsg"=~ m/Serial Number is.(\d+)/? $1 : "0")
+		
+		log ====================================
+		log = Number of the package $serial
+		log ====================================
+		do conf -f QuestSN $serial
+		do conf -f QuestPart MerchantinputSN
+    }
+	timeout 30
+}
+automacro merchantSNof {
+    NpcMsg /of the package is/
+    run-once 1
+    call {
+        $serial = &eval("$.NpcMsgLastMsg"=~ m/Remember, the Serial Number of the package is.(\d+)/? $1 : "0")
+		
+		log ====================================
+		log = Number of the package $serial
+		log ====================================
+		do conf -f QuestSN $serial
+		do conf -f QuestPart MerchantinputSN
+    }
+}
+automacro MerchantQuestGetBox {
+	#QuestActive 1012
+	ConfigKey QuestPart MerchantinputSN
+	JobID 0
+	JobLevel = 10
+	exclusive 1
+	call {
+	
+		do move alberta_in 64 31 
+		$serial = &config(QuestSN)
+		
+		if ($serial == 2328137 || $serial == 2485741 ) {
+			$deliveryloc = 0
+			$town = prontera
+		} elsif ($serial == 2191737 || $serial == 2989396 ) {
+			$deliveryloc = 1
+			$town = geffen
+		} elsif ($serial == 3487372 || $serial == 3012685 ) {
+			$deliveryloc = 2
+			$town = morocc
+		} elsif ($serial == 3543625 || $serial == 3318702 ) {
+			$deliveryloc = 3
+			$town = byalan
+		}
+		
+		
+		do talknpc 28 29
+		do talk resp 0
+		do talk resp $deliveryloc
+		do talk num $serial
+		do talk resp 0
+		do conf -f QuestPart MerchantDelivery
+		do conf -f QuestDeliverLocation $town
+	}
+}
+
+automacro MerchantQuestDeliBox {
+	InInventory "Delivery Box" > 0
+	ConfigKey QuestPart MerchantDelivery
+	JobID 0
+	JobLevel = 10
+	exclusive 1
+	call Deliver
+}
+
+macro Deliver {
+	
+		log &config(QuestDeliverLocation)
+		
+		$location = &config(QuestDeliverLocation)
+		
+		switch ($location) {
+		case (== prontera) {
+			do move prontera 239 47 
+			do talknpc 248 42
+			log The package was delivered. Go back to Alberta
+			do conf -f QuestPart DeliveryDone
+		}
+		case (== geffen) {
+			do move geffen 61 180 
+			pause 4
+			do move geffen_in 169 120 
+			pause 4
+			do talknpc 155 122
+			do move geffen
+			log The package was delivered. It's time to go to Alberta
+			do conf -f QuestPart DeliveryDone
+		}
+		case (== morocc) {
+			do move morocc 274 269 
+			pause 4
+			do move 144 122 
+			pause 4
+			do talknpc 140 102
+			pause 4
+			do move morocc
+			log The package was delivered. It's time to go to Alberta
+			do conf -f QuestPart DeliveryDone
+		}
+		case (== byalan) {
+			do move izlu2dun 106 55 
+			pause 4
+			do talknpc 106 58
+			do talk resp 0
+			pause 4
+			log The package was delivered. It's time to go to Alberta
+			do conf -f QuestPart DeliveryDone
+		}
+		else {
+		}
+	}
+}
+
+automacro MerchantQuestDeliDone {
+	ConfigKey QuestPart DeliveryDone
+	JobID 0
+	JobLevel = 10
+	exclusive 1
+	call {
+	
+		do move alberta_in 64 31 
+		pause 4
+		do talknpc 28 29
+		pause 4
+		
+		do conf -f QuestPart JobChange	
+	}
+}
+
+automacro MerchantJobChange {
+	ConfigKey QuestPart JobChange
+	JobID 0
+	JobLevel = 10
+	exclusive 1
+	call {
+	
+		do move alberta_in 63 45 
+		pause 4
+		do talknpc 53 43
+		pause 4
+		
+		do conf -f QuestPart DoneMerchie	
+	}
+}

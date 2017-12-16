@@ -1,0 +1,7 @@
+automacro ResetRoute {
+	console /Cannot calculate a route/
+	call {
+		do reload portal
+		#do relog 10
+	}
+}

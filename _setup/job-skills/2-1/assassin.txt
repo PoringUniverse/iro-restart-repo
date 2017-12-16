@@ -1,0 +1,16 @@
+useSelf_skill Enchant Poison {
+	lvl 10
+	sp > 20
+	whenStatusInactive Enchant Poison
+	monsters
+	inLockOnly 1
+	notWhileSitting 1
+	notInTown 1
+}
+
+useSelf_skill Detoxify {
+	lvl 1
+	whenStatusActive Poisoned
+	disabled 0
+}
+

@@ -1,0 +1,52 @@
+automacro RodexCards {
+	Zeny >= 2500
+	priority 1
+	exclusive 1
+	macro_delay 2
+	timeout 1800
+	call MailCards
+}
+
+macro MailCards {
+	$cards = &InventoryType(card)
+	@cardList = &split(',', $cards)
+	
+	if ($cardList[0] == -1) goto noCards
+	if (&config (rodexReceiver) == $.name) goto dontSend
+	if (&config (rodexReceiver) != $.name) goto sendIt
+	
+	:noCards
+		log No card available
+		stop
+	:dontSend
+		lock RodexCards
+		stop
+	:sendIt
+		# set details
+		$receiver = &config (rodexReceiver)
+		$mailTitle = TITLE
+		$mailBody = TITLE
+		
+		if (@cardList > 5) $maxItem = 5
+		if (@cardList < 5) $maxItem = @cardList
+
+			# open rodex
+			do rodex open
+			do rodex write $receiver
+			do rodex settarget $receiver 
+			do rodex settitle $mailTitle
+			do rodex setbody $mailBody
+			do rodex setzeny 0
+			
+			$i = 0
+			while ($i < $maxItem) {
+				log Putting Card with Index: $cardList[$i]
+				pause 1
+				do rodex add $cardList[$i] 1
+				$i++
+			}
+			
+			do rodex send
+			do rodex close
+			stop
+}

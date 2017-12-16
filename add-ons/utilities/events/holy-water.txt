@@ -1,0 +1,111 @@
+macro HolyWaterQuest {
+	[
+		do conf -f holyWaterQuest 1
+		do conf lockMap moc_ruins
+		do conf lockMap_x 99
+		do conf lockMap_y 142
+		do conf route_randomWalk 0
+		do conf sleepTime 200000
+	]
+	do move moc_ruins 99 142
+}
+
+automacro MoveToWater {
+	ConfigKey holyWaterQuest 1
+	InMap moc_ruins
+	JobID 8
+	SkillLevel AL_HOLYWATER = 1
+	InInventory "Empty Bottle" > 0
+	CurrentSP > 10%
+	exclusive 1
+	call {
+		do move moc_ruins 99 142
+		stop
+	}
+	timeout 240
+}
+
+automacro CastAquaBenedicta {
+	ConfigKey holyWaterQuest 1
+	IsInMapAndCoordinate moc_ruins 99 142
+	JobID 8
+	SkillLevel AL_HOLYWATER = 1
+	InInventory "Empty Bottle" > 0
+	exclusive 1
+	run-once 1
+	call {
+		if ($.sp < 100) call StoreBottles
+		
+		while ($.sp > 100) {
+			do ss 31
+			pause 0.8
+		}
+		
+		stop
+	}
+}
+
+macro StoreBottles {
+	do move 64 157
+	pause 5
+	do talknpc 59 157 c r0 
+	
+	if ($.storageopen == 1) {
+		do storage add "Holy Water"
+		pause 1
+		do storage add "Empty Bottle"
+		pause 1
+		do storage close
+	}
+	do sit
+	stop
+}
+
+automacro HolyWaterNoSP {
+	ConfigKey holyWaterQuest 1
+	JobID 8
+	CurrentSP < 10%
+	exclusive 1
+	macro_delay 2
+	call {
+		do move 64 157
+		pause 5
+		do talknpc 59 157 c r0 
+		
+		if ($.storageopen == 1) {
+			do storage add "Holy Water"
+			pause 1
+			do storage add "Empty Bottle"
+			pause 1
+			do storage close
+		}
+		do sit
+		stop
+	}
+	timeout 60
+}
+
+automacro NoBottles {
+	ConfigKey holyWaterQuest 1
+	JobID 8
+	SkillLevel AL_HOLYWATER = 1
+	InInventory "Empty Bottle" < 1
+	CurrentSP > 80%
+	exclusive 1
+	macro_delay 2
+	call {
+		
+		do move 64 157
+		do talknpc 59 157 c r0 
+		
+		if ($.storageopen == 1) {
+			do storage get "Empty Bottle" 500
+			do storage close
+		}
+		
+		release CastAquaBenedicta
+		
+		stop
+	}
+	timeout 60
+}

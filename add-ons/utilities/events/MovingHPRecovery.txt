@@ -1,0 +1,135 @@
+automacro GetHPRecoveryItem {
+	exclusive 1
+	overrideAI 1
+	JobID 7, 14
+	BaseLevel >= 35 
+	JobLevel == 10 # Changeto whenever you want it to start getting the skill
+	SkillLevel SM_MOVINGRECOVERY == 0
+	exclusive 1
+	call {
+		[
+			do iconf 713 0 0 0
+			do iconf 1058 0 0 0
+		]
+		
+		[
+			do pconf 713 2
+			do pconf 1058 2 
+		]
+	
+		if (&invamount(Empty Bottle) < 200) goto farmEmptyBottle
+		if (&invamount(Moth Wings) < 1) goto farmMothWings	
+		[
+			do conf lockMap none
+			do conf attackAuto 0
+			do conf route_randomWalk 0
+		]
+		:farmEmptyBottle
+			[
+				do conf lockMap gef_fild01
+				do conf route_randomWalk 1
+				do conf attackAuto 2
+				do conf itemsTakeAuto 1
+				do conf itemsGatherAuto 1
+				do conf storageAuto_npc prt_fild05 290 224
+				do conf storageAuto_distance 8
+				do conf storageAuto_npc_type 3
+				do conf storageAuto_npc_steps c w1 r1
+			]
+			lock GetHPRecoveryItem
+			stop
+		:farmMothWings
+			[
+				do conf lockMap mjolnir_12
+				do conf route_randomWalk 1
+				do conf attackAuto 2
+				do conf itemsTakeAuto 1
+				do conf itemsGatherAuto 1
+				do conf storageAuto_npc aldebaran 143 119
+				do conf storageAuto_npc_type 1
+			]
+			lock GetHPRecoveryItem
+			stop
+	}
+}
+
+automacro EmptyBottle {
+	exclusive 1
+	overrideAI 1
+	JobID 7, 14
+	BaseLevel >= 35
+	JobLevel == 10 # Changeto whenever you want it to start getting the skill
+	InInventory "Empty Bottle" >= 200
+	SkillLevel SM_MOVINGRECOVERY == 0
+	run-once 1
+	call {
+		do respawn
+		pause 1
+		release GetHPRecoveryItem
+	}
+}
+
+automacro MothWings {
+	exclusive 1
+	overrideAI 1
+	JobID 7, 14
+	BaseLevel >= 35
+	JobLevel == 10 # Changeto whenever you want it to start getting the skill
+	InInventory "Moth Wings" >= 1
+	SkillLevel SM_MOVINGRECOVERY == 0
+	run-once 1
+	call {
+		do respawn
+		pause 1
+		release GetHPRecoveryItem
+	}
+}
+
+automacro MovingHPRecovery {
+	exclusive 1
+	overrideAI 1
+	JobID 7, 14
+	BaseLevel >= 35
+	JobLevel == 10 # Changeto whenever you want it to start getting the skill
+	InInventory "Empty Bottle" >= 200
+	InInventory "Moth Wings" >= 1
+	SkillLevel SM_MOVINGRECOVERY == 0
+	run-once 1
+	call {
+		do ai clear
+		do move izlude_in 175 130
+		do conf autoTalkCont 1
+	}
+}
+
+automacro MovingHPRecovery2 {
+	exclusive 1
+	overrideAI 1
+	JobID 7, 14
+	BaseLevel >= 35
+	JobLevel == 10 # Changeto whenever you want it to start getting the skill
+	InMap izlude_in
+	IsInCoordinate 170..180 120..140
+	NpcNear /Knight Ditomaso/i
+	InInventory "Empty Bottle" >= 200
+	InInventory "Moth Wings" >= 1
+	SkillLevel SM_MOVINGRECOVERY == 0
+	run-once 1
+	call {
+		pause 10
+		do talk resp 0
+		pause 1
+		do talk resp 0
+		pause 3
+		do talk $.NpcNearLastBinId
+		pause 2
+		do talk resp 0
+		pause 5
+	[
+		do ai auto
+		do pconf 713 0
+		do pconf 1058 0
+		do reload event # resets everything and triggers autosaves and recalls Farming Map configsetings
+	]
+	}
+}

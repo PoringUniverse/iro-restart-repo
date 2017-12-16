@@ -1,0 +1,29 @@
+automacro Get_Pecopeco {
+    exclusive 1
+    SkillLevel KN_CAVALIERMASTERY = 5
+    StatusInactiveHandle EFST_RIDING
+    Zeny > 10000
+    NpcNotNear /Peco peco Breeder/i
+    overrideAI 1
+    run-once 1
+    call {
+        do respawn
+        pause 2
+        do conf autoTalkCont 1
+        do move prontera 60 350
+    }
+}
+
+automacro Get_Pecopeco2 {
+    exclusive 1
+    SkillLevel KN_CAVALIERMASTERY = 5
+    StatusInactiveHandle EFST_RIDING
+    NpcNear /Peco peco Breeder/i
+    overrideAI 1
+    run-once 1
+    call {
+        do talk $.NpcNearLastBinId
+        pause 1
+        do talk resp 0
+    }
+}

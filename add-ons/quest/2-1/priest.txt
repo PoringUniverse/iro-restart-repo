@@ -1,0 +1,207 @@
+automacro FreeSkillPoints_Priest {
+	FreeSkillPoints > 0
+	JobID 4
+	JobLevel = 50
+	exclusive 1
+	run-once 1
+	call {
+		[
+			log =========================================================
+			log = Change Job To Priest
+			log =========================================================
+		]
+		[
+			do conf lockMap none
+			do conf route_randomWalk 0
+			do conf teleportAuto_idle 0
+			do conf skillsAddAuto 1
+			do conf skillsAddAuto_list AL_HEAL 5, AL_INCAGI 5, AL_DP 5, AL_BLESSING 10, AL_INCAGI 10, AL_RUWACH 1, AL_TELEPORT 2, AL_DEMONBANE 5, AL_WARP 2, AL_ANGELUS 10 
+		]	
+	}
+}
+
+automacro MoveToJobQuest_Priest {
+	QuestInactive 8011, 8012, 8013
+	NpcNotNear /High Bishop/
+	JobID 4
+	JobLevel = 50
+	exclusive 1
+	run-once 1
+	call {
+		[
+			do conf lockMap none
+			do conf route_randomWalk 0
+			do conf teleportAuto_idle 0
+		]
+		do move prt_church 16 &rand(33,35)
+	}
+}
+
+automacro TalkToHighBishop {
+	QuestInactive 8011, 8012, 8013
+	NpcNear /High Bishop/
+	JobID 4
+	JobLevel = 50
+	exclusive 1
+	run-once 1
+	call {
+		do conf autoTalkCont 1
+		do talk $.NpcNearLastBinId
+		do talk resp 0
+		do talk resp 0
+		do talk resp 0
+		do conf jobQuest TalkToPeter
+	}
+}
+
+automacro TalkToPeter {
+	QuestActive 8011, 8012, 8013
+	InMap job_prist
+	IsInCoordinate 24 180
+	NpcNear /Peter S. Alberto/
+	JobID 4
+	JobLevel = 50
+	exclusive 1
+	call {
+		lock MoveToJobQuest_Priest
+		do talk $.NpcNearLastBinId
+		do talk resp 0
+		do talk resp 0
+	}
+	timeout 10
+}
+
+automacro EnduranceTest1 {
+	QuestActive 8011, 8012, 8013
+	InMap job_prist
+	IsInCoordinate 24 44
+	JobID 4
+	JobLevel = 50
+	exclusive 1
+	run-once 1
+	macro_delay 5
+	call {
+		do conf attackAuto 2
+		do move job_prist 24 53
+		do a 0
+		do a 1
+		do a 2
+		do move 25 72
+		do a 0
+		do a 1
+		do a 2
+		do move 23 81
+		do a 0
+		do a 1
+		do a 2
+		do move 25 91
+		do a 0
+		do a 1
+		do a 2
+		do move 23 109
+		do conf jobQuest FaithTest
+	}
+}
+
+automacro FaithTest {
+	QuestActive 8011, 8012, 8013
+	ConfigKey jobQuest FaithTest
+	InMap job_prist
+	IsInCoordinate 168 17
+	JobID 4
+	JobLevel = 50
+	exclusive 1
+	macro_delay 20
+	call {
+		do move 168 45
+		do talk resp 1
+		do talk resp 1
+		do move 168 80
+		do talk resp 1
+		do talk resp 1
+		do move 168 114
+		do talk resp 1
+		do talk resp 1
+		do move 168 150 
+		do talk resp 1
+		do move 168 179
+		do conf jobQuest EnduranceTest2
+	}
+	timeout 120
+}
+
+automacro EnduranceTest2 {
+	QuestActive 8011, 8012, 8013
+	ConfigKey jobQuest EnduranceTest2
+	InMap job_prist
+	IsInCoordinate 98 40
+	JobID 4
+	JobLevel = 50
+	exclusive 1
+	run-once 1
+	call {
+		do conf attackAuto -1
+		do move 98 105
+		do conf jobQuest MoralTest
+	}
+}
+
+automacro MoralTest {
+	QuestActive 8011, 8012, 8013
+	ConfigKey jobQuest MoralTest
+	InMap prt_church
+	JobID 4
+	JobLevel = 50
+	exclusive 1
+	run-once 1
+	macro_delay 2
+	call {
+		do conf attackAuto 2
+		do move &rand(21,23) 25
+	}
+}
+
+automacro TalkWithCecilia {
+	QuestActive 8011, 8012, 8013, 8014
+	NpcNear /Sister Cecilia/
+	InMap prt_church
+	JobID 4
+	JobLevel = 50
+	exclusive 1
+	run-once 1
+	macro_delay 2
+	call {
+		do talk $.NpcNearLastBinId
+		do talk resp 0
+		do talk resp 1
+		do talk resp 0
+		do talk resp 0
+		do talk resp 1
+		do talk resp 1
+		do talk resp 0
+		do talk resp 0
+		do conf jobQuest QualifiedToBecomePriest
+		do move prt_church 16 &rand(33,35)
+	}
+}
+
+automacro QualifiedToBecomePriest {
+	QuestActive 8015, 8016
+	InMap prt_church
+	NpcNear /High Bishop/
+	JobID 4
+	JobLevel = 50
+	exclusive 1
+	run-once 1
+	macro_delay 2
+	call {
+		do talk $.NpcNearLastBinId
+		do conf jobQuest none
+		[
+			log ================================= =
+			log I Passed The Test!
+			log ================================= =
+		]
+		do relog 3600
+	}
+}

@@ -1,0 +1,55 @@
+# Adrenaline Rush
+useSelf_skill BS_ADRENALINE {
+    lvl 5
+    sp > 20
+    whenStatusInactive BS_ADRENALINE
+    inLockOnly 1
+    notWhileSitting 1
+    notInTown 1
+    timeout 150
+}
+
+# Over Thrust
+useSelf_skill BS_OVERTHRUST {
+    lvl 5
+    sp > 20
+    whenStatusInactive BS_OVERTHRUST
+    inLockOnly 1
+    notWhileSitting 1
+    notInTown 1
+    timeout 100
+}
+
+# Power Maximize Activate
+useSelf_skill BS_MAXIMIZE {
+    lvl 5
+    sp >= 50%
+    onAction Attack
+    whenStatusInactive BS_MAXIMIZE
+    inLockOnly 1
+    notWhileSitting 1
+    notInTown 1
+}
+
+#Power Maximize Deactivate
+useSelf_skill BS_MAXIMIZE {
+    lvl 5
+    sp <= 15%
+    whenStatusActive BS_MAXIMIZE
+    inLockOnly 1
+    notWhileSitting 1
+    notInTown 1
+}
+
+
+
+# Weapon Perfection
+useSelf_skill BS_WEAPONPERFECT {
+    lvl 5
+    sp > 20
+    whenStatusInactive BS_WEAPONPERFECT
+    inLockOnly 1
+    notWhileSitting 1
+    notInTown 1
+    timeout 50
+}

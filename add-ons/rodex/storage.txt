@@ -1,0 +1,165 @@
+automacro RodexElu {
+	Zeny >= 2500
+	InStorage "Rough Elunium" >= 50
+	StorageOpened 1
+	exclusive 1
+	macro_delay 2
+	timeout 20
+	call StorageRodex
+}
+
+automacro RodexOri {
+	Zeny >= 2500
+	InStorage "Rough Oridecon" >= 50
+	StorageOpened 1
+	exclusive 1
+	macro_delay 2
+	timeout 20
+	call StorageRodex
+}
+
+automacro RodexSteel {
+	Zeny >= 2500
+	InStorage "Steel" >= 50
+	StorageOpened 1
+	exclusive 1
+	macro_delay 2
+	timeout 20
+	call StorageRodex
+}
+
+automacro RodexIron {
+	Zeny >= 2500
+	InStorage "Iron" >= 200
+	StorageOpened 1
+	exclusive 1
+	macro_delay 2
+	timeout 20
+	call StorageRodex
+}
+
+automacro RodexStrawberry {
+	Zeny >= 2500
+	InStorage "Strawberry" >= 50
+	StorageOpened 1
+	exclusive 1
+	macro_delay 2
+	timeout 20
+	call StorageRodex
+}
+
+automacro RodexGrape {
+	Zeny >= 2500
+	InStorage "Grape" >= 50
+	StorageOpened 1
+	exclusive 1
+	macro_delay 2
+	timeout 20
+	call StorageRodex
+}
+
+automacro RodexCyfar {
+	Zeny >= 2500
+	InStorage "Cyfar" >= 50
+	StorageOpened 1
+	exclusive 1
+	macro_delay 2
+	timeout 20
+	call StorageRodex
+}
+
+automacro RodexZargon {
+	Zeny >= 2500
+	InStorage "Zargon" >= 500
+	StorageOpened 1
+	exclusive 1
+	macro_delay 2
+	timeout 20
+	call StorageRodex
+}
+
+automacro RodexBugLeg {
+	Zeny >= 2500
+	InStorage "Bug Leg" >= 1000
+	StorageOpened 1
+	exclusive 1
+	macro_delay 2
+	timeout 20
+	call StorageRodex
+}
+
+automacro RodexOBB {
+	Zeny >= 2500
+	InStorage "Old Blue Box" >= 25
+	StorageOpened 1
+	exclusive 1
+	macro_delay 2
+	timeout 20
+	call StorageRodex
+}
+
+automacro RodexFeather {
+	Zeny >= 2500
+	InStorage "Feather" >= 100
+	StorageOpened 1
+	exclusive 1
+	macro_delay 2
+	timeout 20
+	call StorageRodex
+}
+
+automacro RodexDB {
+	Zeny >= 2500
+	InStorage "Dead Branch" >= 100
+	StorageOpened 1
+	exclusive 1
+	macro_delay 2
+	timeout 20
+	call StorageRodex
+}
+
+automacro RodexAmulet {
+	Zeny >= 2500
+	InStorage "Amulet" >= 25
+	StorageOpened 1
+	exclusive 1
+	macro_delay 2
+	timeout 20
+	call StorageRodex
+}
+
+macro StorageRodex {
+	$itemName = $.InStorageLast
+	
+	do ai manual
+	
+	if ($.storageopen == 1) {
+		$storageLoot = &storage ($itemName) 
+		$storageAmt = &storamount ($itemName)
+		do storage get $storageLoot $storageAmt  
+		do storage close
+	}
+	
+	# set details
+	$receiver = &config (rodexReceiver)
+	$mailTitle = TITLE
+	$mailBody = TITLE
+	
+	# open rodex
+	do rodex open
+	do rodex write $receiver
+	do rodex settarget $receiver 
+	do rodex settitle $mailTitle
+	do rodex setbody $mailBody
+	do rodex setzeny 0
+	
+	$invLoot = &inventory ($itemName)
+	$invAmt = &invamount ($itemName)
+	do rodex add $invLoot $invAmt
+	
+	# send and close
+	do rodex send
+	do rodex close
+	
+	do ai on
+}

@@ -1,0 +1,41 @@
+useSelf_skill Heal {
+    lvl 10
+    hp < 50%
+    sp > 10%
+}
+
+useSelf_skill Increase AGI {
+    lvl 10
+    whenStatusInactive Increase AGI
+    sp > 10%
+    timeout 5
+}
+
+useSelf_skill Blessing {
+    lvl 10
+    whenStatusInactive Blessing
+    sp > 10%
+    timeout 5
+}
+
+useSelf_skill Angelus {
+    lvl 10
+    whenStatusInactive Angelus
+    sp > 10%
+    timeout 5
+}
+
+useSelf_skill Cure {
+    lvl 1
+    whenStatusActive Cursed, Blinded, Chaos, Silenced
+    sp > 10%
+    timeout 5
+}
+
+attackSkillSlot Ruwach {
+	lvl 1
+	target_whenStatusActive Hide, Cloaking
+	target Sleeper
+	whenStatusInactive Ruwach
+	isSelfSkill 1
+}

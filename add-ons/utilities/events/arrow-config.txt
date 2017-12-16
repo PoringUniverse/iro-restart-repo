@@ -1,0 +1,44 @@
+automacro equip_Arrow {
+	JobID 3, 11
+	InInventory "Arrow" > 0
+	priority 0
+	timeout 120
+	call {
+		do eq $.InInventoryLast
+		do conf attackEquip_arrow $.InInventoryLast
+	}
+}
+
+automacro equip_SilverArrow {
+	JobID 3, 11
+	InInventory "Silver Arrow" > 0
+	priority 1
+	timeout 120
+	call {
+		do eq $.InInventoryLast
+		do conf attackEquip_arrow $.InInventoryLast
+	}
+}
+
+automacro equip_FireArrow {
+	JobID 3, 11
+	InInventory "Fire Arrow" > 0
+	priority 2
+	timeout 120
+	call {
+		do eq $.InInventoryLast
+		do conf attackEquip_arrow $.InInventoryLast
+	}
+}
+
+
+automacro equip_IronArow {
+	JobID 3, 11
+	InInventory "Iron Arrow" > 0
+	priority 3
+	timeout 120
+	call {
+		do eq $.InInventoryLast
+		do conf attackEquip_arrow $.InInventoryLast
+	}
+}

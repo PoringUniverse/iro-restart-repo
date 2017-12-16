@@ -1,0 +1,24 @@
+useSelf_skill Detoxify {
+	lvl 1
+    whenStatusActive Poisoned
+    sp > 10%
+    timeout 5
+}
+ 
+attackSkillSlot Steal {
+	lvl 10
+	dist 1.5
+	sp > 15
+	maxUses 3
+	maxAttempts 3
+	inLockOnly 1
+	notInTown 1
+}
+
+useSelf_skill Hiding {
+	lvl 10
+	sp > 10%
+	aggressives >= 3
+	stopWhenHit 1
+	inLockOnly 1
+}

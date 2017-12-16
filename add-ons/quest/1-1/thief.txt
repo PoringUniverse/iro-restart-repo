@@ -1,0 +1,197 @@
+automacro LeaveTrainingGround_Thief {
+	JobID 0
+	JobLevel = 10
+	InMap new_1-3
+	exclusive 1
+	run-once 1
+	macro_delay 2
+	call {
+		[
+			do conf route_randomWalk 0
+			do conf attackAuto -1
+		]
+		do move new_1-4 99 &rand(19,22)
+		do conf jobQuest TalkToFinalTester_Thief
+		log Quest was set to: TalkToFinalTester_Thief
+	}
+	timeout 10
+}
+
+automacro TalkToFinalTester_Thief {
+	JobID 0
+	JobLevel = 10
+	NpcNear /Final Tester/
+	exclusive 1
+	call {
+		pause 5
+		do talknpc 100 29 c w1 c w1 c w1 c w1 c w1 c r0 c w1 r2 c w1 c w1 c w1 c w1 c
+		pause 5
+		[
+			log TalkToFinalTester_Thief: Quest Done
+			do conf jobQuest SetThiefQuest 
+			log jobQuest was set to: SetThiefQuest
+			do conf route_randomWalk 1
+			do conf attackAuto 2
+		]
+	}
+	timeout 120
+}
+
+automacro SetThiefQuest {
+	JobID 0
+	JobLevel = 10
+	InMap moc_ruins, morocc
+	ConfigKey jobQuest SetThiefQuest
+	exclusive 1
+	call {
+		[
+			do conf lockMap moc_prydb1 
+			do conf lockMap_x 38
+			do conf lockMap_y 124
+		]
+		[
+			log SetThiefQuest: Settings Done
+			do conf jobQuest GoToPyramid 
+			log jobQuest was set to: GoToPyramid
+		]
+	}
+	timeout 60
+}
+
+automacro GoToPyramid {
+	JobID 0
+	JobLevel = 10
+	NpcNear /Thief Guide/
+	InMap moc_prydb1
+	ConfigKey jobQuest GoToPyramid
+	exclusive 1
+	call {
+		pause 5
+		do talknpc 39 129 c r0 c c r0 c c r0 c c c r0 c c c c r0 c 
+		pause 5
+		[
+			do conf lockMap none
+			do conf lockMap_x none
+			do conf lockMap_y none
+		]
+		[
+			log GoToPyramid: Quest Done
+			do conf jobQuest GoToIrrelevant 
+			log jobQuest was set to: GoToIrrelevant
+		]
+	}
+	timeout 60
+}
+
+automacro GoToIrrelevant {
+	JobID 0
+	JobLevel = 10
+	QuestActive 1013
+	InMap morocc, moc_ruins, moc_prydb1
+	InInventory "Orange Net Mushroom" < 5
+	InInventory "Orange Gooey Mushroom" < 12
+	exclusive 1
+	call {
+		do move moc_ruins &rand(135,140) &rand(119,124)
+		[
+			log GoToIrrelevant: Quest Done
+			do conf jobQuest TalkToIrrelevant 
+			log jobQuest was set to: TalkToIrrelevant
+			do conf lockMap job_thief1
+			do conf itemsTakeAuto 2
+			do conf itemsTakeAuto_party 0
+			do conf itemsGatherAuto 2
+			do conf itemsMaxWeight 89
+			do conf itemsMaxWeight_sellOrStore 48
+			do conf itemsMaxNum_sellOrStore 99
+			do conf cartMaxWeight 7900
+			do conf itemsTakeAuto_new 0
+			do conf itemsTakeGreed 0
+		]
+	}
+	timeout 60
+}
+
+automacro TalkToIrrelevant {
+	JobID 0
+	JobLevel = 10
+	QuestActive 1013
+	NpcNear /Mr. Irrelevant/
+	InMap moc_ruins
+	ConfigKey jobQuest TalkToIrrelevant
+	exclusive 1
+	run-once 1
+	call {
+		do talknpc 141 125 r0
+		pause 0.8
+		do talk cont
+		pause 4
+	}
+}
+
+automacro LeaveMushroomFarm {
+	JobID 0
+	InMap job_thief1
+	QuestActive 1013
+	InInventory "Orange Net Mushroom" >= 5
+	InInventory "Orange Gooey Mushroom" >= 12
+	exclusive 1
+	run-once 1
+	call {
+		do conf lockMap none
+		pause 0.8
+		do respawn
+		pause 5
+	}
+}
+
+automacro ChangeJobToThief {
+	JobID 0
+	InMap morocc, moc_ruins, moc_prydb1
+	QuestActive 1013
+	InInventory "Orange Net Mushroom" >= 5
+	InInventory "Orange Gooey Mushroom" >= 12
+	exclusive 1
+	call {
+		[
+			do conf autoResponse 1
+			do conf autoTalkCont 1
+		]
+		do move moc_prydb1 38 124
+		release ChangeJobToThief
+	}
+	timeout 60
+}
+
+automacro TalkToComrade {
+	JobID 0
+	InMap moc_prydb1
+	QuestActive 1013
+	NpcNear /Comrade/
+	QuestActive 1013
+	InInventory "Orange Net Mushroom" >= 5
+	InInventory "Orange Gooey Mushroom" >= 12
+	exclusive 1
+	run-once 1
+	call {
+		do talknpc 42 133
+		pause 0.8
+		do talk cont
+		pause 10
+		[
+			do eq Novice Adventurer's Suit [1]
+			do eq Novice Cutter [3]
+		]
+		pause 10
+		do respawn
+		[
+			do conf lockMap none
+			do conf lockMap_x none
+			do conf lockMap_y none
+			do conf jobQuest none
+		]
+		log Job Change: Thief Quest Done!
+		do relog 1800
+		do quit
+	}
+}

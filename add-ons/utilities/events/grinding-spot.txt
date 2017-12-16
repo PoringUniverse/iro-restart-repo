@@ -1,0 +1,47 @@
+#_______________________________________________________________#
+# 										  						
+# CHANGE GRINDING SPOT      	  							
+#   															
+# NOTICE : Do not forget to set your lockMap lvl are based 		
+#		   between this e.g (base lvl 10 >= betwen <= 25)		
+#_______________________________________________________________#
+
+automacro SetGrindingSpot {
+	BaseLevel >= 10
+	JobIDNot 0
+	exclusive 1
+	macro_delay 1
+	timeout 3600
+	call ChangeGrindMaps
+}
+
+macro ChangeGrindMaps {
+	$currentJob = $.job
+	
+	if (&config(autoMapChange) == 1) call LockGrindMaps
+	
+	switch ($currentJob) {
+		case (== Thief) {
+			$LVL20 = prt_fild07
+			$LVL40 = moc_fild01
+			$LVL60 = pay_fild07
+		}
+		case (== Acolyte) {
+			$LVL20 = pay_fild03 
+			$LVL40 = pay_fild06
+			$LVL60 = mjolnir_08
+		}
+		case (== Merchant) {
+			$LVL20 = pay_fild06 
+			$LVL40 = mjolnir_08
+			$LVL60 = mjolnir_08
+		}
+		else {
+			log none was specified...
+		}
+	}
+}
+
+macro LockGrindMaps {
+	lock SetGrindingSpot
+}

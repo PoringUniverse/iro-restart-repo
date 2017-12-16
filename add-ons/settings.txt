@@ -1,0 +1,238 @@
+#_____________________________________________________________________
+#
+# Commands
+#_____________________________________________________________________
+
+macro setJobQuest1 {
+	log chosens job $.param[0]
+	switch ($.param[0]) {
+		case (== acolyte) {
+			include on acolyte.txt
+		}
+		case (== archer) {
+			include on archer.txt
+		}
+		case (== swordsman) {
+			include on swordsman.txt
+		}
+		case (== thief) {
+			include on thief.txt
+		}
+	}
+	else {
+		log specified job was not on the list...
+	}
+}
+
+macro setJobQuest2 {
+	log chosens job $.param[0]
+	switch ($.param[0]) {
+		case (== priest) {
+			include on priest.txt
+		}
+		case (== rogue) {
+			include on rogue.txt
+		}
+		else {
+			log specified job was not on the list...
+		}
+	}
+}
+
+macro setStats1 {
+	log chosens stats $.param[0]
+	switch ($.param[0]) {
+		case (== swordsman) {
+			[
+				do conf statsAddAuto 1
+				do conf statsAddAuto_list 20 str, 20 vit, 20 dex, 30 vit, 30 dex, 50 str, 30 agi
+				do conf statsAddAuto_dontUseBonus 0
+				do conf statsAdd_over_99 0
+				
+				do conf skillsAddAuto 1
+				do conf skillsAddAuto_list SM_SWORD 1, SM_TWOHAND 10, SM_RECOVERY 10, SM_BASH 10, SM_PROVOKE 5, SM_MAGNUM 3, SM_ENDURE 10
+			]
+		}
+		case (== thief) {
+			[
+				do conf statsAddAuto 1
+				do conf statsAddAuto_list 30 str, 30 dex, 60 agi, 30 vit
+				do conf statsAddAuto_dontUseBonus 0
+				do conf statsAdd_over_99 0
+				
+				do conf skillsAddAuto 1
+				do conf skillsAddAuto_list TF_DOUBLE 10, TF_MISS 10, TF_STEAL 10, TF_HIDING 10, TF_POISON 8, TF_DETOXIFY 1
+			]
+		}
+		else {
+			log none was specified...
+		}
+	}
+}
+
+macro setStats2 {
+	log chosens stats $.param[0]
+	switch ($.param[0]) {
+		case (== knight) {
+			[
+				do conf statsAddAuto 1
+				do conf statsAddAuto_list 20 str, 20 vit, 20 dex, 30 vit, 30 dex, 50 str, 30 agi
+				do conf statsAddAuto_dontUseBonus 0
+				do conf statsAdd_over_99 0
+				
+				do conf skillsAddAuto 0
+				do conf skillsAddAuto_list 
+			]
+		}
+		case (== rogue) {
+			[
+				do conf statsAddAuto 1
+				do conf statsAddAuto_list 30 str, 30 dex, 60 agi, 30 vit
+				do conf statsAddAuto_dontUseBonus 0
+				do conf statsAdd_over_99 0
+				
+				do conf skillsAddAuto 0
+				do conf skillsAddAuto_list 
+			]
+		}
+		else {
+			log none was specified...
+		}
+	}
+}
+
+macro sendRodex {
+	do conf rodexReceiver $.param[0]
+}
+
+macro setMinimal {
+	log === Set Defaults === =
+	[
+		do conf autoResponse 1
+		do conf autoResponseOnHeal 1
+		do conf pauseCharServer &rand(1,2)
+		do conf pauseMapServer &rand(1,2)
+		do conf attackAuto 2
+		do conf route_randomWalk 1
+		do conf allowedMaps none
+		do conf allowedMaps_reaction 0
+		do conf attackAuto_inLockOnly 2
+		do conf dcPause 0
+		do conf dcOnServerClose 1
+		do conf dcOnServerShutDown 1
+		do conf partyAuto 2
+		do conf partyAutoShare 1
+		do conf partyAutoShareItem 1
+		do conf partyAutoShareItemDiv 1
+		do conf showDomain 0
+		do conf squelchDomains ai_attack, attacked, attackedMiss, console, skill, selfSkill, exp, attackMon, attackMonMiss, drop, teleport, useTeleport, emotion, info, list
+		do conf verbose 0
+		do conf verboseDomains none
+		do conf logDead 0
+		do conf logConsole 0
+		do conf sleepTime 150000			
+	]
+	log === Setting Defaults Done! === =
+	
+	log === Setting AutoMap === =
+	
+	[
+		do conf -f autoMapChange 0
+		do conf -f autoMapChange_time 7200
+		do conf -f autoMapChange_timeSeed 7200
+		do conf -f autoMapChange_list none
+	]
+	
+	log === Setting AutoMap Done! === =
+}
+
+macro randomMOD {
+	switch (&config(saveMap)) {
+		case (== prt_fild05) {
+			[	
+				do conf saveMap prt_fild05
+				do conf storageAuto 1
+				do conf storageAuto_npc prt_fild05 290 224
+				do conf storageAuto_npc_steps c r1 n
+				do conf autoMoveOnDeath 1
+				do conf autoMoveOnDeath_x &rand(260,280)
+				do conf autoMoveOnDeath_y &rand(200,220)
+				do conf autoMoveOnDeath_map prt_fild05
+			]
+			[
+				do conf sellAuto 1
+				do conf sellAuto_npc prt_fild05 290 221 
+			]
+		}
+		case (== payon) {
+			[	
+				do conf saveMap payon
+				do conf storageAuto 1
+				do conf storageAuto_npc payon 175 226 
+				do conf storageAuto_npc_steps c r1 n
+				do conf autoMoveOnDeath 1
+				do conf autoMoveOnDeath_x &rand(160,170)
+				do conf autoMoveOnDeath_y &rand(200,220)
+				do conf autoMoveOnDeath_map payon
+			]
+			[
+				do conf sellAuto 1
+				do conf sellAuto_npc payon 159 96 
+			]
+		}
+		case (== prontera) {
+			[
+				do conf saveMap prontera
+				do conf storageAuto 1
+				do conf storageAuto_npc prontera 151 29
+				do conf storageAuto_npc_steps c r1 n
+				do conf autoMoveOnDeath 1
+				do conf autoMoveOnDeath_x &rand(120,140)
+				do conf autoMoveOnDeath_y &rand(10,25)
+				do conf autoMoveOnDeath_map prontera
+			]
+			[
+				do conf sellAuto 1
+				do conf sellAuto_npc payon 159 96 
+			]
+		}
+		else {
+			stop
+		}
+	}
+}
+
+macro setGrinding {
+	if ($.param[0] == on) {
+		include on grinding-spot.txt
+	} else {
+		include off grinding-spot.txt
+	}
+}
+
+macro manualGetRodex {
+	do rodex open
+	do rodex refresh
+
+	if (count_rodex() < 1) goto stopRodex
+	if (count_rodex() > 0) goto receiveRodex
+
+	:stopRodex
+		log No rodex mail available
+		do rodex close
+		stop
+	:receiveRodex
+		log It's mail time!!!
+		$i = 0
+		while ($i < count_rodex()) {
+			log You are opening Mail ID: check_rodex_id($i)
+			$currentID = check_rodex_id($i)
+			do rodex read $currentID
+			do rodex getitems
+			do rodex getzeny
+			do rodex delete $currentID
+			$i++
+		}
+		do rodex close
+		stop
+}

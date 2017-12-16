@@ -1,0 +1,49 @@
+attackSkillSlot Bash {
+    lvl 10
+    dist 1.5
+    sp > 15
+    aggressives >= 3  # change value here
+	notInTown 1
+	notWhileSitting 1	
+    whenStatusInactive EFST_POSTDELAY
+	onAction attack
+    timeout # unecessary
+    monsters
+    maxUses 4
+   	disabled 0
+	label Bash
+}
+
+useSelf_skill Magnum Break {
+    lvl 10
+    dist 1.5
+    sp > 30
+    aggressives >= 3
+    notInTown 1
+   	notWhileSitting 1
+	whenStatusInactive EFST_POSTDELAY
+    maxUses 2
+	disabled 0
+	label Magnum
+}
+
+useSelf_skill Endure {
+    lvl 10
+    sp > 10%
+    whenStatusInactive Endure, EFST_POSTDELAY
+    onAction attack
+    inLockOnly 1
+    notWhileSitting 1
+   	timeout 30
+	disabled 0
+	label Endure
+}
+
+attackSkillSlot Provoke {
+    lvl 10
+    sp >10
+    monsters
+    maxUses 1
+    inLockOnly 1
+    timeout 10
+}

@@ -1,0 +1,242 @@
+automacro AddSkillPoints {
+	QuestInactive 4000
+	FreeSkillPoints > 0
+	JobID 3
+	JobLevel = 50
+	exclusive 1
+	run-once 1
+	call {
+		[
+			log =========================================================
+			log = Changing job to Hunter
+			log =========================================================
+		]
+		[
+			do conf -f jobQuest none
+			do conf skillsAddAuto_list AC_OWL 3, AC_VULTURE 10, AC_OWL 10, AC_DOUBLE 10, AC_CONCENTRATION 10, AC_SHOWER 9
+			do conf skillsAddAuto 1
+		]
+	}
+}
+	
+automacro Archer50 {
+	ConfigKey jobQuest none
+	QuestInactive 4000, 4001, 4007, 4009, 4010, 4011, 4012, 4013
+	NotInMap pay_fild10, payon, pay_dun00
+	JobID 3
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	run-once 1
+	call {
+		do conf -f jobQuest MoveTojobQuest
+		do conf autoTalkCont 1
+		do conf route_randomWalk 0
+		do conf attackAuto 0
+		do conf lockMap none
+		do move payon 172 &rand(220,225)
+		do talknpc 175 226 c r0 n
+		do conf saveMap payon
+		log ====================
+		log == Saved to Payon ==
+		log ====================
+		lock Archer50
+	}
+	timeout 60
+}
+
+automacro MoveTojobQuest {
+	ConfigKey jobQuest MoveTojobQuest
+	QuestInactive 4000, 4001, 4007, 4009, 4010
+	JobID 3
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	call {
+		do move pay_fild10 &rand(143,149) &rand(247,252)
+		do conf jobQuest TalkToGuildsman
+	}
+	timeout 30
+}
+
+automacro TalkToGuildsman {
+	ConfigKey jobQuest TalkToGuildsman
+	QuestInactive 4000, 4001, 4007, 4009, 4010
+	NpcNear /Guildsman/
+	InMap pay_fild10
+	JobID 3
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	call {
+		do talk $.NpcNearLastBinId
+		log =====================
+		log =Warped to in_hunter=
+		log =====================
+		do move in_hunter &rand(99,101) 100
+		do conf jobQuest TalkToHunterGuildsman
+	}
+	timeout 30
+}
+
+automacro TalkToHunterGuildsman {
+	ConfigKey jobQuest TalkToHunterGuildsman
+	QuestInactive 4000, 4001, 4007, 4009, 4010
+	NpcNear /Hunter Guildsman#hnt/
+	InMap in_hunter
+	JobID 3
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	call {
+		do talk 0
+		do talk resp 0 #Yes. I love to be a hunter.
+		do talk resp 0 #Yes, please
+		do talk resp 2 #Find out by myself
+		do talk resp 2 #walk with friend.
+		do talk resp 2 #Go hunt near.
+		do talk resp 1 #Go back to town.
+		do talk resp 0 #Would you mind if I ask you for healing?
+		do talk resp 1 #Wait in chat room until a buyer appear.
+		do talk resp 2 #Tell him a near hunting ground.
+		do talk resp 1 #Take him to his destination.
+		do talk resp 0 #Help him fighting if he asks.
+		do talk resp 1 #Find out who the owner is.
+		log ========================================
+		log end of the Test! Talk to Demon Hunter.
+		log ========================================
+		do move in_hunter 58 &rand(98,100)
+		do conf jobQuest TalkToReceptionist
+		
+	}
+	timeout 30
+}
+
+automacro TalkToReceptionist {
+	ConfigKey jobQuest TalkToReceptionist
+	QuestInactive 4009, 4010
+	NpcNear /Guild Receptionist#hnt/
+	InMap in_hunter
+	JobID 3
+	JobLevel = 50
+	exclusive 1
+	macro_delay 2
+	call {
+		do talk 0
+		do talk resp 0 #Yes. sir.
+		do talk 0
+		do respawn
+		do conf jobQuest TalkToHunter
+		do move payon_in02 18 &rand(30,32)
+	}
+	timeout 30
+}
+
+automacro TalkToHunter {
+	ConfigKey jobQuest TalkToHunter
+	QuestActive 4010
+	NpcNear /Hunter#htnGM2/
+	InMap payon_in02
+	JobID 3
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	call {
+		do talk 0
+		do talk resp 3 #Just start the test!!
+		do move &rand(175,178) &rand(36,37) 
+		do conf jobQuest HunterJobChange	
+	}
+	timeout 30
+}
+
+automacro HunterJobChange {
+	ConfigKey jobQuest HunterJobChange
+	QuestActive 4011
+	NpcNear /Hunter Jobchange/
+	InMap job_hunte
+	JobID 3
+	JobLevel = 50
+	exclusive 1
+	macro_delay 2
+	call {
+		do talk 1
+		log =====================
+		log You already passed!
+		log =====================
+		do conf jobQuest ReportToHunter
+	}
+	timeout 30
+}
+
+automacro ReportToHunter {
+	ConfigKey jobQuest ReportToHunter
+	QuestActive 4012
+	NpcNear /Hunter#htnGM/
+	InMap payon_in03
+	JobID 3
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	call {
+		do talk 0
+		log ===========================
+		log You got Necklace of Wisdom.
+		log ===========================
+	#Quest added #4013
+		do conf jobQuest ChangeToHunter1
+		do move pay_fild10 &rand(143,149) &rand(247,252)
+	}
+	timeout 30
+}
+
+automacro ChangeToHunter1 {
+	ConfigKey jobQuest ChangeToHunter1
+	QuestActive 4013
+	NpcNear /Guildsman/
+	InMap pay_fild10
+	JobID 3
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	call {
+		do talk $.NpcNearLastBinId
+		log =====================
+		log =Warped to in_hunter=
+		log =====================
+		do move in_hunter &rand(99,101) 100
+		do conf jobQuest ChangeToHunter2
+	}
+	timeout 30
+}
+
+automacro ChangeToHunter2 {
+	ConfigKey jobQuest ChangeToHunter2
+	QuestActive 4013
+	NpcNear /Hunter Guildsman#hnt/
+	InMap in_hunter
+	JobID 3
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	call {
+		do talk $.NpcNearLastBinId
+		log =========
+		log Success!
+		log =========
+			[
+			do eq Novice Adventurer's Suit [1]
+			do eq Hunter Bow 
+				do conf attackAuto 2
+				do conf route_randomWalk 1
+			]
+			[
+			do iconf Sticky Mucus 0 0 1
+			do iconf Bear's Footskin 0 0 1
+			do iconf Tooth of Bat 0 0 1
+			]
+		do conf jobQuest none
+		do relog 3600
+	}
+	timeout 30
+}

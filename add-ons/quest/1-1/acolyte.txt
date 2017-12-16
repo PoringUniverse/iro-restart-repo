@@ -1,0 +1,115 @@
+automacro LeaveTrainingGround_Acolyte {
+	JobID 0
+	InMap new_1-3
+	JobLevel = 10
+	exclusive 1
+	macro_delay 2
+	call {
+		[
+		    do conf route_randomWalk 0
+		    do conf attackAuto -1
+		]
+		do move new_1-4 99 &rand(19,22)
+		do conf jobQuest TalkToFinalTester_Acolyte
+		log Quest was set to: TalkToFinalTester_Acolyte
+	}
+	timeout 10
+}
+
+automacro TalkToFinalTester_Acolyte {
+	JobID 0
+	NpcNear /Final Tester/
+	ConfigKey jobQuest TalkToFinalTester_Acolyte
+	exclusive 1
+	macro_delay 2
+	call {
+		[
+			do conf lockMap none
+			do conf attackAuto -1
+			do conf autoResponse 1
+			do conf autoTalkCont 1
+		]
+		do talknpc 100 29 r0 r1
+		log TalkToFinalTester_Acolyte: Quest Done
+	}
+}
+
+automacro SetAcolyteQuest {
+	QuestInactive 1001, 1002, 1003
+	JobID 0
+	InMap prontera,prt_church
+	exclusive 1
+	run-once 1
+	call {
+		do move prt_church &rand(180,183) 38
+		pause &rand(2,4)
+		do talk &npc(184 41)
+		do talk resp 0
+		do conf jobQuest FindPriest
+	}
+}  
+
+automacro FindPriest {
+	QuestActive 1001, 1002, 1003
+	ConfigKey jobQuest FindPriest
+	JobID 0
+	JobLevel = 10
+	exclusive 1
+	call {
+		
+		[
+			do conf lockMap none
+			do conf attackAuto -1
+			do conf autoResponse 1
+			do conf autoTalkCont 1
+		]
+		
+		switch ($.QuestActiveLastID) {
+			case (= 1001) call TalkWithPriest "prt_fild03" "365 255"
+			case (= 1002) call TalkWithPriest "moc_fild07" "41 355"
+			case (= 1003) call TalkWithPriest "prt_fild00" "208 218"
+			}
+		}
+	}
+	timeout 60
+}
+
+macro TalkWithPriest {
+    # $.param[0] has the city
+	# $.param[1] has the coordinates
+	
+	do move $.param[0] $.param[1] &rand(1,4)
+	do talk &npc($.param[1])
+	do conf jobQuest GoBackToChurch
+	#set exclusive 0
+	pause 5
+	stop
+}
+
+automacro GoBackToChurch {
+	QuestActive 1001, 1002, 1003
+	ConfigKey jobQuest GoBackToChurch
+	JobID 0
+	exclusive 1
+	macro_delay 2
+	call {
+		do move prt_church &rand(180,184) 38
+		do conf jobQuest ChangeToAcolyte
+	}
+	timeout 60
+}
+
+automacro ChangeToAcolyte {
+	ConfigKey jobQuest ChangeToAcolyte
+	NpcNear /Cleric/
+	exclusive 1
+	run-once 1
+	macro_delay 2
+	call {
+		do talk $.NpcNearLastBinId
+		do talk resp 0
+		do conf jobQuest none
+		log === Acolyte Job Quest Done! === =
+		do relog 3600
+	}
+}

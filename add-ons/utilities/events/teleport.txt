@@ -1,0 +1,40 @@
+#___________________________________________________#
+# 										  			
+# TELE OR WALK			
+#___________________________________________________#
+
+automacro NoSP {
+	CurrentSP <= 10%
+	SkillLevel AL_TELEPORT > 0
+	exclusive 1
+	timeout 30
+	call WalkAround
+}
+
+macro WalkAround {
+	log WalkAround: was initiated!
+	[
+		do conf teleportAuto_idle 0
+		do conf teleportAuto_useSkill none
+		do conf route_randomWalk 1
+		do conf route_teleport 0
+	]
+}
+
+automacro UseTeleport {
+	CurrentSP >= 30%
+	SkillLevel AL_TELEPORT > 0
+	exclusive 1
+	timeout 120
+	call TeleportConfig
+}
+
+macro TeleportConfig {
+	log UseTeleport: was initiated!
+	[
+		do conf teleportAuto_idle 1
+		do conf teleportAuto_useSkill 1
+		do conf route_randomWalk 0
+		do conf route_teleport 1
+	]
+}

@@ -1,0 +1,58 @@
+## Worthless Items ##
+Novice Guard 0
+Novice Slippers 0
+Somber Novice Hood 0
+Tattered Novice Ninja Suit 0
+Novice Adventurer's Suit [1] 0
+Novice Cutter [3] 0
+Novice Main-Gauche 0
+Novice False Eggshell 0
+Cotton Shirt -1
+Cotton Shirt [1] -1
+Knife [3] -1
+Knife [4] -1
+Club [3] -1
+Club [4] -1
+Bark Shorts -1
+Clover 0
+Fluff 0
+Jellopy -1
+Flower 0
+Unicorn Horn 0
+Hat 0
+Axe [4] -1
+Arrow 0
+Oridecon Arrow 0
+Cutter [4] -1
+Bow [4] -1
+Sandals [1] -1
+
+
+## gef_fild11 ##
+Annoyed Mask 0
+Surprised Mask 0 
+Poker Face 0
+Goblin Mask 0
+Indian Fillet 0
+Zorro Masque 0
+
+## pay_dun ##
+Girl's Diary [1] 0
+Fire Arrow 0
+Bow [3] 0
+Adventurer's Suit 0
+Nurse Cap 0
+Munak Hat 0
+Bongun Hat 0
+
+
+## Pick up all items by default ##
+all 1
+Trunk 0
+Barren Trunk 0
+Solid Trunk 0
+Fine-grained Trunk 0
+Yellow Herb 2
+Shell 2
+Grasshopper's Leg 2
+Bear's Footskin 2

@@ -1,0 +1,21 @@
+automacro BlockSpammer_PubMsg {
+	PubMsg /(b+u+y+|s+e+l+|z+e+n+y+|g+o+l+d+|b+o+n+u+s+)/i
+	call CheckSpamCount_PubMsg
+	timeout 30
+}
+
+automacro BlockSpammer_PrivMsg {
+	PrivMsg /(b+u+y+|s+e+l+|z+e+n+y+|g+o+l+d+|b+o+n+u+s+)/i
+	call CheckSpamCount_PrivMsg
+	timeout 30
+}
+
+macro CheckSpamCount_PubMsg {
+	log === Blocking Spammer : $.PubMsgLastName ===
+	do ignore 1 $.PubMsgLastName
+}
+
+macro CheckSpamCount_PrivMsg {
+	log === Blocking Spammer : $.PrivMsgLastName ===
+	do ignore 1 $.PrivMsgLastName
+}

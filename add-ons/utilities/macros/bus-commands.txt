@@ -1,0 +1,8 @@
+automacro BusQuitAll {
+	 console /is nearby, disconnecting.../
+	 exclusive 1
+	 call {
+		do bus all relog 3600
+	 }
+	 timeout 5
+}

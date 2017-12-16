@@ -1,0 +1,260 @@
+automacro SetDefaults {
+	JobID 0
+	BaseLevel = 1
+	priority 0
+	exclusive 1
+	call {
+		[
+			do conf pauseCharServer &rand(1,2)
+			do conf pauseMapServer &rand(1,2)
+			do conf allowedMaps none
+			do conf allowedMaps_reaction 0
+			do conf attackAuto_inLockOnly 2
+			do conf dcOnServerClose 1
+			do conf dcOnServerShutDown 1
+			do conf partyAuto 2
+			do conf partyAutoShare 1
+			do conf partyAutoShareItem 1
+			do conf partyAutoShareItemDiv 1
+			do conf showDomain 0
+			do conf squelchDomains ai_attack, attacked, attackedMiss, console, skill, selfSkill, exp, attackMon, attackMonMiss, drop, teleport, useTeleport, emotion, info, list
+			do conf verbose 0
+			do conf verboseDomains none
+			do conf logDead 0
+			do conf logConsole 0
+			do conf sleepTime 150000			
+			do conf autoMoveOnDeath 0
+			do conf sellAuto 0
+			do conf storageAuto 0
+			do conf storageAuto_npc none
+			do conf sitAuto_hp_lower 40
+			do conf sitAuto_hp_upper 80
+			do conf lockMap none
+			do conf route_randomWalk 0
+			do conf statsAddAuto 0
+			do conf skillsAddAuto 1
+			do conf skillsAddAuto_list NV_BASIC 9
+		]
+		[
+			do conf teleportAuto_idle 0
+			do conf teleportAuto_useSkill none
+			do conf route_randomWalk 0
+			do conf route_teleport 0		
+		]
+		lock SetDefaults
+		log SetDefaults: Change config to default for this macro
+	}
+}
+
+automacro SetQuest {
+	JobID 0
+	QuestInactive 62837
+	InMap new_1-1, new_2-1, new_3-1, new_4-1, new_5-1
+	NpcNotNear /Gramps/
+	priority 1
+	exclusive 1
+	call {
+		do conf -f jobQuest TalkWithGramps
+		log Quest was set to: TalkWithGramps
+		do move 143 111
+	}
+	timeout 60
+}
+
+automacro TalkWithGramps {
+	JobID 0
+	QuestInactive 62837
+	ConfigKey jobQuest TalkWithGramps
+	NpcNear /Gramps/
+	exclusive 1
+	call {
+		pause 5
+		do talknpc 148 112 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 r="No" r="No" r="No" r="No" r="No" r="Yes"
+		pause 0.5
+		do talk 2
+		[
+			log TalkWithGramps: Quest Done
+			do conf jobQuest TalkWithSprakki
+			log Quest was set to: TalkWithSprakki
+		]
+	}
+	timeout 60
+}
+
+automacro TalkWithSprakki {
+	JobID 0
+	QuestInactive 7117
+	ConfigKey jobQuest TalkWithSprakki
+	NpcNotNear /Sprakki/
+	exclusive 1
+	call {
+		pause 5
+		do move 100 23
+		pause 5
+		do talknpc 100 29 c w1 c w1 c w1 c w1 c
+		pause 0.8
+		do talknpc 100 29 c w1 c w1 r0 c w1 c
+		[
+			log TalkWithSprakki: Quest Done
+			do conf jobQuest TalkWithBrade
+			log Quest was set to: TalkWithBrade
+		]
+	}
+	timeout 60
+}
+
+automacro TalkWithBrade {
+	JobID 0
+	QuestActive 7118
+	ConfigKey jobQuest TalkWithBrade
+	NpcNear /Brade/
+	exclusive 1
+	call {
+		pause 5
+		do talknpc 100 105 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c
+		[
+			do eq Somber Novice Hood
+			do eq Novice Slippers
+			do eq Novice False Eggshell
+			do eq Novice Guard
+			do eq Tattered Novice Ninja Suit
+			do eq Novice Main-Gauche
+		]
+		pause 5
+		do talknpc 100 105 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c
+		[
+			log TalkWithBrade: Quest Done
+			do conf jobQuest TalkWithJinha
+			log Quest was set to: TalkWithJinha
+		]
+		do move 115 118
+	}
+	timeout 60
+}
+
+automacro TalkWithJinha {
+	JobID 0
+	QuestActive 7120
+	ConfigKey jobQuest TalkWithJinha
+	NpcNear /Jinha/
+	exclusive 1
+	macro_delay 15
+	call {
+		do talknpc 115 120 c w1 r0 c w1 c w1 c
+		[
+			log TalkWithJinha: Quest Done
+			do conf jobQuest TalkWithBradeAgain
+			log Quest was set to: TalkWithBradeAgain
+		]
+		do move 100 110
+	}
+	timeout 60
+}
+
+automacro TalkWithBradeAgain {
+	JobID 0
+	QuestActive 7120
+	ConfigKey jobQuest TalkWithBradeAgain
+	NpcNear /Brade/
+	exclusive 1
+	macro_delay 10
+	call {
+		do talknpc 100 105 c w1 c w1 c
+		do talknpc 100 105 c w1 r1
+		[
+			log TalkWithBradeAgain: Quest Done
+			do conf jobQuest TalkWithBig4
+			log Quest was set to: TalkWithBradeAgain
+		]
+		do move 74 106
+	}
+	timeout 60
+}
+
+automacro TalkWithBig4 {
+	JobID 0
+	QuestInactive 7121
+	ConfigKey jobQuest TalkWithBig4
+	NpcNear /Chocolat/
+	exclusive 1
+	call {
+		pause 5
+		# Chocolat
+		
+		do talknpc 33 172 c w1 c w1 c
+		
+		
+		[
+			do eq Novice Adventurer's Suit [1]
+		]
+		
+		pause 10
+		# Kafra
+		do talknpc 30 176 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 c w1 r4
+		
+		pause 30
+		# Cool Event
+		do talknpc 33 176 c w1 c w1 c w1 c c
+		
+		pause 10
+		# Soldier
+		do talknpc 36 176 c w1 c
+		
+		pause 5
+		# Chocolat
+		do talknpc 33 172 c w1 c w1 c w1 c
+		
+		[
+			log TalkWithBig4: Quest Done
+			do conf jobQuest HitTheGrounds
+			log Quest was set to: HitTheGrounds
+		]
+	}
+	timeout 120
+}
+
+#TODO
+#7123
+#7124
+#7126
+#7127
+
+automacro HitTheGrounds {
+	JobID 0
+	ConfigKey jobQuest HitTheGrounds
+	InMap new_1-3
+	exclusive 1
+	run-once 1
+	call {
+		[
+			do conf route_randomWalk 1
+			do conf attackAuto 2
+		]
+	}
+}
+
+automacro BackToTraining {
+	JobID 0
+	JobLevel <= 9
+	InMap new_1-4
+	exclusive 1
+	call {
+		do respawn
+	}
+	timeout 10
+}
+
+automacro FreeNoviceSkillPoints {
+	FreeSkillPoints > 0
+	JobID 0
+	JobLevel = 10
+	exclusive 1
+	run-once 1
+	call {
+		log === I have extra skill points ===
+		[
+			do conf skillsAddAuto 1
+			do conf skillsAddAuto_list NV_BASIC 9
+		]
+	}
+}

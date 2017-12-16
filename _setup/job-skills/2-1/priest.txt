@@ -1,0 +1,86 @@
+useSelf_skill Magnificat {
+    lvl 5
+    stopWhenHit 1
+    notWhileSitting 1
+    notInTown 1
+    timeout 5
+    whenStatusInactive Magnificat
+}
+
+useSelf_skill Gloria {
+    lvl 5
+    sp > 35
+    notWhileSitting 1
+    notInTown 1
+    timeout 5
+    whenStatusInactive Gloria
+}
+
+useSelf_skill Kyrie Eleison {
+    lvl 5
+    sp > 35
+    stopWhenHit 1
+    notWhileSitting 1
+    notInTown 1
+    timeout 5
+    whenStatusInactive Kyrie Eleison
+}
+
+partySkill Impositio Manus {
+    lvl 10
+    sp >= 25%
+    notInTown 1
+    target 
+    timeout 3
+    disabled 0
+    target_whenStatusInactive Impositio Manus
+    target_timeout 50
+}
+
+partySkill Kyrie Eleison {
+    lvl 10
+    sp >= 25%
+    notInTown 1
+    target 
+    timeout 3
+    disabled 0
+    target_whenStatusInactive Kyrie Eleison
+    target_timeout 50
+}
+
+partySkill Status Recovery {
+    lvl 1
+    sp > 25
+    timeout 2
+    target_whenStatusActive Frozen, Stone Curse, Stun
+}
+
+
+#You can edit 'ai_dead_respawn' in timeouts.txt for master
+
+partySkill Resurrection {
+    lvl 4
+    target_dead 1
+}
+
+#conditional, disabled by default.
+
+partySkill Suffragium {
+    lvl 3
+    sp > 25
+    notInTown 1
+    timeout 8
+    disabled 1
+    target_whenStatusInactive Suffragium
+
+}
+
+partySkill Aspersio {
+    lvl 5
+    sp > 25
+    notInTown 1
+    timeout 2
+    disabled 1
+    target_whenStatusInactive Aspersio
+    inInventory Holy Water
+}

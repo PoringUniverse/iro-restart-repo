@@ -1,0 +1,423 @@
+automacro AddSkillPoints {
+	FreeSkillPoints > 0
+	JobID 6
+	JobLevel = 50
+	exclusive 1
+	run-once 1
+	call {
+		[
+			log =========================================================
+			log = I'm in the lvl of becoming a thug, but
+			log = the points are not distributed ...
+			log = trying to solve this
+			log =========================================================
+		]
+		[
+			do conf jobQuest ChangeToRogue
+			do conf skillsAddAuto 1
+			do conf skillsAddAuto_list NV_BASIC 9, TF_DOUBLE 10, TF_MISS 10, TF_STEAL 10, TF_HIDING 10, TF_POISON 8, TF_DETOXIFY 1
+		]
+	}
+}
+
+automacro ChangeToRogue {
+	QuestInactive 2017
+    QuestInactive 2018
+    QuestInactive 2022
+    QuestInactive 2023
+    QuestInactive 2024
+    QuestInactive 2026
+	JobID 6
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	run-once 1
+	call {
+		
+		if ($.map != morocc) goto SaveToMorocc
+		if ($.map == morocc) goto AlreadyOnMorocc
+		
+		stop
+		
+		:SaveToMorocc
+			log === Set Config ===
+			[
+				do conf lockMap none
+				do conf teleportAuto_idle 0
+				do conf route_randomWalk 0
+				do conf storageAuto 0
+				do conf sellAuto 0
+				do conf attackAuto -1
+			]
+			
+			do move morocc
+			do conf jobQuest MoveTojobQuest
+			
+			if ($.map == morocc) {
+				log === Saving to Morocc === 
+				do move morocc &rand(150,154) &rand(91,95)
+				do talknpc 156 97 c r0 n
+				do conf saveMap morocc
+			}
+		
+		:AlreadyOnMorocc
+			do conf jobQuest MoveTojobQuest
+			do move morocc &rand(150,154) &rand(91,95)
+			do talknpc 156 97 c r0 n
+			do conf saveMap morocc
+	}
+}
+
+automacro MoveTojobQuest {
+	ConfigKey jobQuest MoveTojobQuest
+	NpcNotNear /Rogue Guildsman/
+	InMap morocc,in_rogue
+	JobID 6
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	call {
+		do move in_rogue &rand(361,366) &rand(112,117)
+		do conf jobQuest TalkToGuildsman
+	}
+	timeout 60
+}
+
+automacro TalkToGuildsman {
+	ConfigKey jobQuest TalkToGuildsman
+	NpcNear /Rogue Guildsman/
+	InMap in_rogue
+	JobID 6
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	call {
+		do talk $.NpcNearLastBinId
+		do talk resp 0
+		do talk resp 0
+		do talk resp 2
+		do talk resp 2
+		do talk resp 3
+		do talk resp 3
+		do talk resp 2
+		do talk resp 2
+		do talk resp 2
+		do talk resp 1
+		do talk resp 0
+		conf jobQuest TalkToMrSmith
+	}
+	timeout 60
+}
+
+automacro GoToMrSmith {
+	QuestActive 2017
+	NpcNotNear /Smith/
+	InMap in_rogue
+	JobID 6
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	call {
+		do move in_rogue &rand(370,373) &rand(20,24)
+	}
+	timeout 60
+}
+
+automacro TalkToMrSmith {
+	ConfigKey jobQuest TalkToMrSmith
+	QuestActive 2017
+	NpcNear /Smith/
+	InMap in_rogue
+	JobID 6
+	JobLevel = 50
+	exclusive 1
+	macro_delay 1
+	call {
+		do move in_rogue &rand(370,373) &rand(20,24)
+		do talk &npc(376 23) #Smith
+		do conf jobQuest QuestItems
+	}
+	timeout 60
+}
+
+automacro QuestItems {
+	ConfigKey jobQuest QuestItems
+	QuestActive 2020
+	JobID 6
+	JobLevel = 50
+	exclusive 1
+	macro_delay 2
+	call {
+		[
+			do iconf 508 0 0 0
+			do iconf 935 0 0 0
+			do iconf 940 0 0 0
+			do iconf 948 0 0 0
+		]
+		
+		[
+			do pconf 508 2
+			do pconf 935 2 
+			do pconf 940 2
+			do pconf 948 2
+		]
+	
+		if (&invamount(Yellow Herb) <= 9) goto farmYellowHerb
+		if (&invamount(Shell) <= 9) goto farmShell
+		if (&invamount(Grasshopper's Leg) <= 9) goto farmLeg
+		if (&invamount(Bear's Footskin) <= 9) goto farmFootskin
+		
+		log === Give Quest Item to Mr. Smith ===
+		[
+			do conf lockMap none
+			do conf attackAuto 0
+			do conf route_randomWalk 0
+			do conf jobQuest GiveQuestItems
+		]
+		do move in_rogue &rand(370,373) &rand(20,24)
+		
+		stop
+		
+		:farmYellowHerb
+			log === Hunt Yellow Herbs ===
+			[
+				do conf jobQuest farmYellowHerb
+				do conf lockMap moc_fild14
+				do conf route_randomWalk 1
+				do conf attackAuto 2
+			]
+			lock QuestItems
+			stop
+		:farmShell
+			log === Hunt Shells ===
+			[
+				do conf jobQuest farmShell
+				do conf lockMap moc_fild18
+				do conf route_randomWalk 1
+				do conf attackAuto 2
+			]
+			lock QuestItems
+			stop
+		:farmLeg
+			log === Hunt Grasshopper's Leg ===
+			[
+				do conf jobQuest farmLeg
+				do conf lockMap prt_fild07
+				do conf route_randomWalk 1
+				do conf attackAuto 2
+			]
+			lock QuestItems
+			stop
+		:farmFootskin
+			log === Hunt Bear's Footskin ===
+			[
+				do conf jobQuest farmFootskin
+				do conf lockMap pay_fild07
+				do conf route_randomWalk 1
+				do conf attackAuto 2
+			]
+			lock QuestItems
+			stop
+	}
+}
+
+automacro farmYellowHerb {
+	ConfigKey jobQuest farmYellowHerb
+	InInventory "Yellow Herb" > 9
+	run-once 1
+	call {
+		do respawn
+		do conf jobQuest GiveQuestItems
+		release QuestItems
+	}
+}
+
+automacro farmShell {
+	ConfigKey jobQuest farmShell
+	InInventory "Shell" > 9
+	run-once 1
+	call {
+		do respawn
+		do conf jobQuest GiveQuestItems
+	 	release QuestItems
+	}
+}
+
+automacro farmLeg {
+	ConfigKey jobQuest farmLeg
+	InInventory "Grasshopper's Leg" > 9
+	run-once 1
+	call {
+		do respawn
+		do conf jobQuest GiveQuestItems
+		release QuestItems
+	}
+}
+
+automacro farmFootskin {
+	ConfigKey jobQuest farmFootskin
+	InInventory "Bear's Footskin" > 9
+	run-once 1
+	call {
+		do respawn
+		do conf jobQuest GiveQuestItems
+		release QuestItems
+	}
+}
+
+automacro GiveQuestItems {
+	QuestActive 2020
+	NpcNear /Mr. Smith/
+	ConfigKey jobQuest GiveQuestItems
+	InMap in_rogue
+	Zeny > 9999
+	exclusive 1
+	call {
+		do move in_rogue &rand(370,373) &rand(20,24)
+		do talk $.NpcNearLastBinId
+	}
+	timeout 60
+}
+
+automacro FindNPC {
+	QuestActive 2022, 2023, 2024
+	JobID 6
+	JobLevel = 50
+    CurrentHP >= 80%
+	exclusive 1
+	call {
+		[
+			do conf lockMap none
+			do conf attackAuto -1
+		]
+		switch ($.QuestActiveLastID) {
+			case (= 2022) { 
+				do conf jobQuest TalkToAragham
+				call TalkWithCertainNpc "cmd_fild09 107 195" "1" "2" "1" "0"
+			}
+			case (= 2023) { 
+				do conf jobQuest TalkToAntonio
+				call TalkWithCertainNpc "cmd_fild04 304 180" "2" "1" "1" "2" 
+			}
+			case (= 2024) {
+				do conf jobQuest TalkToHollgrehenn
+				call TalkWithCertainNpc "cmd_fild09 335 143" "0" "2" "4" "0" 
+			}
+		}
+	}
+	timeout 180
+}
+
+macro TalkWithCertainNpc {
+	do move $.param[0]
+	do talk resp $.param[1]
+	do talk resp $.param[2]
+	do talk resp $.param[3]
+	do talk resp $.param[4]
+	set exclusive 0
+	pause 5
+	stop
+}
+
+
+automacro MoveToNextQuest {
+	IsInMapAndCoordinate in_rogue 169 34, in_rogue 246 25, in_rogue 164 106
+	JobID 6
+	JobLevel = 50
+	exclusive 1
+	priority -5
+	call {
+		switch ($.pos) {
+			case (= 169 34) {
+				do talknpc 160 34 c r0 c
+			}
+			case (= 246 25) {
+				do move in_rogue 244 33
+				do talknpc 244 39 c r0 c
+			}
+			case (= 164 106) {
+				do move in_rogue 172 108
+				do talknpc 177 109 c r0 c
+			}
+		}
+	}
+}
+
+automacro Labyrinth {
+	IsInMapAndCoordinate in_rogue 15 105
+	JobID 6
+	JobLevel = 50
+	exclusive 1
+	macro_delay 0.5
+	call {
+		[
+			do conf attackAuto -1
+			do conf itemsTakeAuto 0
+			do conf lockMap none
+		]
+		[
+			log ================================
+			log Inside The Labyrithn
+			log ================================
+		]
+		do move 23 105
+		do move 23 334
+		do move in_rogue 359 117
+	}
+}
+
+automacro RetakeLabyrinth {
+	QuestActive 2026
+	NotInMap in_rogue
+	JobID 6
+	JobLevel = 50
+	CurrentHP >= 80%
+	exclusive 1
+	call {
+		do stand
+		[
+			log ======================================= =
+			log I've already been with high hp, 
+			log I'm going to retry the challenge 
+			log ======================================= =
+		]
+		do conf lockMap none
+		log Current jobQuest: &config(jobQuest)
+		switch (&config(jobQuest)) {
+			case (= TalkToAragham) call TalkWithCertainNpc "cmd_fild09 107 195" "1" "2" "1" "0"  
+			case (= TalkToAntonio) call TalkWithCertainNpc "cmd_fild04 304 180" "2" "1" "1" "2"
+			case (= TalkToHollgrehenn) call TalkWithCertainNpc "cmd_fild09 335 143" "0" "2" "4" "0"
+			else {
+				[
+					log =============================================================== =
+					log The macro should have chosen a path but failed, this is a bug
+					log =============================================================== =
+				]
+				stop
+			}
+		}
+	}
+	timeout 20
+}
+
+automacro FinalStep {
+	QuestActive 2026
+	IsInMapAndCoordinate in_rogue 359 117, in_rogue 378 113
+	JobID 6
+	JobLevel = 50
+	exclusive 1
+	macro_delay 2
+	call {
+		[
+			log ================================= =
+			log I Passed the Labyrinth Challenge!
+			log ================================= =
+		]
+		do move in_rogue &rand(361,366) &rand(112,117)
+        do talk &npc(363 122)
+        do eq Gladius [3]
+		do conf jobQuest none
+        do relog 3600
+	}
+	timeout 30
+}

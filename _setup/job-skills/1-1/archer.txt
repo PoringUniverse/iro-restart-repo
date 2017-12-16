@@ -1,0 +1,30 @@
+useSelf_skill Improve Concentration {
+    lvl 10
+    sp > 10 %
+    whenStatusInactive Improve Concentration
+    notWhileSitting 1
+    notInTown 1
+    inLockOnly 1
+    timeout 10
+}
+
+attackSkillSlot Arrow Shower {
+    lvl 10
+    dist 10
+    sp > 5
+    aggressives >= 3
+    inLockOnly 0
+    monsters
+    notMonsters
+    notInTown 0
+}
+
+attackSkillSlot Double Strafe {
+    lvl 10
+    dist 10
+    sp > 5 %
+    aggressives >= 2
+    monsters
+    inLockOnly 1
+    notInTown 1
+}
