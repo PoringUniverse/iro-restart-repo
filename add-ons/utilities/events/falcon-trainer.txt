@@ -27,7 +27,7 @@ automacro trainFalcon1 {
     }
 }
 	
-automacro trainFalcon2{
+automacro trainFalcon2 {
     exclusive 1
     SkillLevel HT_FALCON = 1
     StatusInactiveHandle EFST_FALCON

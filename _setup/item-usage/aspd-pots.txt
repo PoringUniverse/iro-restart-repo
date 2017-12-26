@@ -8,4 +8,5 @@ useSelf_item Concentration Potion {
 	whenStatusInactive Concentration Potion
 	inLockOnly 1
 	notWhileSitting 1
+	timeout 10
 }

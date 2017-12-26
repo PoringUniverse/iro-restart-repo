@@ -1,0 +1,7 @@
+useSelf_skill CR_SPEARQUICKEN {
+	lvl 10
+	sp > 10%
+	whenStatusInactive EFST_SPEARQUICKEN
+	InLockOnly 1
+	timeout 60
+}

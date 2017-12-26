@@ -1,7 +1,3 @@
-###############################
-######Enable your Skills#######
-###############################
-
 automacro Magnum_Break {
 	exclusive 1
 	SkillLevel SM_MAGNUM = 10

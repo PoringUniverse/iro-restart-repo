@@ -23,8 +23,7 @@ useSelf_skill BS_OVERTHRUST {
 # Power Maximize Activate
 useSelf_skill BS_MAXIMIZE {
     lvl 5
-    sp >= 50%
-    onAction Attack
+    sp >= 80%
     whenStatusInactive BS_MAXIMIZE
     inLockOnly 1
     notWhileSitting 1
