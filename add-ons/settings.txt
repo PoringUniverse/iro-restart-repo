@@ -27,6 +27,18 @@ macro setJobQuest1 {
 macro setJobQuest2 {
 	log chosens job $.param[0]
 	switch ($.param[0]) {
+		case (== assassin) {
+			include on assassin.txt
+		}
+		case (== blacksmith) {
+			include on blacksmith.txt
+		}
+		case (== hunter) {
+			include on hunter.txt
+		}
+		case (== knight) {
+			include on knight.txt
+		}
 		case (== priest) {
 			include on priest.txt
 		}
@@ -39,60 +51,51 @@ macro setJobQuest2 {
 	}
 }
 
-macro setStats1 {
+macro setJobStats {
 	log chosens stats $.param[0]
 	switch ($.param[0]) {
-		case (== swordsman) {
+		case (== svdknight) {
 			[
 				do conf statsAddAuto 1
-				do conf statsAddAuto_list 20 str, 20 vit, 20 dex, 30 vit, 30 dex, 50 str, 30 agi
+				do conf statsAddAuto_list 20 str, 20 vit, 20 dex, 30 str, 30 vit, 30 dex
 				do conf statsAddAuto_dontUseBonus 0
 				do conf statsAdd_over_99 0
 				
 				do conf skillsAddAuto 1
-				do conf skillsAddAuto_list SM_SWORD 1, SM_TWOHAND 10, SM_RECOVERY 10, SM_BASH 10, SM_PROVOKE 5, SM_MAGNUM 3, SM_ENDURE 10
+				do conf skillsAddAuto_list SM_SWORD 1, SM_TWOHAND 10, SM_RECOVERY 10, SM_BASH 10, SM_PROVOKE 5, SM_MAGNUM 10, SM_ENDURE 3
 			]
 		}
-		case (== thief) {
+		case (== battlesmith) {
 			[
 				do conf statsAddAuto 1
-				do conf statsAddAuto_list 30 str, 30 dex, 60 agi, 30 vit
+				do conf statsAddAuto_list 20 str, 20 agi, 20 vit, 20 dex, 30 str, 30 agi, 30 vit, 30 dex
 				do conf statsAddAuto_dontUseBonus 0
 				do conf statsAdd_over_99 0
 				
 				do conf skillsAddAuto 1
-				do conf skillsAddAuto_list TF_DOUBLE 10, TF_MISS 10, TF_STEAL 10, TF_HIDING 10, TF_POISON 8, TF_DETOXIFY 1
+				do conf skillsAddAuto_list MC_INCCARRY 9, MC_DISCOUNT 10, MC_OVERCHARGE 10, MC_PUSHCART 10, MC_MAMMONITE 10
 			]
 		}
-		else {
-			log none was specified...
-		}
-	}
-}
-
-macro setStats2 {
-	log chosens stats $.param[0]
-	switch ($.param[0]) {
-		case (== knight) {
+		case (== katarsin) {
 			[
 				do conf statsAddAuto 1
-				do conf statsAddAuto_list 20 str, 20 vit, 20 dex, 30 vit, 30 dex, 50 str, 30 agi
+				do conf statsAddAuto_list 20 str, 20 agi, 20 luk, 30 str, 30 agi, 30 luk
 				do conf statsAddAuto_dontUseBonus 0
 				do conf statsAdd_over_99 0
 				
-				do conf skillsAddAuto 0
-				do conf skillsAddAuto_list 
+				do conf skillsAddAuto 1
+				do conf skillsAddAuto_list TF_DOUBLE 10, TF_MISS 10, TF_STEAL 9, TF_HIDING 9, TF_POISON 10, TF_DETOXIFY 1
 			]
 		}
-		case (== rogue) {
+		case (== battlepriest) {
 			[
 				do conf statsAddAuto 1
-				do conf statsAddAuto_list 30 str, 30 dex, 60 agi, 30 vit
+				do conf statsAddAuto_list 20 str, 20 agi, 20 vit, 20 int, 20 dex, 20 luk
 				do conf statsAddAuto_dontUseBonus 0
 				do conf statsAdd_over_99 0
 				
-				do conf skillsAddAuto 0
-				do conf skillsAddAuto_list 
+				do conf skillsAddAuto 1
+				do conf skillsAddAuto_list AL_DP 10, AL_DEMONBANE 10, AL_RUWACH 1, AL_PNEUMA 1, AL_TELEPORT 2, AL_WARP 4, AL_HEAL 5, AL_INCAGI 7, AL_DECAGI 1, AL_ANGELUS 1, AL_BLESSING 7
 			]
 		}
 		else {
@@ -205,7 +208,7 @@ macro randomMOD {
 macro setGrinding {
 	if ($.param[0] == on) {
 		include on grinding-spot.txt
-	} else {
+	} elsif ($.param[0] == off) {
 		include off grinding-spot.txt
 	}
 }

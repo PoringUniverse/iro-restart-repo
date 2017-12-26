@@ -1,20 +1,50 @@
 # PoringUniverse / iro-restart-repo
 
-Credits to:
+## Console Commands:
+
+**Job Quests**
 ```
-adraaawr
-djkstra
-vespercore02
-Nipodemos
+eventMacro setJobQuest1 acolyte|archer|swordsman|thief
+eventMacro setJobQuest2 assassin|blacksmith|hunter|knight|priest|rogue
 ```
 
-eventMacro Commands:
+**Job Stats**
 ```
-setJobQuest1 <1stjob>
-setJobQuest2 <2ndjob>
-setStats1 <1stjob>
-setStats2 <2ndjob>
-sendRodex <rodexReceiver>
-setMinimal
-randomMOD
+eventMacro setJobStats svdknight|battlesmith|katarsin|battlepriest
 ```
+
+**Rodex Receiver**
+```
+eventMacro sendRodex <charName>
+```
+
+**Minimal Configuration**
+```
+eventMacro setMinimal
+```
+
+**Random Move On Death**
+```
+eventMacro randomMOD
+```
+
+**Enable/Disable Grinding**
+```
+eventMacro setGrinding on
+eventMacro setGrinding off
+```
+
+**Receive Rodex**
+```
+eventMacro manualGetRodex
+```
+
+
+## Special Thanks to:
+[adraaawr](https://github.com/adraaawr)
+[djkstra](https://github.com/djkstra)
+[vespercore02](https://github.com/vespercore02)
+[Nipodemos](https://github.com/Nipodemos)
+[madalilng](https://github.com/madalilng)
+
+
