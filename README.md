@@ -23,7 +23,7 @@ eventMacro sendRodex <charName>
 eventMacro setMinimal
 ```
 
-**Random Move On Death**
+**Random MoveOnDeath**
 ```
 eventMacro randomMOD
 ```
@@ -41,10 +41,10 @@ eventMacro manualGetRodex
 
 
 ## Special Thanks to:
-[adraaawr](https://github.com/adraaawr)
-[djkstra](https://github.com/djkstra)
-[vespercore02](https://github.com/vespercore02)
-[Nipodemos](https://github.com/Nipodemos)
-[madalilng](https://github.com/madalilng)
+- [adraaawr](https://github.com/adraaawr)
+- [djkstra](https://github.com/djkstra)
+- [vespercore02](https://github.com/vespercore02)
+- [Nipodemos](https://github.com/Nipodemos)
+- [madalilng](https://github.com/madalilng)
 
 
