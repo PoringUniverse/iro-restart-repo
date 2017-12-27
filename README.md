@@ -47,6 +47,7 @@ eventMacro manualGetRodex
 - Sage jobQuest
 - Bard jobQuest
 - Dancer jobQuest
+- Monk jobQuest
 - Different jobClass Skills Set on _setup folder
 
 ## Special Thanks to:
