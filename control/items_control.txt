@@ -40,6 +40,8 @@
 # All items not mentioned in this file will be automatically stored in storage.
 all 0 1 0
 
+Fire Arrow 0 0 0
+
 #pay_dun
 Sohee Card 0 0 0
 Munak Card 0 0 0

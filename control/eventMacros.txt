@@ -57,4 +57,4 @@
 #!include ..\add-ons\quest\2-1\hunter.txt
 #!include ..\add-ons\quest\2-1\knight.txt
 #!include ..\add-ons\quest\2-1\priest.txt
-#!include ..\add-ons\quest\2-2\rogue.txt
+!include ..\add-ons\quest\2-2\rogue.txt

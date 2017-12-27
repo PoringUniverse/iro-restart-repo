@@ -69,7 +69,8 @@ automacro ChangeToRogue {
 }
 
 automacro MoveTojobQuest {
-	ConfigKey jobQuest MoveTojobQuest
+	#ConfigKey jobQuest MoveTojobQuest
+	QuestActive 2017
 	NpcNotNear /Rogue Guildsman/
 	InMap morocc,in_rogue
 	JobID 6

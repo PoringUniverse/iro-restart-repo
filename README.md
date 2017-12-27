@@ -64,6 +64,9 @@ eventMacro manualGetRodex
 - [Nipodemos](https://github.com/Nipodemos)
 - [madalilng](https://github.com/madalilng)
 
-## Credits to
-@openkore without them this idea won't materialize
+## Credits to:
+@vedro
+@manticora
+@openkore 
+Without them this idea won't materialize
 
