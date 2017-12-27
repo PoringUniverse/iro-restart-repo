@@ -6,8 +6,6 @@ useSelf_skill Twohand Quicken {
     onAction attack
     notWhileSitting 1
 	timeout 60
-   	disabled 0
-	label TwoHand
 }
 
 attackSkillSlot Bowling Bash {
@@ -21,8 +19,6 @@ attackSkillSlot Bowling Bash {
    	onAction attack
     timeout #unecessary
     maxUses 5
-   	disabled 0
-	label BowlingBash
 }
 
 attackSkillSlot Pierce {

@@ -125,11 +125,11 @@ automacro MovingHPRecovery2 {
 		pause 2
 		do talk resp 0
 		pause 5
-	[
-		do ai auto
-		do pconf 713 0
-		do pconf 1058 0
-		do reload event # resets everything and triggers autosaves and recalls Farming Map configsetings
-	]
+		[
+			do ai auto
+			do pconf 713 0
+			do pconf 1058 0
+			do reload event # resets everything and triggers autosaves and recalls Farming Map configsetings
+		]
 	}
 }

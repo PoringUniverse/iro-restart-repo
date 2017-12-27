@@ -1,9 +1,9 @@
 automacro PM_SayHi {
-	PrivMsg /(hi|hello|greeting|greetings)/i
+	PrivMsg /(hi|hello|greeting|greetings|hey)/i
 	exclusive 1
 	macro_delay 2
 	call {
-		@reply = (hi,hello,?,hey,whats up?,hmm?)
+		@reply = (hi,hello,hey,whats up,hmm...)
 		do move stop 
 		do pm "$.PrivMsgLastName" &random("$reply[&rand(0,&eval(@reply-1))]")
 	}
@@ -15,7 +15,7 @@ automacro PM_SayAreYouBot {
 	exclusive 1
 	macro_delay 2
 	call {
-		@reply = (botting is illegal,do not accuse me,i am just grinding,huh?)
+		@reply = (botting is illegal,do not accuse me,i am just grinding,huh)
 		do move stop 
 		do pm "$.PrivMsgLastName" &random("$reply[&rand(0,&eval(@reply-1))]")
 	}
@@ -40,8 +40,20 @@ automacro PM_SayPleaseRespond {
 	macro_delay 2
 	run-once 1
 	call {
-		@reply = (what do you want?,hey!,what's up?,do not disturb me)
+		@reply = (what do you want,hey,whats up,do not disturb me)
 		do move stop
+		do pm "$.PrivMsgLastName" &random("$reply[&rand(0,&eval(@reply-1))]")
+	}
+	timeout 900
+}
+
+automacro PM_SayParty {
+	PrivMsg /(party|wanna party)/i
+	exclusive 1
+	macro_delay 2
+	call {
+		@reply = (i dont want to, i prefer solo)
+		do move stop 
 		do pm "$.PrivMsgLastName" &random("$reply[&rand(0,&eval(@reply-1))]")
 	}
 	timeout 900
