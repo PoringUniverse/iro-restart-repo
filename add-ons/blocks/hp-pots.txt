@@ -1,0 +1,22 @@
+automacro create_BuyHPPots {
+	ConfigKeyNotExist buyHPPots.block
+	exclusive 1
+	timeout 5
+	call {
+		createBlock_buyHPPots()
+	}
+}
+
+sub createBlock_buyHPPots {
+	open (my $fh, '>>:encoding(UTF-8)', Settings::getControlFilename('config.txt'));
+	print $fh "\n";
+	print $fh "buyAuto {\n";
+	print $fh "	maxAmount\n";
+	print $fh "	zeny\n";
+	print $fh "	npc\n";
+	print $fh "	disabled\n";
+	print $fh "	label buyHPPots\n";
+	print $fh "}\n";
+	close($fh);
+	Commands::run("reload config");
+}
