@@ -1,5 +1,12 @@
 # PoringUniverse / iro-restart-repo
 
+## Pre-requisite (must have installed/included in plugins folder)
+- automap
+- busCommands
+- ignore
+- koreShield
+- xconf
+
 ## Console Commands:
 
 **Job Quests**
@@ -57,4 +64,6 @@ eventMacro manualGetRodex
 - [Nipodemos](https://github.com/Nipodemos)
 - [madalilng](https://github.com/madalilng)
 
+## Credits to
+@openkore without them this idea won't materialize
 
