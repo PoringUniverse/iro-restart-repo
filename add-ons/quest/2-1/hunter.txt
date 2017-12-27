@@ -37,9 +37,11 @@ automacro Archer50 {
 		do move payon 172 &rand(220,225)
 		do talknpc 175 226 c r0 n
 		do conf saveMap payon
-		log ====================
-		log == Saved to Payon ==
-		log ====================
+		[
+			log ====================
+			log == Saved to Payon ==
+			log ====================
+		]
 		lock Archer50
 	}
 	timeout 60
@@ -70,9 +72,11 @@ automacro TalkToGuildsman {
 	macro_delay 1
 	call {
 		do talk $.NpcNearLastBinId
-		log =====================
-		log =Warped to in_hunter=
-		log =====================
+		[
+			log =====================
+			log =Warped to in_hunter=
+			log =====================
+		]
 		do move in_hunter &rand(99,101) 100
 		do conf jobQuest TalkToHunterGuildsman
 	}
@@ -102,9 +106,11 @@ automacro TalkToHunterGuildsman {
 		do talk resp 1 #Take him to his destination.
 		do talk resp 0 #Help him fighting if he asks.
 		do talk resp 1 #Find out who the owner is.
-		log ========================================
-		log end of the Test! Talk to Demon Hunter.
-		log ========================================
+		[
+			log ========================================
+			log end of the Test! Talk to Demon Hunter.
+			log ========================================		
+		]
 		do move in_hunter 58 &rand(98,100)
 		do conf jobQuest TalkToReceptionist
 		
@@ -161,9 +167,11 @@ automacro HunterJobChange {
 	macro_delay 2
 	call {
 		do talk 1
-		log =====================
-		log You already passed!
-		log =====================
+		[		
+			log =====================
+			log You already passed!
+			log =====================
+		]
 		do conf jobQuest ReportToHunter
 	}
 	timeout 30
@@ -180,10 +188,12 @@ automacro ReportToHunter {
 	macro_delay 1
 	call {
 		do talk 0
-		log ===========================
-		log You got Necklace of Wisdom.
-		log ===========================
-	#Quest added #4013
+		[
+			log ===========================
+			log You got Necklace of Wisdom.
+			log ===========================		
+		]
+		#Quest added #4013
 		do conf jobQuest ChangeToHunter1
 		do move pay_fild10 &rand(143,149) &rand(247,252)
 	}
@@ -201,9 +211,11 @@ automacro ChangeToHunter1 {
 	macro_delay 1
 	call {
 		do talk $.NpcNearLastBinId
-		log =====================
-		log =Warped to in_hunter=
-		log =====================
+		[
+			log =====================
+			log =Warped to in_hunter=
+			log =====================
+		]
 		do move in_hunter &rand(99,101) 100
 		do conf jobQuest ChangeToHunter2
 	}
@@ -221,20 +233,22 @@ automacro ChangeToHunter2 {
 	macro_delay 1
 	call {
 		do talk $.NpcNearLastBinId
-		log =========
-		log Success!
-		log =========
-			[
+		[
+			log =========
+			log Success!
+			log =========
+		]
+		[
 			do eq Novice Adventurer's Suit [1]
 			do eq Hunter Bow 
-				do conf attackAuto 2
-				do conf route_randomWalk 1
-			]
-			[
+			do conf attackAuto 2
+			do conf route_randomWalk 1
+		]
+		[
 			do iconf Sticky Mucus 0 0 1
 			do iconf Bear's Footskin 0 0 1
 			do iconf Tooth of Bat 0 0 1
-			]
+		]
 		do conf jobQuest none
 		do relog 3600
 	}

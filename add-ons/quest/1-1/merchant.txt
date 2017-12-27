@@ -1,4 +1,4 @@
-automacro LeaveTrainingGround_Merch {
+automacro LeaveTrainingGround_Merchant {
 	JobID 0
 	InMap new_1-3
 	JobLevel = 10
@@ -11,16 +11,16 @@ automacro LeaveTrainingGround_Merch {
 			do conf attackAuto -1
 		]
 		do move new_1-4 99 &rand(19,22)
-		do conf -f QuestPart TalktoFinalTester
-		log Quest was set to: TalktoFinalTester
+		do conf -f jobQuest TalktoFinalTester_Merchant
+		log Quest was set to: TalktoFinalTester_Merchant
 	}
 	timeout 10
 }
 
-automacro TalktoFinalTester {
+automacro TalktoFinalTester_Merchant {
 	JobID 0
 	NpcNear /Final Tester/
-	ConfigKey QuestPart TalktoFinalTester
+	ConfigKey jobQuest TalktoFinalTester_Merchant
 	exclusive 1
 	run-once 1
 	macro_delay 1
@@ -50,15 +50,15 @@ automacro TalktoFinalTester {
 		do talk resp 2 #Change the subject
 		do talk resp 0 #Buy the item for him/her
 		do talk resp 0 #Yes for Merchant
-		
-		do conf QuestPart MerchantQuest
-		}
+
+		do conf jobQuest MerchantQuest
+	}
 	timeout 30
 }
 
 automacro MerchantQuestStart {
 	InMap alberta_in
-	ConfigKey QuestPart MerchantQuest
+	ConfigKey jobQuest MerchantQuest
 	exclusive 1
 	run-once 1
 	macro_delay 1
@@ -67,14 +67,14 @@ automacro MerchantQuestStart {
 		do talk resp 0
 		do talk resp 0
 		do talk resp 0
-		do conf QuestPart MerchantQuestRetalk
+		do conf jobQuest MerchantQuestRetalk
 	}
 	timeout 30
 }
 
 automacro MerchantQuestRetalk {
 	InMap alberta_in
-	ConfigKey QuestPart MerchantQuestRetalk
+	ConfigKey jobQuest MerchantQuestRetalk
 	run-once 1
 	macro_delay 1
 	call {
@@ -94,7 +94,7 @@ automacro merchantSNis {
 		log = Number of the package $serial
 		log ====================================
 		do conf -f QuestSN $serial
-		do conf -f QuestPart MerchantinputSN
+		do conf -f jobQuest MerchantinputSN
     }
 	timeout 30
 }
@@ -108,12 +108,12 @@ automacro merchantSNof {
 		log = Number of the package $serial
 		log ====================================
 		do conf -f QuestSN $serial
-		do conf -f QuestPart MerchantinputSN
+		do conf -f jobQuest MerchantinputSN
     }
 }
 automacro MerchantQuestGetBox {
 	#QuestActive 1012
-	ConfigKey QuestPart MerchantinputSN
+	ConfigKey jobQuest MerchantinputSN
 	JobID 0
 	JobLevel = 10
 	exclusive 1
@@ -142,14 +142,14 @@ automacro MerchantQuestGetBox {
 		do talk resp $deliveryloc
 		do talk num $serial
 		do talk resp 0
-		do conf -f QuestPart MerchantDelivery
+		do conf -f jobQuest MerchantDelivery
 		do conf -f QuestDeliverLocation $town
 	}
 }
 
 automacro MerchantQuestDeliBox {
 	InInventory "Delivery Box" > 0
-	ConfigKey QuestPart MerchantDelivery
+	ConfigKey jobQuest MerchantDelivery
 	JobID 0
 	JobLevel = 10
 	exclusive 1
@@ -157,17 +157,16 @@ automacro MerchantQuestDeliBox {
 }
 
 macro Deliver {
-	
-		log &config(QuestDeliverLocation)
+	log &config(QuestDeliverLocation)
 		
-		$location = &config(QuestDeliverLocation)
+	$location = &config(QuestDeliverLocation)
 		
-		switch ($location) {
+	switch ($location) {
 		case (== prontera) {
 			do move prontera 239 47 
 			do talknpc 248 42
 			log The package was delivered. Go back to Alberta
-			do conf -f QuestPart DeliveryDone
+			do conf -f jobQuest DeliveryDone
 		}
 		case (== geffen) {
 			do move geffen 61 180 
@@ -177,7 +176,7 @@ macro Deliver {
 			do talknpc 155 122
 			do move geffen
 			log The package was delivered. It's time to go to Alberta
-			do conf -f QuestPart DeliveryDone
+			do conf -f jobQuest DeliveryDone
 		}
 		case (== morocc) {
 			do move morocc 274 269 
@@ -188,7 +187,7 @@ macro Deliver {
 			pause 4
 			do move morocc
 			log The package was delivered. It's time to go to Alberta
-			do conf -f QuestPart DeliveryDone
+			do conf -f jobQuest DeliveryDone
 		}
 		case (== byalan) {
 			do move izlu2dun 106 55 
@@ -197,15 +196,16 @@ macro Deliver {
 			do talk resp 0
 			pause 4
 			log The package was delivered. It's time to go to Alberta
-			do conf -f QuestPart DeliveryDone
+			do conf -f jobQuest DeliveryDone
 		}
 		else {
+			log Location Error...
 		}
 	}
 }
 
 automacro MerchantQuestDeliDone {
-	ConfigKey QuestPart DeliveryDone
+	ConfigKey jobQuest DeliveryDone
 	JobID 0
 	JobLevel = 10
 	exclusive 1
@@ -216,12 +216,12 @@ automacro MerchantQuestDeliDone {
 		do talknpc 28 29
 		pause 4
 		
-		do conf -f QuestPart JobChange	
+		do conf -f jobQuest JobChange	
 	}
 }
 
 automacro MerchantJobChange {
-	ConfigKey QuestPart JobChange
+	ConfigKey jobQuest JobChange
 	JobID 0
 	JobLevel = 10
 	exclusive 1
@@ -232,6 +232,6 @@ automacro MerchantJobChange {
 		do talknpc 53 43
 		pause 4
 		
-		do conf -f QuestPart DoneMerchie	
+		do conf -f jobQuest DoneMerchie	
 	}
 }
