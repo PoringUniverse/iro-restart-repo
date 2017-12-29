@@ -7,7 +7,7 @@
 #_______________________________________________________________#
 
 automacro CheckIfSaved {
-	InMap prt_fild05, prontera, izlude, geffen, aldebaran, payon, morocc, alberta, comodo, cmd_fild07, yuno
+	InMap prt_fild05, prontera, izlude, geffen, aldebaran, payon, morocc, alberta, comodo, cmd_fild07, yuno, louyang
 	InSaveMap 0
 	exclusive 1
 	run-once 1
@@ -16,7 +16,7 @@ automacro CheckIfSaved {
 }
 
 automacro KafraSavePoints {
-	InMap prt_fild05, prontera, izlude, geffen, aldebaran, payon, morocc, alberta, comodo, cmd_fild07, yuno
+	InMap prt_fild05, prontera, izlude, geffen, aldebaran, payon, morocc, alberta, comodo, cmd_fild07, yuno, louyang
 	exclusive 1
 	run-once 1
 	macro_delay 2
@@ -31,43 +31,12 @@ macro ChangeSavePoints {
 		log You are already saved on this location
 		stop
 	:setSavePoint
-		# Set autostorage, autosell, autobuy
+		# Set autostorage, autosell
 		# Disable = 0; Enable = 1
 
 		$storageOption = 1
 		$sellOption = 1
-		$buyOption = 1
 		
-		if ($buyOption == 1) {
-			switch ($.hp) {
-				case (<= 500) {
-					do conf buyHPPots.block Red Potion
-				}
-				case (<= 1000) {
-					do conf buyHPPots.block Orange Potion
-				}
-				case (<= 5000) {
-					do conf buyHPPots.block Yellow Potion
-				}
-				case (<= 10000) {
-					do conf buyHPPots.block White Potion
-				}
-				
-				do conf buyHPPots.maxAmount 100
-				do conf buyHPPots.minAmount 0
-			}
-			
-			if ($.job != Priest || $.job != Bard || $.job != Dancer) {
-				do conf buySpeedPots.block Awakening Potion
-			} else {
-				do conf buySpeedPots.block Concentration Potion
-			}
-			
-			do conf buySpeedPots.maxAmount 10
-			do conf buySpeedPots.minAmount 0
-		}
-		
-
 		switch ($.InMapLast) {
 			case (== yuno) {
 				do ai manual
@@ -86,8 +55,6 @@ macro ChangeSavePoints {
 				[
 					do conf sellAuto $sellOption
 					do conf sellAuto_npc yuno 163 187
-					do conf buyHPPots.npc yuno 163 187
-					do conf buySpeedPots.npc yuno 163 187
 				]
 				do ai on
 				release KafraSavePoints
@@ -109,9 +76,7 @@ macro ChangeSavePoints {
 				]
 				[
 					do conf sellAuto $sellOption
-					do conf sellAuto_npc prt_fild05 290 221 
-					do conf buyHPPots.npc prt_fild05 290 221 
-					do conf buySpeedPots.npc prt_fild05 290 221 
+					do conf sellAuto_npc prt_fild05 290 221
 				]
 				do ai on
 				release KafraSavePoints
@@ -134,8 +99,6 @@ macro ChangeSavePoints {
 				[
 					do conf sellAuto $sellOption
 					do conf sellAuto_npc prt_in 126 76  
-					do conf buyHPPots.npc prt_in 126 76 
-					do conf buySpeedPots.npc prt_in 126 76 
 				]
 				do ai on
 				release KafraSavePoints
@@ -157,9 +120,7 @@ macro ChangeSavePoints {
 				]
 				[
 					do conf sellAuto $sellOption
-					do conf sellAuto_npc izlude_in 60 127 
-					do conf buyHPPots.npc izlude_in 60 127 
-					do conf buySpeedPots.npc izlude_in 60 127 
+					do conf sellAuto_npc izlude_in 60 127
 				]
 				do ai on
 				release KafraSavePoints
@@ -181,9 +142,7 @@ macro ChangeSavePoints {
 				]
 				[
 					do conf sellAuto $sellOption
-					do conf sellAuto_npc geffen_in 77 173   
-					do conf buyHPPots.npc geffen_in 77 173   
-					do conf buySpeedPots.npc geffen_in 77 173   
+					do conf sellAuto_npc geffen_in 77 173 
 				]
 				do ai on
 				release KafraSavePoints
@@ -205,9 +164,7 @@ macro ChangeSavePoints {
 				]
 				[
 					do conf sellAuto $sellOption
-					do conf sellAuto_npc aldeba_in 94 56   
-					do conf buyHPPots.npc aldeba_in 94 56    
-					do conf buySpeedPots.npc aldeba_in 94 56   
+					do conf sellAuto_npc aldeba_in 94 56    
 				]
 				do ai on
 				release KafraSavePoints
@@ -230,8 +187,6 @@ macro ChangeSavePoints {
 				[
 					do conf sellAuto $sellOption
 					do conf sellAuto_npc payon 159 96 
-					do conf buyHPPots.npc payon 159 96 
-					do conf buySpeedPots.npc payon 159 96 
 				]
 				do ai on
 				release KafraSavePoints
@@ -254,8 +209,6 @@ macro ChangeSavePoints {
 				[
 					do conf sellAuto $sellOption
 					do conf sellAuto_npc morocc_in 141 67 
-					do conf buyHPPots.npc morocc_in 141 67 
-					do conf buySpeedPots.npc morocc_in 141 67 
 				]
 				do ai on
 				release KafraSavePoints
@@ -277,9 +230,7 @@ macro ChangeSavePoints {
 				]
 				[
 					do conf sellAuto $sellOption
-					do conf sellAuto_npc alberta_in 188 21   
-					do conf buyHPPots.npc alberta_in 188 21   
-					do conf buySpeedPots.npc alberta_in 188 21   
+					do conf sellAuto_npc alberta_in 188 21 
 				]
 				do ai on
 				release KafraSavePoints
@@ -302,8 +253,6 @@ macro ChangeSavePoints {
 				[
 					do conf sellAuto $sellOption
 					do conf sellAuto_npc comodo 195 150
-					do conf buyHPPots.npc comodo 195 150   
-					do conf buySpeedPots.npc comodo 195 150
 				]
 				do ai on
 				release KafraSavePoints
@@ -326,8 +275,28 @@ macro ChangeSavePoints {
 				[
 					do conf sellAuto $sellOption
 					do conf sellAuto_npc cmd_fild07 257 126
-					do conf buyHPPots.npc cmd_fild07 257 126
-					do conf buySpeedPots.npc cmd_fild07 257 126
+				]
+				do ai on
+				release KafraSavePoints
+				release CheckIfSaved
+			}
+			case (== louyang) {
+				do ai manual
+				do move louyang &rand(205,209) &rand(99,103)
+				do talknpc 210 104 c r0 n
+				[	
+					do conf saveMap louyang
+					do conf storageAuto $storageOption
+					do conf storageAuto_npc louyang 210 104
+					do conf storageAuto_npc_steps c r1 n
+					do conf autoMoveOnDeath 1
+					do conf autoMoveOnDeath_x &rand(190,200)
+					do conf autoMoveOnDeath_y &rand(90,100)
+					do conf autoMoveOnDeath_map louyang
+				]
+				[
+					do conf sellAuto $sellOption
+					do conf sellAuto_npc lou_in02 239 176 
 				]
 				do ai on
 				release KafraSavePoints

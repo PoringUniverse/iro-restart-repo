@@ -1,0 +1,24 @@
+#slave is lost
+automacro findSlave {
+	pm /x (.*) (.*) (.*)/
+	call {
+		$slavemap = $.lastMatch1
+		$slavemapx = $.lastMatch2
+		$slavemapy = $.lastMatch3
+		$mymap = $.map
+		if ($slavemap == $mymap) goto findslave
+		do pm "$.lastpm" x $.map $.pos
+		stop
+	:findslave
+		do pm "$.lastpm" x $.map $.pos
+		do move $slavemap $slavemapx $slavemapy
+	}
+}
+
+#when slave is found
+automacro clear {
+	pm /clear/
+	call {
+		do eval AI::clear("move", "route");
+	}
+}

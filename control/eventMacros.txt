@@ -10,11 +10,11 @@
 # Rodex
 #______________________________________________________________________________________________________														   	   
 
-#!include ..\add-ons\rodex\auto-receive.txt
-#!include ..\add-ons\rodex\zeny.txt
-#!include ..\add-ons\rodex\cards.txt
-#!include ..\add-ons\rodex\equips.txt
-#!include ..\add-ons\rodex\storage.txt
+!include ..\add-ons\rodex\auto-receive.txt
+!include ..\add-ons\rodex\zeny.txt
+!include ..\add-ons\rodex\cards.txt
+!include ..\add-ons\rodex\equips.txt
+!include ..\add-ons\rodex\storage.txt
 
 #______________________________________________________________________________________________________
 #
@@ -30,11 +30,11 @@
 # Utilities															   	   
 #______________________________________________________________________________________________________		
 
-#!include ..\add-ons\utilities\events\priv-msg.txt
-#!include ..\add-ons\utilities\events\random-look.txt
-#!include ..\add-ons\utilities\events\teleport.txt
+!include ..\add-ons\utilities\events\priv-msg.txt
+!include ..\add-ons\utilities\events\random-look.txt
+!include ..\add-ons\utilities\events\teleport.txt
 #!include ..\add-ons\utilities\events\grinding-spot.txt
-#!include ..\add-ons\utilities\events\kafra-savepoints.txt
+!include ..\add-ons\utilities\events\kafra-savepoints.txt
 #!include ..\add-ons\utilities\events\pecopeco-trainer.txt
 #!include ..\add-ons\utilities\events\holy-water.txt
 #!include ..\add-ons\utilities\events\arrow-config.txt
@@ -45,10 +45,10 @@
 # TODO : merge novice.txt to 1stjob.txt
 #______________________________________________________________________________________________________		
 
-#!include ..\add-ons\quest\novice.txt
+!include ..\add-ons\quest\novice.txt
 
 # 1-1 Class
-#!include ..\add-ons\quest\1-1\acolyte.txt
+!include ..\add-ons\quest\1-1\acolyte.txt
 #!include ..\add-ons\quest\1-1\archer.txt
 #!include ..\add-ons\quest\1-1\swordsman.txt
 #!include ..\add-ons\quest\1-1\thief.txt

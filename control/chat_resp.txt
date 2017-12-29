@@ -19,4 +19,4 @@ bot,botter	no,I'm not a bot,stop accusing,huh?
 fuck,fck	watch your language,what's wrong?
 hey,wtf	hi,hello
 party,group	no,i don't want, i prefer solo
-buff,buff pls	hehe no, low sp, 50k for buffs,no,hell no,i don't want to
+buff,buff pls	hell no

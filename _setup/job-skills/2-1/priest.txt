@@ -26,6 +26,11 @@ useSelf_skill Kyrie Eleison {
     whenStatusInactive Kyrie Eleison
 }
 
+partySkill Heal {
+    lvl 10
+    hp < 70%
+}
+
 partySkill Impositio Manus {
     lvl 10
     sp >= 25%
@@ -55,15 +60,10 @@ partySkill Status Recovery {
     target_whenStatusActive Frozen, Stone Curse, Stun
 }
 
-
-#You can edit 'ai_dead_respawn' in timeouts.txt for master
-
 partySkill Resurrection {
     lvl 4
     target_dead 1
 }
-
-#conditional, disabled by default.
 
 partySkill Suffragium {
     lvl 3
@@ -72,7 +72,6 @@ partySkill Suffragium {
     timeout 8
     disabled 1
     target_whenStatusInactive Suffragium
-
 }
 
 partySkill Aspersio {

@@ -2,6 +2,8 @@ automacro create_BuyHPPots {
 	ConfigKeyNotExist buyHPPots.block
 	exclusive 1
 	timeout 5
+	run-once 1
+	priority 0
 	call {
 		createBlock_buyHPPots()
 	}

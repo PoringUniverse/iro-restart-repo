@@ -2,6 +2,7 @@ useSelf_item Awakening Potion {
 	whenStatusInactive Awakening Potion
 	inLockOnly 1
 	notWhileSitting 1
+	timeout 10
 }
 
 useSelf_item Concentration Potion {

@@ -2,12 +2,14 @@ automacro create_BuySpeedPots {
 	ConfigKeyNotExist buySpeedPots.block
 	exclusive 1
 	timeout 5
+	run-once 1
+	priority 0
 	call {
 		createBlock_buySpeedPots()
 	}
 }
 
-sub create_BuySpeedPots {
+sub createBlock_buySpeedPots {
 	open (my $fh, '>>:encoding(UTF-8)', Settings::getControlFilename('config.txt'));
 	print $fh "\n";
 	print $fh "buyAuto {\n";

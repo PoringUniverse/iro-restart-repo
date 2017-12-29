@@ -3,12 +3,14 @@ automacro create_BuyNPCArrows {
 	JobID 3, 11
 	exclusive 1
 	timeout 5
+	run-once 1
+	priority 0
 	call {
 		createBlock_BuyNPCArrows()
 	}
 }
 
-sub create_BuyNPCArrows {
+sub createBlock_BuyNPCArrows {
 	open (my $fh, '>>:encoding(UTF-8)', Settings::getControlFilename('config.txt'));
 	print $fh "\n";
 	print $fh "buyAuto {\n";

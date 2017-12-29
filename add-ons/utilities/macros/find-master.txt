@@ -1,0 +1,34 @@
+automacro findMaster {
+	console /^I lost my master/
+	timeout 3
+	call {
+		$master = @config (followTarget)
+		do pm "$master" x $.map $.pos
+	}
+}
+
+automacro findMaster2 {
+	console /^Calculating route to find master/
+	call {
+		$master = @config (followTarget)
+		do pm "$master" x $.map $.pos
+	}
+}
+
+#goto master
+automacro gotoMaster {
+	pm /x (.*) (.*) (.*)/
+	call {
+		$pm = $.lastpm
+		if ($pm != $master) stop
+		do move $.lastMatch1 $.lastMatch2 $.lastMatch3
+	}
+}
+
+#when master is found
+automacro foundMaster {
+	console /^Found my master!/
+	call {
+		do pm "$master" clear
+	}
+}

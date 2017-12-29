@@ -21,7 +21,6 @@ automacro TalkToFinalTester_Acolyte {
 	NpcNear /Final Tester/
 	ConfigKey jobQuest TalkToFinalTester_Acolyte
 	exclusive 1
-	macro_delay 2
 	call {
 		[
 			do conf lockMap none
@@ -29,9 +28,36 @@ automacro TalkToFinalTester_Acolyte {
 			do conf autoResponse 1
 			do conf autoTalkCont 1
 		]
-		do talknpc 100 29 r0 r1
+		
+		do talk $.NpcNearLastBinId
+		do talk resp 1 #Take the test
+		do talk resp /Public/ 
+		do talk resp /Conserve/
+		do talk resp /Consumer/
+		do talk resp /Prudence/
+		do talk resp /Experience/
+		do talk resp /Past/
+		do talk resp /Yes/
+		do talk resp /No/
+		do talk resp /Yes/
+		do talk resp /No/
+		do talk resp /No/
+		do talk resp /Yes/
+		do talk resp /Yes/
+		do talk resp /No/
+		do talk resp /satisfied/
+		do talk resp /Consider/
+		do talk resp /like.../
+		do talk resp /Ask/
+		do talk resp /Carry/
+		do talk resp /Wonder/
+		do talk resp /Apologize/
+		do talk resp /Buy/
+		do talk resp 0 
+		
 		log TalkToFinalTester_Acolyte: Quest Done
 	}
+	timeout 120
 }
 
 automacro SetAcolyteQuest {
@@ -65,10 +91,9 @@ automacro FindPriest {
 		]
 		
 		switch ($.QuestActiveLastID) {
-			case (= 1001) call TalkWithPriest "prt_fild03" "365 255"
-			case (= 1002) call TalkWithPriest "moc_fild07" "41 355"
-			case (= 1003) call TalkWithPriest "prt_fild00" "208 218"
-			}
+				case (= 1001) call TalkWithPriest "prt_fild03" "365 255"
+				case (= 1002) call TalkWithPriest "moc_fild07" "41 355"
+				case (= 1003) call TalkWithPriest "prt_fild00" "208 218"
 		}
 	}
 	timeout 60
@@ -109,6 +134,8 @@ automacro ChangeToAcolyte {
 		do talk $.NpcNearLastBinId
 		do talk resp 0
 		do conf jobQuest none
+		do eq Novice Adventurer's Suit [1]
+		do eq Novice Mace [3]
 		log === Acolyte Job Quest Done! === =
 		do relog 3600
 	}

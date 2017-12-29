@@ -90,7 +90,7 @@ macro setJobStats {
 		case (== battlepriest) {
 			[
 				do conf statsAddAuto 1
-				do conf statsAddAuto_list 20 str, 20 agi, 20 vit, 20 int, 20 dex, 20 luk
+				do conf statsAddAuto_list 20 agi, 20 str, 20 dex, 10 int, 40 agi, 30 str, 40 dex, 30 vit, 30 int, 60 str, 80 agi
 				do conf statsAddAuto_dontUseBonus 0
 				do conf statsAdd_over_99 0
 				
