@@ -7,10 +7,3 @@ useSelf_skill Enchant Poison {
 	notWhileSitting 1
 	notInTown 1
 }
-
-useSelf_skill Detoxify {
-	lvl 1
-	whenStatusActive Poisoned
-	disabled 0
-}
-

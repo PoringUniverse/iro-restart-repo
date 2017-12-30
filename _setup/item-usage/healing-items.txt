@@ -1,12 +1,12 @@
-useSelf_item Novice Potion, Red Potion, Orange Potion, Yellow Potion, White Potion, Fresh Fish {
+useSelf_item Novice Potion, Red Potion, Orange Potion, Yellow Potion, White Potion {
 	hp < 70%
 }
 
-useSelf_item Potato, Apple, Banna, Carrot {
+useSelf_item Potato, Apple, Banna, Carrot,  Fresh Fish  {
 	hp < 90%
 }
 
-useSelf_item Potato, Red Herb, Yellow Herb {
+useSelf_item Red Herb, Yellow Herb {
 	hp < 80%
 }
 

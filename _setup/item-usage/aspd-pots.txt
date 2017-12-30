@@ -11,3 +11,10 @@ useSelf_item Concentration Potion {
 	notWhileSitting 1
 	timeout 10
 }
+
+useSelf_item Berserk Potion {
+	whenStatusInactive Berserk Potion
+	inLockOnly 1
+	notWhileSitting 1
+	timeout 10
+}

@@ -1,0 +1,7 @@
+useSelf_skill Crazy Uproar {
+	lvl 1
+	onAction Attack
+	whenStatusInactive Crazy Uproar
+	notWhileSitting 1
+	notInTown 1
+}
