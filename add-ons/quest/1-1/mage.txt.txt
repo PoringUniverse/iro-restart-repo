@@ -1,0 +1,59 @@
+automacro LeaveTrainingGround_Mage {
+	JobID 0
+	InMap new_1-3
+	JobLevel = 10
+	exclusive 1
+	macro_delay 2
+	call {
+		[
+		    do conf route_randomWalk 0
+		    do conf attackAuto -1
+		]
+		do move new_1-4 99 &rand(19,22)
+		do conf jobQuest TalkToFinalTester_Mage
+		log Quest was set to: TalkToFinalTester_Mage
+	}
+	timeout 10
+}
+
+automacro TalkToFinalTester_Mage {
+	JobID 0
+	NpcNear /Final Tester/
+	ConfigKey jobQuest TalkToFinalTester_Mage
+	exclusive 1
+	call {
+		[
+			do conf lockMap none
+			do conf attackAuto -1
+			do conf autoResponse 1
+			do conf autoTalkCont 1
+		]
+		
+		do talk $.NpcNearLastBinId
+		do talk resp 1 #Take the test
+		do talk resp /Conserve/
+		do talk resp /Producer/
+		do talk resp /Prudence/
+		do talk resp /Theory/
+		do talk resp /Future/
+		do talk resp /Yes/
+		do talk resp /No/
+		do talk resp /No/
+		do talk resp /Yes/
+		do talk resp /No/
+		do talk resp /No/
+		do talk resp /No/
+		do talk resp /No/
+		do talk resp /satisfied/
+		do talk resp /Consider/
+		do talk resp /mind.../
+		do talk resp /friends/
+		do talk resp /Carry/
+		do talk resp /Wonder
+		do talk resp /Change/
+		do talk resp /Promise
+		do talk resp 0 
+		
+		log TalkToFinalTester_Mage: Quest Done
+	}	
+}
