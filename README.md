@@ -65,8 +65,9 @@ eventMacro manualGetRodex
 - [madalilng](https://github.com/madalilng)
 
 ## Credits to:
-@vedro
-@manticora
-@openkore 
+- [OpenKore](https://github.com/OpenKore)
+- [marcelothebuilder](https://github.com/marcelothebuilder/koreShield)
+- @vedro
+- @manticora
 Without them this idea won't materialize
 
