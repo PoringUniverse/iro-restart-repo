@@ -47,7 +47,7 @@ Bongun Hat 0
 
 
 ## Pick up all items by default ##
-all 1
+all 2
 Trunk 0
 Barren Trunk 0
 Solid Trunk 0

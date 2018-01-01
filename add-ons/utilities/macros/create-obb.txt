@@ -19,15 +19,15 @@ macro talkloop {
 	$b = @invamount (Brigan)
 	$clam = @invamount (Clam Shell)
 	$crab = @invamount (Crab Shell)
+	$obbCount = @invamount (Old Blue Box)
 	while ($c >= 50 && $b >= 10 && $clam >= 15 && $crab >= 10) as loop
-		do talknpc 68 195
 		pause 0.8
+		do talknpc 68 195
 		do talk resp 0
 		log You only have $c Cyfar, $b Brigan, $clam Clam Shell, and $crab Crab Shell left.
-		call talkloop
 	end loop
 	stop
-	release all
+	release OBBspammer
 }
 
 

@@ -128,6 +128,16 @@ automacro RodexAmulet {
 	call StorageRodex
 }
 
+automacro RodexIceCandy {
+	Zeny >= 2500
+	InStorage "Ice Candy" >= 100
+	StorageOpened 1
+	exclusive 1
+	macro_delay 2
+	timeout 20
+	call StorageRodex
+}
+
 macro StorageRodex {
 	$itemName = $.InStorageLast
 	

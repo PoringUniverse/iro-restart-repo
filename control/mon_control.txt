@@ -56,6 +56,7 @@
 #
 # Monsters not found in this file, or flags not specified will default to:
 # <attack> = 1
+Hydra 1 0 1
 Munak 1 0 1
 Angeling 1 0 1
 
