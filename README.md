@@ -69,5 +69,6 @@ eventMacro manualGetRodex
 - [marcelothebuilder](https://github.com/marcelothebuilder/koreShield)
 - @vedro
 - @manticora
-Without them this idea won't materialize
+
+### _Without them this idea won't materialize_
 
