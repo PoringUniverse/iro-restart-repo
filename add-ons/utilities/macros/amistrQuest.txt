@@ -1,12 +1,37 @@
+
 automacro movetoAmistrQuest {
 	exclusive 1
 	BaseLevel > 80
 	run-once 1
 	call {
 	
-		do conf lockMap None
-		do move prontera 144 &rand(190,192)
-		do conf -f Quest Amistr
+		$questStatus = &config(Quest)
+		
+		switch ($questStatus) {
+			case (== AmistrHuntMino) {
+				
+				do move morocc
+				do conf lockMap moc_pryd05
+			}
+			case (== AmistrHuntGoat) {
+				
+				do move yuno
+				do conf lockMap ein_fild06
+			}
+			case (== AmistrHuntMino) {
+				
+				do move morocc
+				do conf lockMap moc_pryd05
+			} else {
+			
+				do conf lockMap None
+				do move prontera 144 &rand(190,192)
+				do conf -f Quest Amistr
+			
+			}
+		}
+		
+		
 	}
 }
 
@@ -36,6 +61,7 @@ automacro huntMinoforAmistrQuest {
 
 automacro huntMinoCompleteforAmistrQuest {
 	exclusive 1
+	ConfigKey Quest AmistrHuntMino
 	QuestHuntCompleted 62962 1149
 	run-once 1
 	call {
@@ -49,18 +75,18 @@ automacro huntMinoCompleteforAmistrQuest {
 automacro huntGoatforAmistrQuest {
 	exclusive 1
 	ConfigKey Quest AmistrHuntGoat
-	QuestHuntOngoing 62962 1375
+	QuestHuntOngoing 62962 1372 
 	run-once 1
 	call {
 		
 		do move yuno
-		do conf lockMap yuno_fild06
+		do conf lockMap ein_fild06
 	}
 }
 
 automacro huntGoatCompleteforAmistrQuest {
 	exclusive 1
-	QuestHuntCompleted 62962 1375
+	QuestHuntCompleted 62962 1372
 	run-once 1
 	call {
 	
