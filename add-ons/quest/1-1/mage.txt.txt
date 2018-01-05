@@ -2,10 +2,14 @@ automacro LeaveTrainingGround_Mage {
 	JobID 0
 	InMap new_1-3
 	JobLevel = 10
+	InInventory "Jellopy" >= 6
+	InInventory "Fluff" >= 3
+	InInventory "Milk" >= 1
 	exclusive 1
 	macro_delay 2
 	call {
 		[
+			do conf lockMap none
 		    do conf route_randomWalk 0
 		    do conf attackAuto -1
 		]
@@ -56,4 +60,148 @@ automacro TalkToFinalTester_Mage {
 		
 		log TalkToFinalTester_Mage: Quest Done
 	}	
+}
+
+#1005 - Mix Solution No.1 - Jellopy x 2 Fluff x 3 Milk x 1 - Payon Solution	- 8472 - Yellow Gemstone
+#1006 - Mix Solution No.2 - Jellopy x 3 Fluff x 1 Milk x 1 - Not Appliable	- 3735 - Red Gemstone
+#1007 - Mix Solution No.3 - Jellopy x 6 Fluff x 1 - Payon Solution - 2750 - Blue Gemstone
+#1008 - Mix Solution No.4 - Jellopy x 2 Fluff x 3 - Morroc Solution - 5429 - 1 carat Diamond
+#geffen_in 164 124 - Mage Guildsman
+#geffen_in 164 112 - Mixing Machine 
+
+automacro MoveToMageGuildsman {
+	JobID 0
+	JobLevel = 10
+	QuestInactive 1005
+	QuestInactive 1006
+	QuestInactive 1007
+	QuestInactive 1008
+	InMap geffen_in, geffen
+	NpcNotNear /Mage Guildsman/
+	exclusive 1 
+	run-once 1 
+	call {
+		do move geffen_in &rand(160,163) 124 
+	}
+}
+
+automacro TalkToMageGuildsman {
+	JobID 0
+	JobLevel = 10
+	NpcNear /Mage Guildsman/
+	exclusive 1
+	call {
+		do talknpc 164 124 c r0 c c r0 c c c n
+	}
+}
+
+automacro GetPayonSolution {
+	JobID 0
+	JobLevel = 10
+	QuestActive 1005, 1007
+	InInventory "Payon Solution" < 1
+	exclusive 1
+	call {
+		do move pay_arche &rand(119,121) 100
+		pause 0.8
+		do talknpc 122 100 c r0
+	}
+	timeout 60
+}
+
+automacro GetMorrocSolution {
+	JobID 0
+	JobLevel = 10
+	QuestActive 1008
+	InInventory "Morroc Solution" < 1
+	exclusive 1
+	call {
+		do move moc_ruins &rand(88,90) 150
+		pause 0.8
+		do talknpc 91 150 c r0
+	}
+	timeout 60
+}
+
+
+automacro MixSolution1 {
+	JobID 0
+	JobLevel = 10
+	QuestActive 1005
+	InInventory "Jellopy" >= 2
+	InInventory "Fluff" >= 3
+	InInventory "Milk" >= 1
+	InInventory "Payon Solution" >= 1
+	exclusive 1
+	call {
+		do move geffen_in &rand(160,163) 112
+		pause 0.8
+		do talknpc 164 112 c r0 c r0 r0 d2 c r1 d3 c r2 d1 c r3 c c r0 c r0 c c c d8472 c r0 c r0 c c
+	}
+	timeout 120
+}
+
+automacro MixSolution2 {
+	JobID 0
+	JobLevel = 10
+	QuestActive 1006
+	InInventory "Jellopy" >= 3
+	InInventory "Fluff" >= 1
+	InInventory "Milk" >= 1
+	exclusive 1
+	call {
+		do move geffen_in &rand(160,163) 112
+		pause 0.8
+		do talknpc 164 112 c r0 c r2 r0 d3 c r1 d1 c r2 d1 c r3 c c r0 c r0 c c c d3735 c r0 c r1 c c
+	}
+	timeout 120
+}
+
+automacro MixSolution3 {
+	JobID 0
+	JobLevel = 10
+	QuestActive 1007
+	InInventory "Jellopy" >= 6
+	InInventory "Fluff" >= 1
+	InInventory "Payon Solution" >= 1
+	exclusive 1
+	call {
+		do move geffen_in &rand(160,163) 112
+		pause 0.8
+		do talknpc 164 112 c r0 c r0 r0 d6 c r1 d1 c r3 c c r0 c r0 c c c d2750 c r0 c r2 c c
+	}
+	timeout 120
+}
+
+automacro MixSolution4 {
+	JobID 0
+	JobLevel = 10
+	QuestActive 1008
+	InInventory "Jellopy" >= 2
+	InInventory "Fluff" >= 3
+	InInventory "Morroc Solution" >= 1
+	exclusive 1
+	call {
+		do move geffen_in &rand(160,163) 112
+		pause 0.8
+		do talknpc 164 112 c r0 c r1 r0 d2 c r1 d3 c r3 c c r0 c r0 c c c d5429 c r0 c r3 c c
+	}
+	timeout 120
+}
+
+automacro JobChangeToMage {
+	JobID 0
+	JobLevel = 10
+	QuestActive 1005, 1006, 1007, 1008
+	InInventory "Unknown Test Tube" >= 1
+	exclusive 1
+	run-once 1
+	call {
+		do move &rand(160,169) &rand(120,123)
+		pause &rand(2,5)
+		do talknpc 164 124 c c c c c
+		pause 10
+		do eq Novice Adventurer's Suit [1]
+		do eq Novice Rod [3]
+	}
 }
