@@ -14,6 +14,13 @@ automacro movetoAmistrQuest {
 					do move morocc
 					do conf lockMap moc_pryd05
 			}
+			case (== farmFluff) {
+					do conf Quest farmFluff
+					do move geffen
+					do conf lockMap gef_fild07
+					do conf route_randomWalk 1
+					do conf attackAuto 2
+			}
 			else {
 					do conf lockMap None
 					do move prontera 144 &rand(190,192)
@@ -81,7 +88,6 @@ automacro huntGoatCompleteforAmistrQuest {
 	call {
 	
 		do conf -f Quest AmistrHuntComplete
-		do conf lockMap none
 	}
 }
 
@@ -91,8 +97,6 @@ automacro itemsforAmistrQuest {
 	run-once 1
 	call {
 	
-		
-		
 		if (&invamount(Fluff) <= 100) goto farmFluff
 		if (&invamount(Animal Skin) <= 25) goto farmAnimalSkin
 		if (&invamount(Nose Ring) <= 50) goto farmNoseRing
