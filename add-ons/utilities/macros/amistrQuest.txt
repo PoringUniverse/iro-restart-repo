@@ -14,9 +14,6 @@ automacro movetoAmistrQuest {
 					do move morocc
 					do conf lockMap moc_pryd05
 			}
-			case (== AmistrHuntComplete) {
-					do move prontera 144 &rand(190,192)
-			}
 			else {
 					do conf lockMap None
 					do move prontera 144 &rand(190,192)
