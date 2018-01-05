@@ -12,16 +12,20 @@ automacro FreeSkillPoints_Priest {
 		]
 		[
 			do conf lockMap none
-			do conf route_randomWalk 0
 			do conf teleportAuto_idle 0
+			do conf teleportAuto_useSkill none
+			do conf route_randomWalk 0
+			do conf route_teleport 0
+		]
+		log Adding additional stats...
+		[
 			do conf skillsAddAuto 1
-			do conf skillsAddAuto_list AL_HEAL 5, AL_INCAGI 5, AL_DP 5, AL_BLESSING 10, AL_INCAGI 10, AL_RUWACH 1, AL_TELEPORT 2, AL_DEMONBANE 5, AL_WARP 2, AL_ANGELUS 10 
-		]	
+			do conf skillsAddAuto_list AL_DP 10, AL_DEMONBANE 10, AL_RUWACH 1, AL_TELEPORT 2, AL_WARP 4, AL_PNEUMA 1, AL_HEAL 5, AL_INCAGI 7, AL_DECAGI 1, AL_ANGELUS 1, AL_BLESSING 7
+		]
 	}
 }
 
 automacro MoveToJobQuest_Priest {
-	QuestInactive 8011, 8012, 8013
 	NpcNotNear /High Bishop/
 	JobID 4
 	JobLevel = 50
@@ -30,15 +34,16 @@ automacro MoveToJobQuest_Priest {
 	call {
 		[
 			do conf lockMap none
-			do conf route_randomWalk 0
 			do conf teleportAuto_idle 0
+			do conf teleportAuto_useSkill none
+			do conf route_randomWalk 0
+			do conf route_teleport 0
 		]
 		do move prt_church 16 &rand(33,35)
 	}
 }
 
 automacro TalkToHighBishop {
-	QuestInactive 8011, 8012, 8013
 	NpcNear /High Bishop/
 	JobID 4
 	JobLevel = 50
@@ -55,7 +60,7 @@ automacro TalkToHighBishop {
 }
 
 automacro TalkToPeter {
-	QuestActive 8011, 8012, 8013
+	QuestActive 8009, 8011, 8012, 8013
 	InMap job_prist
 	IsInCoordinate 24 180
 	NpcNear /Peter S. Alberto/
@@ -72,7 +77,7 @@ automacro TalkToPeter {
 }
 
 automacro EnduranceTest1 {
-	QuestActive 8011, 8012, 8013
+	QuestActive 8009, 8011, 8012, 8013
 	InMap job_prist
 	IsInCoordinate 24 44
 	JobID 4
@@ -104,7 +109,7 @@ automacro EnduranceTest1 {
 }
 
 automacro FaithTest {
-	QuestActive 8011, 8012, 8013
+	QuestActive 8009, 8011, 8012, 8013
 	ConfigKey jobQuest FaithTest
 	InMap job_prist
 	IsInCoordinate 168 17
@@ -131,7 +136,7 @@ automacro FaithTest {
 }
 
 automacro EnduranceTest2 {
-	QuestActive 8011, 8012, 8013
+	QuestActive 8009, 8011, 8012, 8013
 	ConfigKey jobQuest EnduranceTest2
 	InMap job_prist
 	IsInCoordinate 98 40
@@ -147,7 +152,7 @@ automacro EnduranceTest2 {
 }
 
 automacro MoralTest {
-	QuestActive 8011, 8012, 8013
+	QuestActive 8009, 8011, 8012, 8013
 	ConfigKey jobQuest MoralTest
 	InMap prt_church
 	JobID 4
@@ -162,7 +167,7 @@ automacro MoralTest {
 }
 
 automacro TalkWithCecilia {
-	QuestActive 8011, 8012, 8013, 8014
+	QuestActive 8009, 8011, 8012, 8013, 8014
 	NpcNear /Sister Cecilia/
 	InMap prt_church
 	JobID 4

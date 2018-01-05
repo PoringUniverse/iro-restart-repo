@@ -95,7 +95,7 @@ macro setJobStats {
 				do conf statsAdd_over_99 0
 				
 				do conf skillsAddAuto 1
-				do conf skillsAddAuto_list AL_DP 10, AL_DEMONBANE 10, AL_RUWACH 1, AL_PNEUMA 1, AL_TELEPORT 2, AL_WARP 4, AL_HEAL 5, AL_INCAGI 7, AL_DECAGI 1, AL_ANGELUS 1, AL_BLESSING 7
+				do conf skillsAddAuto_list AL_DP 10, AL_DEMONBANE 10, AL_RUWACH 1, AL_TELEPORT 2, AL_WARP 4, AL_PNEUMA 1, AL_HEAL 5, AL_INCAGI 7, AL_DECAGI 1, AL_ANGELUS 1, AL_BLESSING 7
 			]
 		}
 		else {
