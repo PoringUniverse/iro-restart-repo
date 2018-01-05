@@ -4,39 +4,31 @@ automacro movetoAmistrQuest {
 	BaseLevel > 80
 	run-once 1
 	call {
-	
-		$questStatus = &config(Quest)
-		
-		switch ($questStatus) {
-			case (== AmistrHuntMino) {
-				
-				do move morocc
-				do conf lockMap moc_pryd05
-			}
+		$quest = &config(Quest)
+		switch ($quest) {
 			case (== AmistrHuntGoat) {
-				
-				do move yuno
-				do conf lockMap ein_fild06
+					do move morocc
+					do conf lockMap moc_pryd05
 			}
 			case (== AmistrHuntMino) {
-				
-				do move morocc
-				do conf lockMap moc_pryd05
-				
-			case (== AmistrHuntComplete) {
-				
-				do move prontera 144 &rand(190,192)
-				
-			} else {
-			
-				do conf lockMap None
-				do move prontera 144 &rand(190,192)
-				do conf -f Quest Amistr
-			
+					do move morocc
+					do conf lockMap moc_pryd05
 			}
+			case (== farmFluff) {
+					do conf Quest farmFluff
+					do move geffen
+					do conf lockMap gef_fild07
+					do conf route_randomWalk 1
+					do conf attackAuto 2
+			}
+			else {
+					do conf lockMap None
+					do move prontera 144 &rand(190,192)
+					do conf -f Quest Amistr
+			}
+			
+			
 		}
-		
-		
 	}
 }
 
@@ -96,7 +88,6 @@ automacro huntGoatCompleteforAmistrQuest {
 	call {
 	
 		do conf -f Quest AmistrHuntComplete
-		do conf lockMap none
 	}
 }
 
@@ -106,7 +97,119 @@ automacro itemsforAmistrQuest {
 	run-once 1
 	call {
 	
-		do move prontera 144 &rand(190,192)
+		if (&invamount(Fluff) <= 100) goto farmFluff
+		if (&invamount(Animal Skin) <= 25) goto farmAnimalSkin
+		if (&invamount(Nose Ring) <= 50) goto farmNoseRing
+		if (&invamount(Fabric) <= 50) goto farmFabric
+		
+		
+		log === Items Complete ===
+		[
+			do conf -f Quest AmistrComplete
+			do move prontera 144 &rand(190,192)
+		]
+		
+		:farmFluff
+			log === Hunt Fluff ===
+			[
+				do conf Quest farmFluff
+				do move geffen
+				do conf lockMap gef_fild07
+				do conf route_randomWalk 1
+				do conf attackAuto 2
+			]
+			lock itemsforAmistrQuest
+			stop
+		
+		:farmAnimalSkin
+			log === Hunt Animal Skin ===
+			[
+				do conf Quest farmAnimalSkin
+				do move payon
+				do conf lockMap pay_fild02
+				do conf route_randomWalk 1
+				do conf attackAuto 2
+			]
+			lock itemsforAmistrQuest
+			stop
+			
+		:farmNoseRing
+			log === Hunt Nose Ring ===
+			[
+				do conf Quest farmNoseRing
+				do move morocc
+				do conf lockMap moc_pyrd05
+				do conf route_randomWalk 1
+				do conf attackAuto 2
+			]
+			lock itemsforAmistrQuest
+			stop
+			
+		:farmFabric
+			log === Hunt Fabric === 
+			[
+				do conf Quest farmFabric
+				do move geffen
+				do conf lockMap gl_chyard
+				do conf route_randomWalk 1
+				do conf attackAuto 2
+				
+			]
+			lock itemsforAmistrQuest
+			stop
 	}
 }
 
+
+automacro farmFluff {
+	ConfigKey jobQuest farmFluff
+	InInventory "Fluff" > 99
+	run-once 1
+	call {
+		do respawn
+		do conf Quest AmistrHuntComplete
+	 	release CheckQuestItems
+	}
+}
+
+automacro farmAnimalSkin {
+	ConfigKey jobQuest farmAnimalSkin
+	InInventory "Animal Skin" > 24
+	run-once 1
+	call {
+		do respawn
+		do conf Quest AmistrHuntComplete
+		release CheckQuestItems
+	}
+}
+
+automacro farmNoseRing {
+	ConfigKey jobQuest farmNoseRing
+	InInventory "Nose Ring" > 49
+	run-once 1
+	call {
+		do respawn
+		do conf Quest AmistrHuntComplete
+		release CheckQuestItems
+	}
+}
+
+automacro farmFabric {
+	ConfigKey jobQuest farmFabric
+	InInventory "Fabric" > 49
+	run-once 1
+	call {
+		do respawn
+		do conf Quest AmistrHuntComplete
+		release CheckQuestItems
+	}
+}
+
+automacro AmistrQuestComplete {
+	exclusive 1
+	ConfigKey Quest AmistrComplete
+	run-once 1
+	call {
+
+	}
+}
