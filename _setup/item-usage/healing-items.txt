@@ -1,4 +1,4 @@
-useSelf_item Novice Potion, Red Potion, Orange Potion, Yellow Potion, White Potion {
+useSelf_item Meat, Novice Potion, Red Potion, Orange Potion, Yellow Potion, White Potion {
 	hp < 70%
 }
 

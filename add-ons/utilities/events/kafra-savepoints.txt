@@ -274,7 +274,7 @@ macro ChangeSavePoints {
 				]
 				[
 					do conf sellAuto $sellOption
-					do conf sellAuto_npc cmd_fild07 257 126
+					do conf sellAuto_npc cmd_in01 79 182
 				]
 				do ai on
 				release KafraSavePoints

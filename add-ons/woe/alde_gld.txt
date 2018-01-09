@@ -1,0 +1,36 @@
+#aldeg_cas01
+# alde_gld (51, 87) 
+# alde_gld (45, 87) 
+#
+#aldeg_cas02
+# alde_gld (99, 251) 
+# alde_gld (99, 244)
+#
+#aldeg_cas03
+# 
+#
+#
+#aldeg_cas04
+# alde_gld (239, 239) 
+# alde_gld (239, 246) 
+#
+
+macro MoveToCastle2 {
+	do move alde_gld &rand(95,98) 250
+	pause 0.8
+	do talknpc 99 251 c r0 n
+}
+
+automacro CastBB {
+	GuildMsgName /(bb|precast)/ /(CharacterName)/
+	JobID 7
+	exclusive 1
+	call {
+		$i = 0
+		while ($i < 10) {
+			do sp 62 $.GuildMsgNameLastName 10
+			$i++
+		}
+	}
+	timeout 10
+}

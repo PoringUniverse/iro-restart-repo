@@ -1,0 +1,33 @@
+automacro SomeOneHealYou {
+	console /is casting Heal on you|uses Heal on you/i
+	overrideAI 1
+	exclusive 1
+	macro_delay 2
+	run-once 1
+	call {
+		$pubMessage = @random ("thanks!","omg thx")
+		$positiveEmotes = @random ("e kis2","e ho","e lv","e lv2","e ic","e thx","e heh","e no1","e kis","e kis2","e e2","e e6","e e8","e e13","e e17")
+		log ***** [SomeOneHealYou] Say Thanks!
+		do move stop
+		do $pubMessage
+		do $positiveEmotes
+	}
+	timeout 20
+}
+
+automacro SomeOneBuffYou {
+	console /uses Blessing on you|uses Increase AGI on you|uses Assumptio on you/i
+	overrideAI 1
+	exclusive 1
+	macro_delay 2
+	run-once 1
+	call {
+		$pubMessage = @random ("thx for buff","thanks!")
+		$positiveEmotes = @random ("e kis2","e ho","e lv","e lv2","e ic","e thx","e heh","e no1","e kis","e kis2","e e2","e e6","e e8","e e13","e e17")
+		log ***** [SomeOneBuffYou] Say Thanks!
+		do move stop
+		do $pubMessage
+		do $positiveEmotes
+	}
+	timeout 20
+}

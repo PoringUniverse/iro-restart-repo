@@ -59,6 +59,9 @@
 Hydra 1 0 1
 Munak 1 0 1
 Angeling 1 0 1
+Aldebaran Poring 0 0 0
+Aldebaran Mystcase 0 0 0
+Aldebaran Siroma 0 0 0
 
 ### GM MONSTER ####
 864 -1 0 0

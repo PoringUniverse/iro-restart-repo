@@ -32,12 +32,13 @@
 
 !include ..\add-ons\utilities\events\priv-msg.txt
 !include ..\add-ons\utilities\events\random-look.txt
-!include ..\add-ons\utilities\events\teleport.txt
+#!include ..\add-ons\utilities\events\teleport.txt
 #!include ..\add-ons\utilities\events\grinding-spot.txt
 !include ..\add-ons\utilities\events\kafra-savepoints.txt
 #!include ..\add-ons\utilities\events\pecopeco-trainer.txt
 #!include ..\add-ons\utilities\events\holy-water.txt
-#!include ..\add-ons\utilities\events\arrow-config.txt
+!include ..\add-ons\utilities\events\arrow-config.txt
+#!include ..\add-ons\utilities\events\get-refine-items.txt
 
 #______________________________________________________________________________________________________
 #
@@ -58,7 +59,7 @@
 #!include ..\add-ons\quest\2-1\blacksmith.txt
 #!include ..\add-ons\quest\2-1\hunter.txt
 #!include ..\add-ons\quest\2-1\knight.txt
-#!include ..\add-ons\quest\2-1\priest.txt
+!include ..\add-ons\quest\2-1\priest.txt
 
 # 2-2 Class
 #!include ..\add-ons\quest\2-2\rogue.txt

@@ -1,0 +1,24 @@
+macro getCompBow {
+	do move payon 178 113
+	pause 10
+	do talknpc 181 104 c r1 n
+	
+	if ($.storageopen == 1) {
+		$i = 10
+		while ($i < 10) {
+			pause 0.8
+			do storage get "Composite Bow [4]" 1
+			$i++
+		}
+	}
+	
+	do storage close
+	pause 0.8
+	do move payon 141 177
+}
+
+macro buyPhracon {
+	#145 178
+	do talknpc 145 178 c r0 c d50 n 
+}
+
