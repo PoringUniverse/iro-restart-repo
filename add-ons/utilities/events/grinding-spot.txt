@@ -27,8 +27,8 @@ macro ChangeGrindMaps {
 			$LVL60 = pay_fild07
 		}
 		case (== Acolyte) {
-			$LVL20 = pay_fild03 
-			$LVL40 = pay_fild06
+			$LVL20 = pay_fild06 
+			$LVL40 = pay_fild05
 			$LVL60 = mjolnir_08
 		}
 		case (== Merchant) {
@@ -40,6 +40,15 @@ macro ChangeGrindMaps {
 			log none was specified...
 		}
 	}
+	
+	if ($.lvl <= 20) {
+		do conf lockMap $LVL20
+	} elsif ($.lvl <= 40) {
+		do conf lockMap $LVL40
+	} elsif ($.lvl <= 60) {
+		do conf lockMap $LVL60
+	} 
+
 }
 
 macro LockGrindMaps {

@@ -137,6 +137,7 @@ automacro ChangeToAcolyte {
 		do eq Novice Adventurer's Suit [1]
 		do eq Novice Mace [3]
 		log === Acolyte Job Quest Done! === =
-		do relog 3600
+		#do relog 3600
+		call ChangeGrindMaps
 	}
 }
