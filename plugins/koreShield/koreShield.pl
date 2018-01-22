@@ -45,7 +45,7 @@ sub cmdTestNotification {
 	$push_title .= sprintf("%s detected.", $name) if $name;
 
 	# my $push_msg
-	pushover($push_title, sprintf("Map %s", 'gef_fild10'), 0);
+	#pushover($push_title, sprintf("Map %s", 'gef_fild10'), 0);
 }
 
 
@@ -504,7 +504,7 @@ sub detectGM_flyOrButterflyWing_tpflag {
 sub detectGM_manner {
 	error("Chat blocked, banned, disconnected...\n"), "koreShield_detect";
 	&core_eventsReaction('chat_blocked');
-	pushover('Chat blocked ',' Chat blocked, we are being banned, disconnected ...', 1);
+	#pushover('Chat blocked ',' Chat blocked, we are being banned, disconnected ...', 1);
 }
 
 sub detectGM_perfectHide {
@@ -556,7 +556,7 @@ sub broadcast {
 		chatLog("koreShield.broadcast", "$message\n");
 		kLog($message."\n", 'broadcast_nickname.log');
 		&core_eventsReaction('broadcast_nickname');
-		pushover('Broadcast - Nickname', $message, 1);
+		#pushover('Broadcast - Nickname', $message, 1);
 	} elsif (isIn_Array_Regex($message, \@{$core_databases{BROADCASTWHITELIST}}, 1)) {
 		debug (sprintf("Allowed broadcast: %s\n", $message), "koreShield_broadcast");
 		kLog($message."\n", 'broadcast_whitelist.log');
@@ -566,13 +566,13 @@ sub broadcast {
 		chatLog("koreShield.broadcast", "$message\n");
 		kLog($message."\n", 'broadcast_blacklist.log');
 		&core_eventsReaction('broadcast_blacklisted');
-		pushover('Broadcast - Blacklist', $message, 1);
+		#pushover('Broadcast - Blacklist', $message, 1);
 	} else {
 		error sprintf("Received a broadcast thats not inside whitelist or blacklist.\nForbidden broadcast: %s \n", $message), "koreShield_broadcast";
 		chatLog("koreShield.broadcast", "$message\n");
 		kLog($message."\n", 'broadcast_unknown.log');
 		&core_eventsReaction('broadcast_unknown');
-		pushover('Broadcast - Unknown', $message, 0);
+		#pushover('Broadcast - Unknown', $message, 0);
 	}
 }
 
@@ -640,11 +640,11 @@ sub detectGM_handleLogin {
 		error("Account blocked or GM knocked us out, disconnecting... \n"), "koreShield_detect";
 		#return;
 		&core_eventsReaction('banned');
-		pushover("Being banned", '', 2);
+		#pushover("Being banned", '', 2);
 	} elsif ($args->{type} == Network::Receive::REFUSE_INVALID_PASSWD) {
 		$config{ignoreInvalidLogin} = 1;
 		&core_eventsReaction('passwd_reset') unless $ignorePasswd;
-		pushover("Password Reset", '', 1) unless $ignorePasswd;
+		#pushover("Password Reset", '', 1) unless $ignorePasswd;
 	}	
 }
 
@@ -783,13 +783,13 @@ sub core_actorInfo {
 			$push_title .= sprintf("%s detectado.", $name) if $name;
 
 			# my $push_msg
-			pushover($push_title, sprintf("Map %s", ($field?$field->baseName:"Unknown")), -1);
+			#pushover($push_title, sprintf("Map %s", ($field?$field->baseName:"Unknown")), -1);
 		} else {
 			&core_eventsReaction('actor_found');
 			my $push_msg;
 			$push_msg .= sprintf("Map: %s\n", $field?$field->baseName:"Unknown", ($core_mapIP && $core_mapPort)?$core_mapIP.':'.$core_mapPort:"Unknown");
 			$push_msg .= sprintf("Name: %s\n", $name) if $name;
-			pushover("GM - $detect_reason", $push_msg, 0);
+			#pushover("GM - $detect_reason", $push_msg, 0);
 		}
 		
 			
